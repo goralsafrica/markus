@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 const { secretKey } = require("../config");
+
 exports.inSession = function (req, res, next) {
-  console.log(req.headers);
   if (!req.headers.authorization)
     return res.status(401).json({
       error: "Unauthorized -_- ",
@@ -9,12 +9,21 @@ exports.inSession = function (req, res, next) {
   var token = req.headers.authorization.split(" ").pop();
   try {
     var payload = jwt.verify(token, secretKey);
-    req.locals.payload = payload;
+    req.user = payload;
   } catch (err) {
+    console.error(err);
     next({
       status: 400,
       message: "invalid credentials",
     });
   }
   next();
+};
+
+exports.isAdmin = function (req, res, next) {
+  var isAdmin = req.user.role == "admin";
+  if (isAdmin) return next();
+  return res.status(401).json({
+    error: "unauthorized",
+  });
 };
