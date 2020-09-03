@@ -44,8 +44,7 @@ app.use((req, res, next) => {
 });
 
 app.use(({ status, message }, req, res, next) => {
-  res.json({
-    status,
+  res.status(status).json({
     message,
   });
 });
