@@ -78,3 +78,19 @@ exports.getAllUsers = async function (req, res, next) {
     });
   }
 };
+
+exports.getUsersInDepartment = async function (req, res, next) {
+  try {
+    var users = await User.find({
+      role: "user",
+      department: req.params.departmentId,
+    });
+    res.send(users);
+  } catch (error) {
+    console.log(error);
+    return next({
+      status: 500,
+      message: "Server failed to respond :(",
+    });
+  }
+};

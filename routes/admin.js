@@ -12,6 +12,8 @@ adminRouter.get("/users", adminController.getAllUsers);
 
 adminRouter.get("/departments", adminController.getDepartments);
 
+adminRouter.get("/users/:departmentId", adminController.getUsersInDepartment);
+
 adminRouter.post(
   "/user",
   validator.registerValidator,
