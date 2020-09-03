@@ -1,6 +1,6 @@
 # Gorals User Hierachy System
 
-A location based real estate solution
+An authentication based user system
 
 **Base URL** : https://aqueous-reef-54770.herokuapp.com/api
 

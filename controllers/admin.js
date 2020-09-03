@@ -68,7 +68,7 @@ exports.getDepartments = async function (req, res, next) {
 
 exports.getAllUsers = async function (req, res, next) {
   try {
-    var users = await User.find({ role: "user" }).populate("department");
+    var users = await User.find().populate("department");
     res.send(users);
   } catch (error) {
     console.log(error);
