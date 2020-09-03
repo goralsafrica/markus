@@ -65,7 +65,8 @@ A location based real estate solution
   "firstName": String,
   "lastName": String,
   "role": "user" || "sub-admin",
-  "password": String
+  "password": String,
+  "departmentId": Department ID
 }
 ```
 
