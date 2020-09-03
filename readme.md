@@ -2,7 +2,7 @@
 
 A location based real estate solution
 
-**Base URL** : hhttps://aqueous-reef-54770.herokuapp.com/api
+**Base URL** : https://aqueous-reef-54770.herokuapp.com/api
 
 # **Endpoints**
 
