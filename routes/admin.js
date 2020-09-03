@@ -8,6 +8,8 @@ var adminController = require("../controllers/admin");
 //   // adminController.createNewUser
 // );
 
+adminRouter.get("/departments", adminController.getDepartments);
+
 adminRouter.post(
   "/user",
   validator.registerValidator,

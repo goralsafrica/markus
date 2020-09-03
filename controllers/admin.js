@@ -54,3 +54,16 @@ exports.createNewDepartment = async function (req, res) {
     department,
   });
 };
+
+exports.getDepartments = async function (req, res, next) {
+  try {
+    var departments = await Department.find();
+    res.send(departments);
+  } catch (error) {
+    console.log(error);
+    return next({
+      status: 500,
+      message: "Server failed to respond :(",
+    });
+  }
+};
