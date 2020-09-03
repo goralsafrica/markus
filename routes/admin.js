@@ -8,13 +8,17 @@ var adminController = require("../controllers/admin");
 //   // adminController.createNewUser
 // );
 
-// adminRouter.post(
-//   "/user",
-//   validator.registerValidator,
-//   adminController.createNewUser
-// );
+adminRouter.post(
+  "/user",
+  validator.registerValidator,
+  adminController.createNewUser
+);
 
-// adminRouter.post("/department", adminController.createNewDepartment);
+adminRouter.post(
+  "/department",
+  validator.departmentValidator,
+  adminController.createNewDepartment
+);
 
 // adminRouter.put("/department/:id");
 

@@ -16,6 +16,7 @@ var UserSchema = mongoose.Schema(
     },
     role: {
       type: String,
+      required: true,
     },
     department: {
       type: mongoose.Schema.Types.ObjectId,
@@ -24,6 +25,7 @@ var UserSchema = mongoose.Schema(
     password: {
       type: String,
       required: true,
+      select: false,
     },
   },
   {
