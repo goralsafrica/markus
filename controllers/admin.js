@@ -33,8 +33,6 @@ exports.createNewUser = async function (req, res, next) {
     console.error(error);
     next({ status: 500, message: error });
   }
-
-  //hashPassword
 };
 
 exports.createNewDepartment = async function (req, res) {
@@ -59,6 +57,19 @@ exports.getDepartments = async function (req, res, next) {
   try {
     var departments = await Department.find();
     res.send(departments);
+  } catch (error) {
+    console.log(error);
+    return next({
+      status: 500,
+      message: "Server failed to respond :(",
+    });
+  }
+};
+
+exports.getAllUsers = async function (req, res, next) {
+  try {
+    var users = await User.find({ role: "user" }).populate("department");
+    res.send(users);
   } catch (error) {
     console.log(error);
     return next({

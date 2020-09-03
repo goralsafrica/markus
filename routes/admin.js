@@ -8,6 +8,8 @@ var adminController = require("../controllers/admin");
 //   // adminController.createNewUser
 // );
 
+adminRouter.get("/users", adminController.getAllUsers);
+
 adminRouter.get("/departments", adminController.getDepartments);
 
 adminRouter.post(
