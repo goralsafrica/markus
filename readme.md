@@ -26,9 +26,36 @@ A location based real estate solution
 }
 ```
 
-### **POST** /admin/user - creates a user
+# Admin Routes
 
-#### returns a cookie
+### **POST** /admins/users - gets all users
+
+##### Request
+
+```
+{}
+```
+
+##### Dummy Response
+
+```
+[
+  {
+    "firstName": String,
+    "lastName": String,
+    "email" : String,
+    "role": String,
+    "department": [
+      {
+        _id: String,
+        name: String
+      }
+    ]
+  }
+]
+```
+
+### **POST** /admin/user - creates a user
 
 ##### Request
 
@@ -39,6 +66,73 @@ A location based real estate solution
   "lastName": String,
   "role": "user" || "sub-admin",
   "password": String
+}
+```
+
+##### Response
+
+```
+{
+  "message": String,
+  data: Object
+}
+```
+
+### **POST** /admins/users/:departments - gets all departments
+
+##### Request
+
+```
+{}
+```
+
+##### Dummy Response
+
+```
+[
+
+  {
+    _id: String,
+    name: String
+  }
+
+]
+```
+
+### **POST** /admins/users/:departmentId - gets all users in a department
+
+##### Request
+
+```
+{}
+```
+
+##### Dummy Response
+
+```
+[
+  {
+    "firstName": String,
+    "lastName": String,
+    "email" : String,
+    "role": String,
+    "department": [
+      {
+        _id: String,
+        name: String
+      }
+    ]
+  }
+]
+```
+
+### **POST** /admin/department - creates a department
+
+##### Request
+
+```
+{
+  "name": String,
 }
 ```
 
