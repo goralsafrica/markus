@@ -1,6 +1,6 @@
 import express from "express";
 import moderatorRouter from "./moderator/moderator.router";
-import hospitalRouter from "./hospital/hospital.router";
+import hospitalRouter from "./hospital/routes";
 const apiRouter = express.Router();
 
 apiRouter.get("/", (req, res) => {

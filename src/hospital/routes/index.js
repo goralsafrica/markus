@@ -1,9 +1,10 @@
 import express from "express";
-import HospitalController from "./hospital.controller";
+import mainRouter from "./main.router";
+import branchRouter from "./branch.router";
 const hospitalRouter = express.Router();
 
 //gets the details of a particular hospital
-hospitalRouter.get("/:id", HospitalController.show);
+hospitalRouter.use("/", mainRouter);
+hospitalRouter.use("/branch", branchRouter);
 
-hospitalRouter.post("/", HospitalController.create);
 export default hospitalRouter;

@@ -2,13 +2,18 @@ import { Schema, model } from "mongoose";
 
 const branchSchema = Schema(
   {
-    landmarks: {
+    landmark: {
       type: String,
       required: true,
     },
     address: {
       type: String,
       required: true,
+    },
+    hospital: {
+      required: true,
+      type: Schema.Types.ObjectId,
+      ref: "Hospital",
     },
   },
   { timestamps: true }
