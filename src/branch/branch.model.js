@@ -2,11 +2,19 @@ import { Schema, model } from "mongoose";
 
 const branchSchema = Schema(
   {
-    landmark: {
+    address: {
       type: String,
       required: true,
     },
-    address: {
+    city: {
+      type: String,
+      required: true,
+    },
+    state: {
+      type: String,
+      required: true,
+    },
+    country: {
       type: String,
       required: true,
     },

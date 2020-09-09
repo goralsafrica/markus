@@ -10,16 +10,12 @@ const hospitalSchema = Schema(
       type: String,
       required: true,
     },
-    phoneNumber: {
+    phone: {
       type: String,
       required: true,
     },
     slug: {
       type: String,
-    },
-    password: {
-      type: String,
-      required: true,
     },
     branches: [{ type: Schema.Types.ObjectId, ref: "Branch" }],
     departments: [{ type: Schema.Types.ObjectId, ref: "Department" }],

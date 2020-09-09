@@ -2,21 +2,25 @@ import Branch from "../../branch/branch.model";
 //import { hashSync } from "bcryptjs";
 class BranchController {
   static async create(req, res, next) {
-    const { address, landmark, hospital } = req.body;
+    const { address, city, state, country, credentials } = req.body;
     try {
-      const newBranch = new Branch({ address, landmark, hospital });
-      const success = await newBranch.save();
-
-      if (!success)
+      const data = Branch.create({
+        address,
+        city,
+        state,
+        country,
+        hospital: credentials.hospital,
+      });
+      if (!data)
         next([400, ["invalid input data"], "failed to create hospital"]);
       res.send({
-        data: null,
+        data,
         errors: null,
         mesaage: "new branch created",
       });
     } catch (err) {
       console.log(err);
-      next([500, "server  failed to respond :("]);
+      next([500, ["server  failed to respond :("], "failed to create branch"]);
     }
   }
   static async findAll(req, res, next) {

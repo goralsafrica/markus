@@ -1,4 +1,4 @@
-import Hospital from "../hospital/models";
+import Hospital from "../hospital/models/Hospital";
 class moderatorController {
   static async index(req, res, next) {
     try {

@@ -1,6 +1,7 @@
 import express from "express";
 import moderatorRouter from "./moderator/moderator.router";
 import hospitalRouter from "./hospital/routes";
+import authRouter from "./auth/auth.router";
 const apiRouter = express.Router();
 
 apiRouter.get("/", (req, res) => {
@@ -8,7 +9,7 @@ apiRouter.get("/", (req, res) => {
     message: "welcome to the api route",
   });
 });
-
+// apiRouter.use("/auth", authRouter);
 apiRouter.use("/moderator", moderatorRouter);
 apiRouter.use("/hospital", hospitalRouter);
 
