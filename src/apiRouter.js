@@ -4,6 +4,8 @@ import hospitalRouter from "./hospital/routes";
 import authRouter from "./auth/auth.router";
 const apiRouter = express.Router();
 
+import deptSeeder from "./department/department.controllers";
+
 apiRouter.get("/", (req, res) => {
   res.json({
     message: "welcome to the api route",

@@ -1,6 +1,6 @@
 import Branch from "../../branch/branch.model";
 //import { hashSync } from "bcryptjs";
-class BranchController {
+class HospitalBranchController {
   static async create(req, res, next) {
     const { address, city, state, country, credentials } = req.body;
     try {
@@ -77,4 +77,4 @@ class BranchController {
   }
 }
 
-export default BranchController;
+export default HospitalBranchController;
