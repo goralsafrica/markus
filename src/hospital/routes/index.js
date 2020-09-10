@@ -1,6 +1,7 @@
 import express from "express";
 import mainRouter from "./main.router";
 import branchRouter from "./branch.router";
+import departmentRouter from "./department.router";
 import staffRouter from "./staff.router";
 import * as authMiddleware from "../../auth/auth.middleware";
 import * as adminAuthMiddleware from "../middlewares/auth";
@@ -13,6 +14,12 @@ hospitalRouter.use(
   authMiddleware.verifyToken,
   adminAuthMiddleware.verifyAdmin,
   branchRouter
+);
+hospitalRouter.use(
+  "/department",
+  authMiddleware.verifyToken,
+  adminAuthMiddleware.verifyAdmin,
+  departmentRouter
 );
 // hospitalRouter.use("/staff", staffRouter);
 
