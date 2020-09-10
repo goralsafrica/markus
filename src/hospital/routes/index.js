@@ -9,18 +9,13 @@ const hospitalRouter = express.Router();
 
 //gets the details of a particular hospital
 hospitalRouter.use("/", mainRouter);
-hospitalRouter.use(
-  "/branch",
-  authMiddleware.verifyToken,
-  adminAuthMiddleware.verifyAdmin,
-  branchRouter
-);
-hospitalRouter.use(
-  "/department",
-  authMiddleware.verifyToken,
-  adminAuthMiddleware.verifyAdmin,
-  departmentRouter
-);
+
+// middleware to verify hospital admin :)
+hospitalRouter.use(authMiddleware.verifyToken, adminAuthMiddleware.verifyAdmin);
+
+hospitalRouter.use("/branch", branchRouter);
+hospitalRouter.use("/department", departmentRouter);
+hospitalRouter.use("/staff", staffRouter);
 // hospitalRouter.use("/staff", staffRouter);
 
 export default hospitalRouter;

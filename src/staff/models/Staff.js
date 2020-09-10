@@ -1,4 +1,4 @@
-import { model, Schema, Mongoose } from "mongoose";
+import { model, Schema } from "mongoose";
 
 const StaffSchema = new Schema({
   firstName: {

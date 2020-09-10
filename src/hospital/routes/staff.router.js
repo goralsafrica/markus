@@ -1,12 +1,12 @@
 import express from "express";
-import StaffController from "../../staff/controllers/main";
+import StaffController from "../controllers/staff.controller";
 import * as Middlewares from "../../staff/middlewares/registration";
 const staffRouter = express.Router();
 
 //gets the details of a particular hospital
 staffRouter.post(
   "/",
-  Middlewares.inputValidator,
+  // Middlewares.inputValidator,
   //Middlewares.staffChecker,
   StaffController.create
 );

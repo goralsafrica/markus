@@ -4,13 +4,16 @@ import hospitalRouter from "./hospital/routes";
 import authRouter from "./auth/auth.router";
 const apiRouter = express.Router();
 
-import deptSeeder from "./department/department.controllers";
+import seeder from "../seeders/roles.seeder";
 
 apiRouter.get("/", (req, res) => {
   res.json({
     message: "welcome to the api route",
   });
 });
+
+apiRouter.post("/seed", seeder);
+
 // apiRouter.use("/auth", authRouter);
 apiRouter.use("/moderator", moderatorRouter);
 apiRouter.use("/hospital", hospitalRouter);

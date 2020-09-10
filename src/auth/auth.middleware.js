@@ -71,7 +71,6 @@ export async function verifyToken(req, res, next) {
     req.body.credentials = data;
     next();
   } catch (err) {
-    console.log(err);
     return next([401, ["invalid credentials"], "unauthorized request"]);
   }
 }
