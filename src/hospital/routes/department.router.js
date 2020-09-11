@@ -7,6 +7,9 @@ const departmentRouter = express.Router();
 departmentRouter.post("/", Controllers.DepartmentController.create);
 departmentRouter.get("/", Controllers.DepartmentController.findAll);
 departmentRouter.get("/:id", Controllers.DepartmentController.findOne);
-// mainRouter.put("/:id", Controllers.departmentController.update);
+departmentRouter.delete(
+  "/:departmentid",
+  Controllers.DepartmentController.delete
+);
 
 export default departmentRouter;

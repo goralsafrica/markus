@@ -76,6 +76,35 @@ class DepartmentController {
     }
   }
 
+  static async delete(req, res, next) {
+    try {
+      const hasStaffs = await Staff.find({
+        hospital: req.body.credentials.hosptal,
+        department: req.params.departmentid,
+      });
+      if (hasStaffs)
+        return next([
+          400,
+          ["Department cannot be removed because it still has assigned staffs"],
+          "failed",
+        ]);
+      const data = await Hospital.findById(req.body.credentials.hospital);
+      console.log(req.params.departmentid);
+      data.departments = data.departments.filter(
+        (dept) => dept != req.params.departmentid
+      );
+      data.save();
+      res.json({
+        data,
+        errors: null,
+        message: "department has been successfully removed from the hospital",
+      });
+    } catch (err) {
+      console.error(err);
+      next([500, ["server failed to respond"], "failed"]);
+    }
+  }
+
   static async getHospital(req, next) {
     try {
       return await Hospital.findById(req.body.credentials.hospital);

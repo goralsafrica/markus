@@ -1,4 +1,5 @@
 import Staff from "../../staff/models/Staff";
+import validator from "validator";
 import { hashSync } from "bcryptjs";
 class HospitalStaffController {
   static async create(req, res, next) {
@@ -10,6 +11,7 @@ class HospitalStaffController {
       phone,
       branches,
       role,
+      department,
       credentials,
     } = req.body;
     try {
@@ -21,6 +23,7 @@ class HospitalStaffController {
         password: hash,
         phone,
         branches,
+        department,
         role,
         hospital: credentials.hospital,
       });
@@ -60,10 +63,10 @@ class HospitalStaffController {
   static async findOne(req, res, next) {
     try {
       const data = await Staff.findById(req.params.id)
-        .populate("hospital", "name")
-        .populate("department")
-        .populate("role")
-        .populate("branches");
+        .populate("hospital", "+name -departments -branches -updatedAt")
+        .populate("department", "name")
+        .populate("role", "name")
+        .populate("branches", "-departments");
       res.send({
         data,
         errors: null,
@@ -76,9 +79,24 @@ class HospitalStaffController {
   }
 
   static async update(req, res, next) {
+    const { department, branches } = req.body;
     try {
+      const staff = await Staff.findById(req.params.staffid);
+      staff.branches = branches;
+
+      if (!department || !validator.isMongoId(department))
+        return next([400, ["department is required"], "failed to update"]);
+      staff.department = department;
+      const saved = await staff.save();
+      if (!saved) throw new Error("failed");
+      res.send({
+        data: staff,
+        errors: null,
+        message: "staff details have been updated",
+      });
     } catch (err) {
       console.log(err);
+      next([500, ["failed to update staff details"], "failed request"]);
     }
   }
 

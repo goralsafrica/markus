@@ -38,6 +38,7 @@ const StaffSchema = new Schema({
   department: {
     type: Schema.Types.ObjectId,
     ref: "Department",
+    required: true,
   },
   branches: [{ type: Schema.Types.ObjectId, ref: "Branch" }],
 });
