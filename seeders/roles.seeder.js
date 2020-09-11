@@ -1,11 +1,10 @@
 import Role from "../src/staff/models/Role";
 const roles = [
-  "dietitian",
-  "occupational therapist",
-  "pharmacist",
-  "physiotherapist",
-  "podiatrist",
-  "speech pathologist",
+  "clinical assistant",
+  "patient services assistant",
+  "porter",
+  "volunteer",
+  "ward clerk",
 ];
 
 export default function createMultiple(req, res) {
@@ -13,7 +12,7 @@ export default function createMultiple(req, res) {
   roles.forEach((role) => {
     body.push({
       name: role,
-      category: "5f5a3395d66cc038ce1f5b2f",
+      category: "5f5a3395d66cc038ce1f5b31",
     });
   });
   Role.create(body)
