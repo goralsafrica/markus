@@ -14,6 +14,7 @@ staffRouter.get("/", StaffController.findAll);
 staffRouter.get("/:id", StaffController.findOne);
 staffRouter.put("/:id", StaffController.update);
 staffRouter.delete("/:staffid", StaffController.delete); // remove from hospital
+staffRouter.delete("/:branchid/:staffid", StaffController.remove); // remove from hospital
 // staffRouter.put("/", Controllers.StaffController.update);
 
 export default staffRouter;

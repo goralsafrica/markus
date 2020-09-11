@@ -82,14 +82,32 @@ class HospitalStaffController {
     }
   }
 
+  static async remove(req, res, next) {
+    try {
+      const staff = await Staff.findById(req.params.staffid);
+      staff.branches = staff.branches.filter(
+        (branch) => branch != req.params.branchid
+      );
+      staff.save();
+      res.send({
+        data: staff,
+        errors: null,
+        message: "staff has been successfully removed from branch",
+      });
+    } catch (err) {
+      console.error(err);
+      next([500, ["server failure"], "failed to remove staff from branch"]);
+    }
+  }
+
   static async delete(req, res, next) {
     try {
-      const success = await Staff.findByIdAndDelete(req.params.staffid);
+      const staff = await Staff.findByIdAndDelete(req.params.staffid);
       if (success)
         return res.send({
           data: success,
           errors: null,
-          message: "staff has been successfully removed from hospital",
+          message: "staff has been successfully removed from hospital branch",
         });
     } catch (err) {
       console.error(err);
