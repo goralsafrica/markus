@@ -39,10 +39,12 @@ class DepartmentController {
 
   static async findAll(req, res, next) {
     try {
-      const data = await DepartmentController.getHospital(req, next);
+      const data = await Hospital.findById(req.body.credentials.hospital)
+        .select("departments")
+        .populate("departments");
       if (!data) next([400, ["invalid input data"], "failed to fetch branch"]);
       res.send({
-        data: data.departments,
+        data,
         errors: null,
         mesaage: "departments found",
       });

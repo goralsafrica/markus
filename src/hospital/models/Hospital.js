@@ -17,7 +17,6 @@ const hospitalSchema = Schema(
     slug: {
       type: String,
     },
-    branches: [{ type: Schema.Types.ObjectId, ref: "Branch" }],
     departments: [{ type: Schema.Types.ObjectId, ref: "Department" }],
   },
   { timestamps: true }

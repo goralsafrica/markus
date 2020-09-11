@@ -1,4 +1,5 @@
 import Branch from "../../branch/branch.model";
+import Hospital from "../models/Hospital";
 //import { hashSync } from "bcryptjs";
 class HospitalBranchController {
   static async create(req, res, next) {
@@ -26,8 +27,10 @@ class HospitalBranchController {
   static async findAll(req, res, next) {
     try {
       const data = await Branch.find({
-        hospital: "5f564f04b5033a59c1cc4638",
-      });
+        hospital: req.body.credentials.hospital,
+      })
+        .select("-hospital")
+        .populate("departments");
 
       if (!data) next([400, ["invalid hospital id"], "branch(es) not found"]);
       res.send({

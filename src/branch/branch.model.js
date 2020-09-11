@@ -23,6 +23,12 @@ const branchSchema = Schema(
       type: Schema.Types.ObjectId,
       ref: "Hospital",
     },
+    departments: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Department",
+      },
+    ],
   },
   { timestamps: true }
 );
