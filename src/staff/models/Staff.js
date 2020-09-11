@@ -12,7 +12,6 @@ const StaffSchema = new Schema({
   email: {
     type: String,
     required: true,
-    unique: true,
   },
   password: {
     type: String,
@@ -33,8 +32,8 @@ const StaffSchema = new Schema({
     default: 0,
   },
   role: {
-    type: String,
-    required: true,
+    type: Schema.Types.ObjectId,
+    ref: "Role",
   },
   department: {
     type: Schema.Types.ObjectId,

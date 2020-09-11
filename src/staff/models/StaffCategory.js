@@ -5,7 +5,6 @@ const StaffCategorySchema = new Schema({
     type: String,
     required: true,
   },
-  titles: [{ type: Schema.Types.ObjectId, ref: "Role" }],
 });
 
 export default model("StaffCategory", StaffCategorySchema);

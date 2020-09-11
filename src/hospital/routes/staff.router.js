@@ -10,7 +10,10 @@ staffRouter.post(
   //Middlewares.staffChecker,
   StaffController.create
 );
-// staffRouter.get("/", Controllers.StaffController.findOne);
+staffRouter.get("/", StaffController.findAll);
+staffRouter.get("/:id", StaffController.findOne);
+staffRouter.put("/:id", StaffController.update);
+staffRouter.delete("/:staffid", StaffController.delete); // remove from hospital
 // staffRouter.put("/", Controllers.StaffController.update);
 
 export default staffRouter;

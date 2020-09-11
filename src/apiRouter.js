@@ -14,7 +14,7 @@ apiRouter.get("/", (req, res) => {
 
 apiRouter.post("/seed", seeder);
 
-// apiRouter.use("/auth", authRouter);
+apiRouter.use("/auth", authRouter);
 apiRouter.use("/moderator", moderatorRouter);
 apiRouter.use("/hospital", hospitalRouter);
 
