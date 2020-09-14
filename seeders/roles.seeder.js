@@ -1,18 +1,12 @@
 import Role from "../src/staff/models/Role";
-const roles = [
-  "clinical assistant",
-  "patient services assistant",
-  "porter",
-  "volunteer",
-  "ward clerk",
-];
+const roles = ["head of branch", "head of department"];
 
 export default function createMultiple(req, res) {
   const body = [];
   roles.forEach((role) => {
     body.push({
       name: role,
-      category: "5f5a3395d66cc038ce1f5b31",
+      category: "5f5b6c3ebecfefabaefe913e",
     });
   });
   Role.create(body)
