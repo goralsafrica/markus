@@ -12,7 +12,6 @@ hospitalRouter.use("/", mainRouter);
 
 // middleware to verify hospital admin :)
 hospitalRouter.use(authMiddleware.verifyToken, adminAuthMiddleware.verifyAdmin);
-
 hospitalRouter.use("/branch", branchRouter);
 hospitalRouter.use("/department", departmentRouter);
 hospitalRouter.use("/staff", staffRouter);

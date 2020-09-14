@@ -1,7 +1,10 @@
 import express from "express";
 import moderatorRouter from "./moderator/moderator.router";
 import hospitalRouter from "./hospital/routes";
+import branchRouter from "./branch/routes";
 import authRouter from "./auth/auth.router";
+import * as authMiddleware from "./auth/auth.middleware";
+import verifyStaff from "./staff/middlewares/auth";
 const apiRouter = express.Router();
 
 import seeder from "../seeders/roles.seeder";
@@ -11,19 +14,16 @@ apiRouter.get("/", (req, res) => {
     message: "welcome to the api route",
   });
 });
-
 apiRouter.post("/seed", seeder);
-
 apiRouter.use("/auth", authRouter);
 apiRouter.use("/moderator", moderatorRouter);
 apiRouter.use("/hospital", hospitalRouter);
 
-/**
- * @desc error routes accepts 3 values:
- * status code ,
- * an array containing the error(s)
- * a summary of the error
- */
+apiRouter.use(authMiddleware.verifyToken, verifyStaff);
+apiRouter.use("/branch", branchRouter);
+//department and staffs
+
+// error handlers
 apiRouter.use((req, res, next) => {
   next([404, ["requested resource not found"], "invalid request"]);
 });

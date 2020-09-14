@@ -52,16 +52,6 @@ export async function loginValidator(req, res, next) {
   next();
 }
 
-// export async function verifyStaff(req, res, next) {
-//   try {
-//     const exists = await Staff.findOne({ email: req.body.email });
-//     if (!exists)
-//       return next(400, ["invalid login credentials"], "authentication failed");
-//     console.log(exists);
-//   } catch (err) {
-//     next(500, ["server failed to respond"], "authentication failed");
-//   }
-// }
 export async function verifyToken(req, res, next) {
   const token = req.headers.authorization
     ? req.headers.authorization.split(" ").pop()
@@ -74,17 +64,3 @@ export async function verifyToken(req, res, next) {
     return next([401, ["invalid credentials"], "unauthorized request"]);
   }
 }
-// exports.departmentValidator = function (req, res, next) {
-//   const errors = {};
-//   const data = req.body;
-
-//   console.log(data);
-//   data.name = !isEmpty(data.name) ? data.name : "";
-
-//   if (validator.isEmpty(data.name)) {
-//     errors.name = "name of department is required";
-//   }
-
-//   if (!isEmpty(errors)) return res.status(400).json(errors);
-//   next();
-// };

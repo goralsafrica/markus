@@ -1,11 +1,11 @@
-import Branch from "../../branch/branch.model";
+import Branch from "../../branch/models/Branch";
 import Hospital from "../models/Hospital";
 //import { hashSync } from "bcryptjs";
 class HospitalBranchController {
   static async create(req, res, next) {
     const { address, city, state, country, credentials } = req.body;
     try {
-      const data = Branch.create({
+      const data = await Branch.create({
         address,
         city,
         state,

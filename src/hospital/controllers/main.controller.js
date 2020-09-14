@@ -20,15 +20,15 @@ class HospitalController {
         slug: req.body.slug,
       });
 
-      console.log(createHospital);
       // create staff and store as an admin
       const createStaff = await Staff.create({
         firstName: req.body.adminFirstName,
         lastName: req.body.adminLastName,
         email: req.body.adminEmail,
         phone: req.body.adminPhone,
-        role: "admin",
-        hospital: await createHospital._id,
+        department: "5f5f2e592efb0a2bc448d5c4",
+        role: "5f5b6c7cbecfefabaefe913f",
+        hospital: createHospital._id,
         password: req.body.password,
         priviledged: 1,
       });
@@ -41,7 +41,6 @@ class HospitalController {
         errors: null,
         message: "Hospital and admin accounts have been created successfully",
       });
-      console.log(createHospital, createStaff);
       // res.send({
       //   mesaage: "new hospital created",
       // });
@@ -52,10 +51,11 @@ class HospitalController {
   }
 
   static async findOne(req, res, next) {
+    const { hospital } = req.body.credentials;
     try {
-      const data = await Hospital.findById("5f526382b0f4fb35f2bd82e2");
+      const data = await Hospital.findById(hospital);
 
-      if (!data) return Promise.reject("error handling request");
+      if (!data) next([400, ["invalid hospital id"], "hospital not found"]);
       res.send({
         data,
       });

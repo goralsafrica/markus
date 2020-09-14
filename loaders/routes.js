@@ -1,6 +1,6 @@
 import cors from "cors";
 import express from "express";
-import apiRoutes from "../src/apiRouter";
+import apiRouter from "../src/apiRouter";
 
 export default function (app, config) {
   return new Promise((resolve, reject) => {
@@ -13,7 +13,7 @@ export default function (app, config) {
     );
 
     //main entry for api endpoints
-    app.use("/api", apiRoutes);
+    app.use("/api", apiRouter);
 
     //resolve if no errors
     resolve();

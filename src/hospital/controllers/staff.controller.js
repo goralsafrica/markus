@@ -13,6 +13,7 @@ class HospitalStaffController {
       role,
       department,
       credentials,
+      administrativeRole,
     } = req.body;
     try {
       const hash = hashSync(password, 10);
@@ -25,6 +26,7 @@ class HospitalStaffController {
         branches,
         department,
         role,
+        administrativeRole,
         hospital: credentials.hospital,
       });
       if (!data) throw new Error("failed to update db");
@@ -82,18 +84,18 @@ class HospitalStaffController {
     const { department, branches } = req.body;
     try {
       const staff = await Staff.findById(req.params.staffid);
-      staff.branches = branches;
+      // staff.branches = branches;
 
-      if (!department || !validator.isMongoId(department))
-        return next([400, ["department is required"], "failed to update"]);
-      staff.department = department;
-      const saved = await staff.save();
-      if (!saved) throw new Error("failed");
-      res.send({
-        data: staff,
-        errors: null,
-        message: "staff details have been updated",
-      });
+      // if (!department || !validator.isMongoId(department))
+      //   return next([400, ["department is required"], "failed to update"]);
+      // staff.department = department;
+      // const saved = await staff.save();
+      // if (!saved) throw new Error("failed");
+      // res.send({
+      //   data: staff,
+      //   errors: null,
+      //   message: "staff details have been updated",
+      // });
     } catch (err) {
       console.log(err);
       next([500, ["failed to update staff details"], "failed request"]);

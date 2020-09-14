@@ -1,6 +1,6 @@
 import { model, Schema } from "mongoose";
 
-const StaffRoleSchema = new Schema({
+const RolesSchema = new Schema({
   name: {
     type: String,
     required: true,
@@ -11,4 +11,4 @@ const StaffRoleSchema = new Schema({
   },
 });
 
-export default model("Role", StaffRoleSchema);
+export default model("Role", RolesSchema);
