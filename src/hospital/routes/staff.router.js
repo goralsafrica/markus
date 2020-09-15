@@ -1,5 +1,5 @@
 import express from "express";
-import StaffController from "../controllers/staff.controller";
+import { StaffController } from "../controllers/";
 import * as Middlewares from "../../staff/middlewares/registration";
 const staffRouter = express.Router();
 

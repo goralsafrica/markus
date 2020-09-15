@@ -3,6 +3,7 @@ import mainRouter from "./main.router";
 import branchRouter from "./branch.router";
 import departmentRouter from "./department.router";
 import staffRouter from "./staff.router";
+import patientRouter from "./patient.router";
 import * as authMiddleware from "../../auth/auth.middleware";
 import * as adminAuthMiddleware from "../middlewares/auth";
 const hospitalRouter = express.Router();
@@ -15,6 +16,7 @@ hospitalRouter.use(authMiddleware.verifyToken, adminAuthMiddleware.verifyAdmin);
 hospitalRouter.use("/branch", branchRouter);
 hospitalRouter.use("/department", departmentRouter);
 hospitalRouter.use("/staff", staffRouter);
+hospitalRouter.use("/patient", patientRouter);
 // hospitalRouter.use("/staff", staffRouter);
 
 export default hospitalRouter;

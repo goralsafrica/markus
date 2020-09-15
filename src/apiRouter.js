@@ -4,6 +4,7 @@ import hospitalRouter from "./hospital/routes";
 import branchRouter from "./branch/routes";
 import departmentRouter from "./department/routes";
 import staffRouter from "./staff/staffRouter";
+import patientRouter from "./patient/router";
 import authRouter from "./auth/auth.router";
 import * as authMiddleware from "./auth/auth.middleware";
 import verifyStaff from "./staff/middlewares/auth";
@@ -24,6 +25,7 @@ apiRouter.use(authMiddleware.verifyToken, verifyStaff);
 apiRouter.use("/branch", branchRouter);
 apiRouter.use("/department", departmentRouter);
 apiRouter.use("/staff", staffRouter);
+apiRouter.use("/patient", patientRouter);
 //staff
 
 //error handlers
