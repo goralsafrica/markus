@@ -59,6 +59,7 @@ export async function verifyToken(req, res, next) {
   try {
     const data = await utils.verifyJWT(token);
     req.body.credentials = data;
+    req.credentials = data;
     next();
   } catch (err) {
     return next([401, ["invalid credentials"], "unauthorized request"]);

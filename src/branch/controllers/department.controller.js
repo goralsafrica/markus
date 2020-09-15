@@ -1,7 +1,7 @@
 import Branch from "../../branch/models/Branch";
 import Staff from "../../staff/models/Staff";
 import Hospital from "../../hospital/models/Hospital";
-import Department from "../../department/department.model";
+import Department from "../../department/models/Department";
 class BranchDepartmentController {
   static async add(req, res, next) {
     const { branch } = req.staff.administrativeRole;

@@ -1,4 +1,3 @@
-import Department from "../../department/department.model";
 import Hospital from "../models/Hospital";
 import Staff from "../../staff/models/Staff";
 class DepartmentController {

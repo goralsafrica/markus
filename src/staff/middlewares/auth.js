@@ -1,6 +1,6 @@
 import Staff from "../models/Staff";
 export default async function verifyStaff(req, res, next) {
-  const { staff, hospital } = req.body.credentials;
+  const { staff, hospital } = req.credentials;
   try {
     const existingStaff = await Staff.findById(staff, hospital)
       .select("firstName lastName email role administrativeRole")

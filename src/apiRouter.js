@@ -2,6 +2,8 @@ import express from "express";
 import moderatorRouter from "./moderator/moderator.router";
 import hospitalRouter from "./hospital/routes";
 import branchRouter from "./branch/routes";
+import departmentRouter from "./department/routes";
+import staffRouter from "./staff/staffRouter";
 import authRouter from "./auth/auth.router";
 import * as authMiddleware from "./auth/auth.middleware";
 import verifyStaff from "./staff/middlewares/auth";
@@ -18,12 +20,13 @@ apiRouter.post("/seed", seeder);
 apiRouter.use("/auth", authRouter);
 apiRouter.use("/moderator", moderatorRouter);
 apiRouter.use("/hospital", hospitalRouter);
-
 apiRouter.use(authMiddleware.verifyToken, verifyStaff);
 apiRouter.use("/branch", branchRouter);
-//department and staffs
+apiRouter.use("/department", departmentRouter);
+apiRouter.use("/staff", staffRouter);
+//staff
 
-// error handlers
+//error handlers
 apiRouter.use((req, res, next) => {
   next([404, ["requested resource not found"], "invalid request"]);
 });

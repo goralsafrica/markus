@@ -7,7 +7,6 @@ import departmentRouter from "./departments.router";
 // import staffRouter from "./staff.router";
 const branchRouter = Router();
 branchRouter.use(verifyHeadOfBranch);
-branchRouter.use(verifyHeadOfBranch);
 branchRouter.use("/staff", staffRouter);
 branchRouter.use("/department", departmentRouter);
 branchRouter.use("/", mainRouter);
