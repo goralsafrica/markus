@@ -59,14 +59,17 @@ class PatientAppointmentsController {
       next(500, ["server failed to respond"], "failed to perform request");
     }
   }
-confirm(req, res, next) {
+  static async confirm(req, res, next) {
     const { patient } = req.credentials;
     try {
-      const data = await Apartment.findByIdAndUpdate({
-        patient
-      },{
-        finalized: 1
-      });
+      const data = await Apartment.findByIdAndUpdate(
+        {
+          patient,
+        },
+        {
+          finalized: 1,
+        }
+      );
       res.send({
         data,
         errors: null,
