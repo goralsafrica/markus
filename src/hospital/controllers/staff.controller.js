@@ -81,21 +81,22 @@ class HospitalStaffController {
   }
 
   static async update(req, res, next) {
-    const { department, branches } = req.body;
+    const { department, branches, administrativeRole } = req.body;
     try {
       const staff = await Staff.findById(req.params.staffid);
       // staff.branches = branches;
-
+      staff.administrativeRole = administrativeRole;
+      if (!(await staff.save())) throw new Error("failed");
       // if (!department || !validator.isMongoId(department))
       //   return next([400, ["department is required"], "failed to update"]);
       // staff.department = department;
       // const saved = await staff.save();
       // if (!saved) throw new Error("failed");
-      // res.send({
-      //   data: staff,
-      //   errors: null,
-      //   message: "staff details have been updated",
-      // });
+      res.send({
+        data: staff,
+        errors: null,
+        message: "staff details have been updated",
+      });
     } catch (err) {
       console.log(err);
       next([500, ["failed to update staff details"], "failed request"]);

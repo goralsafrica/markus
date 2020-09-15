@@ -43,7 +43,7 @@ class HospitalBranchController {
 
   static async findOne(req, res, next) {
     try {
-      const data = await Branch.findById(req.params.id);
+      const data = await Branch.findById(req.params.id).populate("departments");
 
       if (!data) next([400, ["invalid branch id"], "branch not found"]);
       res.send({
@@ -57,13 +57,13 @@ class HospitalBranchController {
   }
 
   static async update(req, res, next) {
-    console.log("hit");
     try {
       const data = await Branch.findByIdAndUpdate(
         req.params.id,
         {
-          address: req.body.address,
-          landmark: req.body.landmark,
+          // address: req.body.address,
+          // landmark: req.body.landmark,
+          departments: req.body.departments,
         },
         { new: true, useFindAndModify: false }
       );
@@ -71,7 +71,7 @@ class HospitalBranchController {
       res.send({
         data,
         errors: null,
-        message: "branch has been successfully updates",
+        message: "branch has been successfully updated",
       });
     } catch (err) {
       console.error(err);

@@ -12,4 +12,5 @@ departmentRouter.delete(
   Controllers.DepartmentController.delete
 );
 
+
 export default departmentRouter;

@@ -12,5 +12,6 @@ branchRouter.post(
 branchRouter.get("/", Controllers.BranchController.findAll);
 branchRouter.get("/:id", Controllers.BranchController.findOne);
 branchRouter.put("/:id", Controllers.BranchController.update);
+//delete should only be possible if no staff is present again
 
 export default branchRouter;
