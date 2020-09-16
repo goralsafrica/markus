@@ -5,6 +5,7 @@ import StaffController from "./staff.controller";
 import PatientController from "./patient.controller";
 import HospitalPriceController from "./price.controller";
 import HospitalHealthInsuranceController from "./healthinsurance.controller";
+import HospitalLabController from "./lab.controller";
 export {
   HospitalController,
   BranchController,
@@ -13,4 +14,5 @@ export {
   PatientController,
   HospitalPriceController,
   HospitalHealthInsuranceController,
+  HospitalLabController,
 };

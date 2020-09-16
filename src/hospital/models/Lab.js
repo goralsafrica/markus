@@ -1,6 +1,6 @@
 import { Schema, model } from "mongoose";
 
-const AffiliateSchema = Schema(
+const labSchema = Schema(
   {
     hospital: {
       type: Schema.Types.ObjectId,
@@ -18,12 +18,8 @@ const AffiliateSchema = Schema(
       type: String,
       required: true,
     },
-    address: {
-      type: String,
-      required: true,
-    },
   },
   { timestamps: true }
 );
 
-export default model("Affiliate", AffiliateSchema);
+export default model("Lab", labSchema);

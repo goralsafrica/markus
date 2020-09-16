@@ -6,6 +6,7 @@ import staffRouter from "./staff.router";
 import patientRouter from "./patient.router";
 import priceRouter from "./price.router";
 import healthinsuranceRouter from "./healthinsurance.router";
+import labRouter from "./lab.router";
 import * as authMiddleware from "../../auth/auth.middleware";
 import * as adminAuthMiddleware from "../middlewares/auth";
 const hospitalRouter = express.Router();
@@ -21,5 +22,6 @@ hospitalRouter.use("/staff", staffRouter);
 hospitalRouter.use("/patient", patientRouter);
 hospitalRouter.use("/price", priceRouter);
 hospitalRouter.use("/healthinsurance", healthinsuranceRouter);
+hospitalRouter.use("/lab", labRouter);
 
 export default hospitalRouter;
