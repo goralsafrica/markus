@@ -1,8 +1,8 @@
-import * as register from "./register";
+import {
+  registerBranchValidator as branchValidator,
+  hospitalChecker,
+  registerValidator,
+} from "./register";
 //import BranchController from "./branch.controller";
 
-export default {
-  registerValidator: register.registerValidator,
-  hospitalChecker: register.hospitalChecker,
-  branchValidator: register.registerBranchValidator,
-};
+export { registerValidator, hospitalChecker, branchValidator };

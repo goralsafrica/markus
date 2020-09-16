@@ -116,6 +116,6 @@ export function registerBranchValidator(req, res, next) {
   for (const prop in data) {
     data[prop] = validator.escape(data[prop]);
   }
-  req.body = { ...data, credentials: req.body.credentials };
+  req.body = { ...data };
   next();
 }

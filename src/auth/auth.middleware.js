@@ -58,7 +58,6 @@ export async function verifyToken(req, res, next) {
     : "0918ytfcvbnjuytrbnkuytrdcv";
   try {
     const data = await utils.verifyJWT(token);
-    req.body.credentials = data;
     req.credentials = data;
     next();
   } catch (err) {

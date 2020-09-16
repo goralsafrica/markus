@@ -1,12 +1,11 @@
 import Staff from "../../staff/models/Staff";
 
 export async function verifyAdmin(req, res, next) {
-  const { staff, hospital } = req.body.credentials;
+  const { staff, hospital } = req.credentials;
   try {
     const existingStaff = await Staff.findById(staff, hospital)
       .select("priviledged")
       .populate("role");
-    console.log(existingStaff);
     if (
       !existingStaff ||
       existingStaff.role.name != "admin" ||

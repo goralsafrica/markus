@@ -1,0 +1,17 @@
+HOSPITAL PRICING
+POST /hospital/pricing - create a price category and inputs the price
+GET /hospital/pricing - get hospital pricelist
+PUT /hospital/pricing/:pricecategoryid - edit details of the price category
+DELETE /hospital/pricing/:pricecategoryid - remove price category from hospital pricing
+
+HOSPITAL PATIENT HEALTH INSURANCE (HMO)
+POST /healthinsurance - adds a company to the list of HMO
+GET /healthinsurance - gets list of HMO
+PUT /healthinsurance/:companyid - edit details of the company 
+DELETE /healthinsurance/:companyid - remove company from hospital's list of companies
+
+HOSPITAL AFFILIATES [ external labs]
+POST /lab -  create a new external lab
+GET /lab - get list of external labs
+PUT /lab/:labid - edit lab details
+DELETE /lab/:labid - remove lab from list

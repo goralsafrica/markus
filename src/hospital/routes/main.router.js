@@ -7,10 +7,7 @@ const mainRouter = express.Router();
 
 //gets the details of a particular hospital
 mainRouter.post("/", HospitalController.create);
-
-mainRouter.use(authMiddleware.verifyToken, adminAuthMiddleware.verifyAdmin);
 mainRouter.get("/", HospitalController.findOne);
-
 mainRouter.put("/", HospitalController.update);
 
 export default mainRouter;
