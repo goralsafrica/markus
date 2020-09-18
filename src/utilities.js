@@ -19,5 +19,5 @@ export function deriveToken(hospital, staff) {
 }
 
 export function verifyJWT(payload) {
-  return jwt.verify(payload, config.secretKey);
+  return jwt.verify(payload, process.env.SECRET_KEY);
 }
