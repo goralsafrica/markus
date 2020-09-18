@@ -1,10 +1,10 @@
 import express from "express";
-import moderatorRouter from "./moderator/moderator.router";
-import hospitalRouter from "./hospital/routes";
-import branchRouter from "./branch/routes";
-import departmentRouter from "./department/routes";
-import staffRouter from "./staff/staffRouter";
-import patientRouter from "./patient/router";
+// import moderatorRouter from "./moderator/moderator.router";
+// import hospitalRouter from "./hospital/routes";
+// import branchRouter from "./branch/routes";
+// import departmentRouter from "./department/routes";
+// import staffRouter from "./staff/staffRouter";
+// import patientRouter from "./patient/router";
 import authRouter from "./auth/auth.router";
 // import * as authMiddleware from "./auth/auth.middleware";
 // import verifyStaff from "./staff/middlewares/auth";
