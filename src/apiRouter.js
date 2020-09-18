@@ -6,26 +6,27 @@ import departmentRouter from "./department/routes";
 import staffRouter from "./staff/staffRouter";
 import patientRouter from "./patient/router";
 import authRouter from "./auth/auth.router";
-import * as authMiddleware from "./auth/auth.middleware";
-import verifyStaff from "./staff/middlewares/auth";
+// import * as authMiddleware from "./auth/auth.middleware";
+// import verifyStaff from "./staff/middlewares/auth";
 const apiRouter = express.Router();
 
-import seeder from "../seeders/roles.seeder";
+//import seeder from "../seeders/roles.seeder";
 
 apiRouter.get("/", (req, res) => {
   res.json({
     message: "welcome to the api route",
   });
 });
-apiRouter.post("/seed", seeder);
+//apiRouter.post("/seed", seeder);
 apiRouter.use("/auth", authRouter);
-apiRouter.use("/moderator", moderatorRouter);
-apiRouter.use("/hospital", hospitalRouter);
-apiRouter.use(authMiddleware.verifyToken, verifyStaff);
-apiRouter.use("/branch", branchRouter);
-apiRouter.use("/department", departmentRouter);
-apiRouter.use("/staff", staffRouter);
-apiRouter.use("/patient", patientRouter);
+// //apiRouter.use(authMiddleware.verifyToken, verifyStaff);
+// apiRouter.use("/staff", staffRouter);
+// apiRouter.use("/department", departmentRouter);
+// apiRouter.use("/branch", branchRouter);
+// apiRouter.use("/hospital", hospitalRouter);
+// apiRouter.use("/moderator", moderatorRouter);
+
+// apiRouter.use("/patient", patientRouter);
 //staff
 
 //error handlers

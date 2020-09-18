@@ -1,5 +1,5 @@
 import { compare } from "bcryptjs";
-import Staff from "../staff/models/Staff";
+import Staff from "../roles/staff/models/Staff";
 import * as utils from "../utilities";
 
 class AuthController {
