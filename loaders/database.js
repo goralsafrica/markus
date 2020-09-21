@@ -5,5 +5,6 @@ export default function (app, { dbURI }) {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,
+    useFindAndModify: false,
   });
 }

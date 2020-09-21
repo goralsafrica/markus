@@ -1,12 +1,18 @@
-export default async function verifyToken(req, res, next) {
+import { verifyToken } from "../../utilities";
+export default async function verifyUser(req, res, next) {
   const token = req.headers.authorization
     ? req.headers.authorization.split(" ").pop()
     : "0918ytfcvbnjuytrbnkuytrdcv";
   try {
-    const data = await utils.verifyJWT(token);
+    const data = await verifyToken(token);
     req.credentials = data;
     next();
   } catch (err) {
-    return next([401, ["invalid credentials"], "unauthorized request"]);
+    console.error("ehn", err);
+    return next({
+      status: 401,
+      errors: { request: "invalid credentials" },
+      message: "unauthorized request",
+    });
   }
 }

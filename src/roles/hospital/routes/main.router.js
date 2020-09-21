@@ -4,10 +4,10 @@ import {
   registerValidator,
   verifyNewHospital,
   generateCodes,
+  verifyAdmin,
+  updateHospitalValidator,
 } from "../middlewares";
-// import * as authMiddleware from "../../../auth/auth.middleware";
-// import * as adminAuthMiddleware from "../middlewares/auth";
-// import Middlewares from "../middlewares";
+import { verifyUser } from "../../../auth/middlewares";
 const mainRouter = express.Router();
 
 //gets the details of a particular hospital
@@ -22,7 +22,20 @@ mainRouter.post(
     res.status(r.status).json(r.result);
   }
 );
-// mainRouter.get("/", HospitalController.findOne);
-// mainRouter.put("/", HospitalController.update);
+mainRouter.get("/", verifyUser, async (req, res) => {
+  const details = req.credentials;
+  const r = await HospitalController.findOne(details);
+  res.status(r.status).json(r.result);
+});
+mainRouter.put(
+  "/",
+  verifyUser,
+  updateHospitalValidator,
+  //verifyAdmin,
+  async (req, res) => {
+    const r = await HospitalController.update(req);
+    res.status(r.status).json(r.result);
+  }
+);
 
 export default mainRouter;

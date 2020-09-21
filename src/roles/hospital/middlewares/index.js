@@ -1,15 +1,16 @@
 import {
   registerBranchValidator as branchValidator,
-  hospitalChecker,
   registerValidator,
-} from "./register";
-import { verifyNewHospital } from "./auth";
+  updateHospitalValidator,
+} from "./inputs";
+import { verifyAdmin, verifyNewHospital } from "./auth";
 import { generateCodes } from "./utils";
 //import BranchController from "./branch.controller";
 
 export {
   registerValidator,
-  hospitalChecker,
+  updateHospitalValidator,
+  verifyAdmin,
   branchValidator,
   verifyNewHospital,
   generateCodes,

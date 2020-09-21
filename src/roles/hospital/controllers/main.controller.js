@@ -1,7 +1,7 @@
 import Hospital from "../models/Hospital";
 import Staff from "../../staff/models/Staff";
 import { hashSync } from "bcryptjs";
-import { deriveToken, serverError } from "../../../utilities";
+import { deriveToken, serverError, badRequestError } from "../../../utilities";
 
 /**
  * @description Controller for all hospital - admin functions
@@ -56,37 +56,64 @@ class HospitalController {
     }
   }
 
-  static async findOne(req, res, next) {
-    const { hospital } = req.body.credentials;
+  static async findOne({ hospital, staff }) {
     try {
       const data = await Hospital.findById(hospital);
-
-      if (!data) next([400, ["invalid hospital id"], "hospital not found"]);
-      res.send({
-        data,
+      if (!data)
+        return Promise.resolve(
+          badRequestError(
+            {
+              hospital: "invalid hospital id",
+            },
+            "failed to fetch hospital"
+          )
+        );
+      return Promise.resolve({
+        status: 200,
+        result: {
+          data,
+          errors: null,
+          message: "hospital found",
+        },
       });
     } catch (err) {
-      next([500, "server  failed to respond :("]);
+      return Promise.resolve(
+        serverError(
+          {
+            request: "server failed to respond",
+          },
+          "failed to fetch hospital"
+        )
+      );
     }
   }
 
-  static async update(req, res, next) {
+  static async update({ body, credentials }) {
     try {
       const data = await Hospital.findByIdAndUpdate(
-        "5f526382b0f4fb35f2bd82e2",
+        credentials.hospital,
         {
-          email: req.body.email,
-          name: req.body.name,
+          email: body.email,
+          name: body.name,
+          phone: body.phone,
         },
-        { new: true, useFindAndModify: false }
+        { new: true }
       );
-
       if (!data) return Promise.reject("error handling request");
-      res.send({
-        data,
-      });
+      return {
+        status: 200,
+        result: {
+          data,
+          errors: null,
+          message: "hospital details have been successfully updated",
+        },
+      };
     } catch (err) {
-      next([500, "server  failed to respond :("]);
+      console.error(err);
+      return serverError(
+        { request: "server failed to respond" },
+        "failed to update hospital data"
+      );
     }
   }
 }

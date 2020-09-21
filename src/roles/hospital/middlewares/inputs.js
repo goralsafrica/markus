@@ -53,6 +53,30 @@ export function registerValidator(req, res, next) {
   next();
 }
 
+export function updateHospitalValidator(req, res, next) {
+  const errors = {};
+  const data = {};
+  data.name = req.body.name ? req.body.name : "";
+  data.email = req.body.email ? req.body.email : "";
+  data.phone = req.body.phone ? req.body.phone : "";
+  if (
+    isEmpty(data.name) ||
+    !validator.isAlpha(validator.blacklist(data.name, ["-", " "]))
+  ) {
+    errors.name = "invalid hospital name";
+  }
+  if (isEmpty(data.phone) || !validator.isMobilePhone(data.phone))
+    errors.phone = "invalid phone number";
+
+  if (isEmpty(data.email) || !validator.isEmail(data.email))
+    errors.email = "invalid email address";
+
+  if (!isEmpty(errors))
+    return res.send(badRequestError(errors, "failed to update profile"));
+  req.body = sanitize(validator, data);
+  next();
+}
+
 export function registerBranchValidator(req, res, next) {
   const errors = [];
   const data = {};
