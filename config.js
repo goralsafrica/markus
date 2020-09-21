@@ -1,4 +1,10 @@
-export const port = process.env.PORT || 3000;
-export const mongoURI =
-  "mongodb+srv://backend-user:Sikrit@123!@goralstask.xqjm6.mongodb.net/<dbname>?retryWrites=true&w=majority";
-export const secretKey = "sikrit!123";
+import { config } from "dotenv";
+
+config(".env");
+const { MONGO_TEST_URI, MONGO_DEV_URI, SECRET_KEY } = process.env;
+const port = process.env.PORT || 8000;
+const dbURI =
+  process.env.NODE_ENV == "development" ? MONGO_DEV_URI : MONGO_TEST_URI;
+const secretKey = SECRET_KEY;
+
+export { port, dbURI, secretKey };

@@ -10,7 +10,6 @@ export default function (app, config) {
         extended: false,
       })
     );
-
     //main entry for APIs
     app.use("/api", apiRouter);
 

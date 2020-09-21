@@ -1,7 +1,7 @@
 import Hospital from "../models/Hospital";
 import Staff from "../../staff/models/Staff";
 import { hashSync } from "bcryptjs";
-import * as utils from "../../utilities";
+import * as utils from "../../../utilities";
 
 /**
  * @description Controller for all hospital - admin functions

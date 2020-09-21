@@ -18,6 +18,25 @@ export function deriveToken(hospital, staff) {
   );
 }
 
-export function verifyJWT(payload) {
+export function verifyToken(payload) {
   return jwt.verify(payload, process.env.SECRET_KEY);
+}
+
+export function serverError(error, message) {
+  return {
+    status: 500,
+    data: null,
+    errors: {
+      request: error,
+    },
+    message,
+  };
+}
+export function badRequestError(errors, message) {
+  return {
+    status: 400,
+    data: null,
+    errors,
+    message,
+  };
 }
