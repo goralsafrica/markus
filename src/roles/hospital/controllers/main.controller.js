@@ -1,52 +1,58 @@
 import Hospital from "../models/Hospital";
 import Staff from "../../staff/models/Staff";
 import { hashSync } from "bcryptjs";
-import * as utils from "../../../utilities";
+import { deriveToken, serverError } from "../../../utilities";
 
 /**
  * @description Controller for all hospital - admin functions
  */
 
 class HospitalController {
-  static async create(req, res, next) {
+  static async create(user) {
     // hash password
-    req.body.password = hashSync(req.body.password, 10);
+    user.password = hashSync(user.password, 10);
     try {
       //create new Hospital first
       const createHospital = await Hospital.create({
-        name: req.body.hospitalName,
-        email: req.body.hospitalEmail,
-        phone: req.body.hospitalPhone,
-        slug: req.body.slug,
+        name: user.hospitalName,
+        email: user.hospitalEmail,
+        phone: user.hospitalPhone,
+        slug: user.slug,
       });
 
       // create staff and store as an admin
       const createStaff = await Staff.create({
-        firstName: req.body.adminFirstName,
-        lastName: req.body.adminLastName,
-        email: req.body.adminEmail,
-        phone: req.body.adminPhone,
+        firstName: user.adminFirstName,
+        lastName: user.adminLastName,
+        email: user.adminEmail,
+        phone: user.adminPhone,
         department: "5f5f2e592efb0a2bc448d5c4",
         role: "5f5b6c7cbecfefabaefe913f",
         hospital: createHospital._id,
-        password: req.body.password,
+        password: user.password,
         priviledged: 1,
       });
       if (!createHospital || !createStaff) return Promise.reject("error");
 
-      const token = utils.deriveToken(createHospital._id, createStaff._id);
-
-      res.json({
-        data: token,
-        errors: null,
-        message: "Hospital and admin accounts have been created successfully",
+      const token = deriveToken(createHospital._id, createStaff._id);
+      return Promise.resolve({
+        status: 200,
+        result: {
+          data: {
+            token,
+          },
+          errors: null,
+          message: "hospital has been created successfully",
+        },
       });
-      // res.send({
-      //   mesaage: "new hospital created",
-      // });
     } catch (err) {
-      console.log(err);
-      next([500, ["server  failed to respond :("], "account not created"]);
+      console.error(err);
+      return Promise.resolve(
+        serverError(
+          { request: "server failed to respond" },
+          "failed to create new hospital"
+        )
+      );
     }
   }
 

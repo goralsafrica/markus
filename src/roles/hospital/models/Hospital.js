@@ -1,5 +1,7 @@
 import { Schema, model } from "mongoose";
 
+//preferred workspace url
+
 const hospitalSchema = Schema(
   {
     name: {
@@ -16,6 +18,11 @@ const hospitalSchema = Schema(
     },
     slug: {
       type: String,
+      unique: true,
+    },
+    code: {
+      type: String,
+      unique: true,
     },
     departments: [{ type: Schema.Types.ObjectId, ref: "Department" }],
   },

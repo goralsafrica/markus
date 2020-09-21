@@ -1,13 +1,6 @@
 import jwt from "jsonwebtoken";
 import * as config from "../config";
 
-/**
- *
- * @param {ObjectId} hospital
- * @param {ObjectId} staff
- * derives a jwt
- */
-
 export function deriveToken(hospital, staff) {
   return jwt.sign(
     {
@@ -25,18 +18,30 @@ export function verifyToken(payload) {
 export function serverError(error, message) {
   return {
     status: 500,
-    data: null,
-    errors: {
-      request: error,
+    result: {
+      data: null,
+      errors: {
+        request: error,
+      },
+      message,
     },
-    message,
   };
 }
 export function badRequestError(errors, message) {
   return {
     status: 400,
-    data: null,
-    errors,
-    message,
+    result: {
+      data: null,
+      errors,
+      message,
+    },
   };
+}
+
+export function sanitize(validator, data) {
+  for (const prop in data) {
+    data[prop] = validator.trim(data[prop]);
+    data[prop] = validator.escape(data[prop]);
+  }
+  return data;
 }

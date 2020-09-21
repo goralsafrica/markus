@@ -30,14 +30,16 @@ class AuthController {
       //arrange data to be sent back
       return {
         status: 200,
-        data: {
-          firstName: staff.firstName,
-          lastName: staff.lastName,
-          email: staff.email,
-          token,
+        result: {
+          data: {
+            firstName: staff.firstName,
+            lastName: staff.lastName,
+            email: staff.email,
+            token,
+          },
+          errors: null,
+          message: "login successful",
         },
-        errors: null,
-        message: "login successful",
       };
     } catch (err) {
       console.error("here", err);
