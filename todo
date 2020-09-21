@@ -1,29 +1,5 @@
-add/update external labs 
+Set up a code system
 
-HOSPITAL PRICING
-GET /hospital/price -- get price list in hospital
-PUT /hospital/price -- change price list
-
-HOSPITAL AFFAIRS
-- hospital should be able to create/read/update and delete external labs and HMO
-
-STAFF SCHEDULING
-- creation of staff schedule
-- viewing staff schedule
-
-PATIENT SESSION
--front desk initalization of session
--notifications for patient
--patient status on hospital registration fee
--vital signs and other related patient readings
--doctor's recommendation
-
-
-
-
-
-
-#requirements
-1. price list for hospitals
-2. format of shedules for staff 
+staff  STF/HPT/id
+patient PAE/HPT/
 

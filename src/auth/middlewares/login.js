@@ -1,5 +1,4 @@
 //IMPORT MOODULES
-import Hospital from "../../roles/hospital/facility";
 import validator from "validator";
 import isEmpty from "is-empty";
 

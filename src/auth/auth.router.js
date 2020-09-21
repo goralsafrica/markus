@@ -5,7 +5,8 @@ const authRouter = express.Router();
 
 authRouter.post("/login", loginValidator, async (req, res) => {
   const details = req.body;
-  //const result = await AuthController.login(details);
+  const { status, data, errors, message } = await AuthController.login(details);
+  res.status(status).json({ data, errors, message });
 });
 //authRouter.post("/logout",)
 export default authRouter;
