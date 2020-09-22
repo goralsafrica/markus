@@ -51,6 +51,23 @@ export function badRequestError(errors, message) {
   };
 }
 
+/**
+ *
+ * @param {} data object containing the data
+ * @param {String} message summarized success  message
+ */
+
+export function successMessage(data, message) {
+  return {
+    status: 200,
+    result: {
+      data,
+      errors: null,
+      message,
+    },
+  };
+}
+
 export function sanitize(validator, data) {
   for (const prop in data) {
     data[prop] = validator.trim(data[prop]);
