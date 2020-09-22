@@ -15,6 +15,12 @@ export function verifyToken(payload) {
   return jwt.verify(payload, process.env.SECRET_KEY);
 }
 
+/**
+ *
+ * @param {} errors object containing the errors
+ * @param {String} message summarized error message
+ */
+
 export function serverError(error, message) {
   return {
     status: 500,
@@ -27,6 +33,13 @@ export function serverError(error, message) {
     },
   };
 }
+
+/**
+ *
+ * @param {Object} errors object containing the errors
+ * @param {String} message summarized error message
+ */
+
 export function badRequestError(errors, message) {
   return {
     status: 400,
