@@ -15,6 +15,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@babel/preset-react": "^7.10.4",
     "@babel/runtime": "^7.11.2",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
@@ -33,7 +34,6 @@
     "@babel/node": "^7.10.5",
     "@babel/plugin-transform-runtime": "^7.11.5",
     "@babel/preset-env": "^7.11.5",
-    "@babel/preset-react": "^7.10.4",
     "nodemon": "^2.0.4"
   }
 }
