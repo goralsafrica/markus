@@ -12,9 +12,12 @@ rosterRouter.get("/", async (req, res) => {
 
 rosterRouter.post("/", async (req, res) => {
   const r = await RosterController.create(req);
-  //console.log(r);
-  res.send(r);
-  //return res.status(r.status).json(r.result);
+  return res.status(r.status).json(r.result);
+});
+
+rosterRouter.put("/", async (req, res) => {
+  const r = await RosterController.create(req);
+  return res.status(r.status).json(r.result);
 });
 
 export default rosterRouter;

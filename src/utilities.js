@@ -75,3 +75,15 @@ export function sanitize(validator, data) {
   }
   return data;
 }
+
+export function getDays() {
+  return [
+    "monday",
+    "tuesday",
+    "wednesday",
+    "thursday",
+    "friday",
+    "saturday",
+    "sunday",
+  ];
+}
