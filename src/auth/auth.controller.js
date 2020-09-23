@@ -11,29 +11,35 @@ import {
 
 class AuthController {
   static async login(user) {
-    console.log(user);
-    const { code: email, password, hospital } = user;
+    const { email, password, hospital } = user;
+    console.log(email, hospital);
     try {
       const staff = await Staff.findOne({ email, hospital }).select(
         "+password"
       );
+      console.log(staff);
       if (!staff)
-        return badRequestError(
-          { request: "no record mathches the provided credentials" },
-          "login failure"
+        return Promise.resolve(
+          badRequestError(
+            { request: "no record mathches the provided credentials" },
+            "login failure"
+          )
         );
+      console.log(staff);
       const correctPassword = await compare(password, await staff.password);
 
       if (!(await correctPassword))
-        return badRequestError(
-          { request: "invalid login credentials" },
-          "login failure"
+        return Promise.resolve(
+          badRequestError(
+            { request: "invalid login credentials" },
+            "login failure"
+          )
         );
 
       const token = deriveToken(hospital, staff._id);
 
       //arrange data to be sent back
-      return {
+      return Promise.resolve({
         status: 200,
         result: {
           data: {
@@ -45,7 +51,7 @@ class AuthController {
           errors: null,
           message: "login successful",
         },
-      };
+      });
     } catch (err) {
       console.error("here", err);
       return serverError(err, "failed to log user in");

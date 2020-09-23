@@ -13,7 +13,7 @@ import { badRequestError } from "../../utilities";
 export default function loginValidator(req, res, next) {
   const errors = {};
   const data = {};
-  data.id = req.body.id ? req.body.id : "";
+  data.email = req.body.email ? req.body.email : "";
   data.hospital = req.body.hospital ? req.body.hospital : "";
   data.password = req.body.password ? req.body.password : "";
   const hasEmpty = Object.values(data).some((prop) => isEmpty(prop));
@@ -28,9 +28,9 @@ export default function loginValidator(req, res, next) {
   if (!validator.isMongoId(data.hospital)) {
     errors.hospital = "invalid hospital id";
   }
+  if (!isEmpty(errors)) return next(badRequestError(errors, "bad request"));
+  //data.id = data.id.toUpperCase();
 
-  if (!isEmpty(data)) return next(badRequestError(errors, "bad request"));
-  data.id = data.id.toUpperCase();
   req.body = serializeInput(data);
   next();
 }

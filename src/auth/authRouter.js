@@ -9,8 +9,8 @@ authRouter.post("/workspace", async (req, res) => {
 });
 authRouter.post("/login", loginValidator, async (req, res) => {
   const details = req.body;
-  const { status, data, errors, message } = await AuthController.login(details);
-  res.status(status).json({ data, errors, message });
+  const r = await AuthController.login(details);
+  res.status(r.status).json(r.result);
 });
 //authRouter.post("/logout",)
 export default authRouter;

@@ -1,147 +1,56 @@
-# Gorals User Hierachy System
+# Hello Markus
 
 An authentication based user system
 
-**Base URL** : https://aqueous-reef-54770.herokuapp.com/api
+**Base URL** : https://markus-dev.herokuapp.com/api
 
 # **Endpoints**
 
+### **POST** /auth/workspace (_verify workspace url_)
+
+##### Sample Request
+
+```
+{
+  "url": "gorals-africa"
+}
+```
+
+##### Sample Response
+
+```
+{
+    "data": {
+        "hospital": "5f6b2b2cc94a3e3ad4541740"
+    },
+    "errors": null,
+    "message": "workspace validation passed"
+}
+```
+
 ### **POST** /auth/login- log user in
 
-##### Request
+##### Sample Request
 
 ```
 {
-  "email": String,
-  "password": String,
+    "email":"emmanuel@dev.com",
+    "password": "password",
+    "hospital": "5f6b4f6e9096fe112b954a89"
 }
 ```
 
-##### Response
+##### Sample Response
 
 ```
 {
-  "message": String,
-  "token": Token
-}
-```
-
-# Admin Routes
-
-### **POST** /admins/users - gets all users
-
-##### Request
-
-```
-{}
-```
-
-##### Dummy Response
-
-```
-[
-  {
-    "firstName": String,
-    "lastName": String,
-    "email" : String,
-    "role": String,
-    "department": [
-      {
-        _id: String,
-        name: String
-      }
-    ]
-  }
-]
-```
-
-### **POST** /admin/user - creates a user
-
-##### Request
-
-```
-{
-  "email": String,
-  "firstName": String,
-  "lastName": String,
-  "role": "user" || "sub-admin",
-  "password": String,
-  "departmentId": Department ID
-}
-```
-
-##### Response
-
-```
-{
-  "message": String,
-  data: Object
-}
-```
-
-### **POST** /admins/users/:departments - gets all departments
-
-##### Request
-
-```
-{}
-```
-
-##### Dummy Response
-
-```
-[
-
-  {
-    _id: String,
-    name: String
-  }
-
-]
-```
-
-### **POST** /admins/users/:departmentId - gets all users in a department
-
-##### Request
-
-```
-{}
-```
-
-##### Dummy Response
-
-```
-[
-  {
-    "firstName": String,
-    "lastName": String,
-    "email" : String,
-    "role": String,
-    "department": [
-      {
-        _id: String,
-        name: String
-      }
-    ]
-  }
-]
-```
-
-### **POST** /admin/department - creates a department
-
-##### Request
-
-```
-{
-  "name": String,
-}
-```
-
-##### Response
-
-```
-{
-  "message": String,
-  data: Object
+    "data": {
+        "firstName": "Emmanuel",
+        "lastName": "chukwurah",
+        "email": "emmanuel@dev.com",
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJob3NwaXRhbCI6IjVmNmI0ZjZlOTA5NmZlMTEyYjk1NGE4OSIsInN0YWZmIjoiNWY2YjRmNmU5MDk2ZmUxMTJiOTU0YThhIiwiaWF0IjoxNjAwODY4NDI2fQ.NWOyynqG2wvCUXFa-ky_6dXwPHCM03JKzekiogOGQN4"
+    },
+    "errors": null,
+    "message": "login successful"
 }
 ```
