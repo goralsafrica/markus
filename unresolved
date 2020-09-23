@@ -41,3 +41,6 @@ list of possible payments in a hospital
             }
         }
     ]
+
+    // "build": "rm -rf build && babel . --out-dir build --ignore ./node_modules",
+    // "dev": "cross-env NODE_ENV=development nodemon --exec babel-node --experimental-modules server.js"
