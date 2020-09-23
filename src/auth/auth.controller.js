@@ -12,7 +12,6 @@ import {
 class AuthController {
   static async login(user) {
     const { email, password, hospital } = user;
-    console.log(email, hospital);
     try {
       const staff = await Staff.findOne({ email, hospital }).select(
         "+password"
@@ -25,7 +24,6 @@ class AuthController {
             "login failure"
           )
         );
-      console.log(staff);
       const correctPassword = await compare(password, await staff.password);
 
       if (!(await correctPassword))

@@ -26,7 +26,7 @@ var _utilities = require("../../utilities");
 function loginValidator(req, res, next) {
   var errors = {};
   var data = {};
-  data.id = req.body.id ? req.body.id : "";
+  data.email = req.body.email ? req.body.email : "";
   data.hospital = req.body.hospital ? req.body.hospital : "";
   data.password = req.body.password ? req.body.password : "";
   var hasEmpty = Object.values(data).some(function (prop) {
@@ -46,8 +46,8 @@ function loginValidator(req, res, next) {
     errors.hospital = "invalid hospital id";
   }
 
-  if (!(0, _isEmpty["default"])(data)) return next((0, _utilities.badRequestError)(errors, "bad request"));
-  data.id = data.id.toUpperCase();
+  if (!(0, _isEmpty["default"])(errors)) return next((0, _utilities.badRequestError)(errors, "bad request")); //data.id = data.id.toUpperCase();
+
   req.body = serializeInput(data);
   next();
 }

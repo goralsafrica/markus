@@ -51,8 +51,7 @@ authRouter.post("/workspace", /*#__PURE__*/function () {
 }());
 authRouter.post("/login", _middlewares.loginValidator, /*#__PURE__*/function () {
   var _ref2 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee2(req, res) {
-    var details, _yield$AuthController2, status, data, errors, message;
-
+    var details, r;
     return _regenerator["default"].wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
@@ -62,18 +61,10 @@ authRouter.post("/login", _middlewares.loginValidator, /*#__PURE__*/function () 
             return _auth["default"].login(details);
 
           case 3:
-            _yield$AuthController2 = _context2.sent;
-            status = _yield$AuthController2.status;
-            data = _yield$AuthController2.data;
-            errors = _yield$AuthController2.errors;
-            message = _yield$AuthController2.message;
-            res.status(status).json({
-              data: data,
-              errors: errors,
-              message: message
-            });
+            r = _context2.sent;
+            res.status(r.status).json(r.result);
 
-          case 9:
+          case 5:
           case "end":
             return _context2.stop();
         }

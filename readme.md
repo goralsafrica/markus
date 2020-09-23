@@ -21,7 +21,7 @@ An authentication based user system
 ```
 {
     "data": {
-        "hospital": "5f6b2b2cc94a3e3ad4541740"
+        "hospital": "5f6b49deeda0e2001ec6b7b6"
     },
     "errors": null,
     "message": "workspace validation passed"
@@ -36,7 +36,7 @@ An authentication based user system
 {
     "email":"emmanuel@dev.com",
     "password": "password",
-    "hospital": "5f6b4f6e9096fe112b954a89"
+    "hospital": "5f6b49deeda0e2001ec6b7b6"
 }
 ```
 

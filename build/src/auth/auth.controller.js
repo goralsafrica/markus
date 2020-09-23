@@ -39,26 +39,26 @@ var AuthController = /*#__PURE__*/function () {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                console.log(user);
-                email = user.code, password = user.password, hospital = user.hospital;
-                _context.prev = 2;
-                _context.next = 5;
+                email = user.email, password = user.password, hospital = user.hospital;
+                _context.prev = 1;
+                _context.next = 4;
                 return _Staff["default"].findOne({
                   email: email,
                   hospital: hospital
                 }).select("+password");
 
-              case 5:
+              case 4:
                 staff = _context.sent;
+                console.log(staff);
 
                 if (staff) {
                   _context.next = 8;
                   break;
                 }
 
-                return _context.abrupt("return", (0, _utilities.badRequestError)({
+                return _context.abrupt("return", Promise.resolve((0, _utilities.badRequestError)({
                   request: "no record mathches the provided credentials"
-                }, "login failure"));
+                }, "login failure")));
 
               case 8:
                 _context.t0 = _bcryptjs.compare;
@@ -82,14 +82,14 @@ var AuthController = /*#__PURE__*/function () {
                   break;
                 }
 
-                return _context.abrupt("return", (0, _utilities.badRequestError)({
+                return _context.abrupt("return", Promise.resolve((0, _utilities.badRequestError)({
                   request: "invalid login credentials"
-                }, "login failure"));
+                }, "login failure")));
 
               case 20:
                 token = (0, _utilities.deriveToken)(hospital, staff._id); //arrange data to be sent back
 
-                return _context.abrupt("return", {
+                return _context.abrupt("return", Promise.resolve({
                   status: 200,
                   result: {
                     data: {
@@ -101,11 +101,11 @@ var AuthController = /*#__PURE__*/function () {
                     errors: null,
                     message: "login successful"
                   }
-                });
+                }));
 
               case 24:
                 _context.prev = 24;
-                _context.t3 = _context["catch"](2);
+                _context.t3 = _context["catch"](1);
                 console.error("here", _context.t3);
                 return _context.abrupt("return", (0, _utilities.serverError)(_context.t3, "failed to log user in"));
 
@@ -114,7 +114,7 @@ var AuthController = /*#__PURE__*/function () {
                 return _context.stop();
             }
           }
-        }, _callee, null, [[2, 24]]);
+        }, _callee, null, [[1, 24]]);
       }));
 
       function login(_x) {
