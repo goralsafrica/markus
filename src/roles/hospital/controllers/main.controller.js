@@ -17,7 +17,8 @@ class HospitalController {
         name: user.hospitalName,
         email: user.hospitalEmail,
         phone: user.hospitalPhone,
-        slug: user.slug,
+        url: user.url,
+        code: user.hospitalCode,
       });
 
       // create staff and store as an admin

@@ -2,7 +2,12 @@ import { compare } from "bcryptjs";
 import Hospital from "../roles/hospital/models/Hospital";
 import Patient from "../roles/patient/models/Patient";
 import Staff from "../roles/staff/models/Staff";
-import { deriveToken, serverError, badRequestError } from "../utilities";
+import {
+  deriveToken,
+  serverError,
+  badRequestError,
+  successMessage,
+} from "../utilities";
 
 class AuthController {
   static async login(user) {
@@ -44,6 +49,29 @@ class AuthController {
     } catch (err) {
       console.error("here", err);
       return serverError(err, "failed to log user in");
+    }
+  }
+
+  static async verifyWorkspace(url) {
+    try {
+      const hospital = await Hospital.findOne({ url });
+      if (!hospital)
+        return badRequestError(
+          { url: "url not found" },
+          "failed to login to workspace"
+        );
+      return successMessage(
+        { hospital: hospital._id },
+        "workspace validation passed"
+      );
+    } catch (err) {
+      console.error(err);
+      return serverError(
+        {
+          request: "server failed to respond",
+        },
+        "failed to login to workspace"
+      );
     }
   }
 }

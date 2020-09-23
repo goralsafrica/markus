@@ -1,5 +1,5 @@
 import { verifyToken } from "../../utilities";
-export default async function verifyUser(req, res, next) {
+export async function verifyUser(req, res, next) {
   const token = req.headers.authorization
     ? req.headers.authorization.split(" ").pop()
     : "0918ytfcvbnjuytrbnkuytrdcv";

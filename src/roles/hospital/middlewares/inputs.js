@@ -47,7 +47,7 @@ export function registerValidator(req, res, next) {
       : "";
   }
   if (!isEmpty(errors))
-    res.send(badRequestError(errors, "failed to create new enviroment"));
+    return res.send(badRequestError(errors, "failed to create new enviroment"));
 
   req.body = sanitize(validator, data);
   next();

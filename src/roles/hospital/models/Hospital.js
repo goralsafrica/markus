@@ -16,13 +16,14 @@ const hospitalSchema = Schema(
       type: String,
       required: true,
     },
-    slug: {
+    url: {
       type: String,
       unique: true,
     },
     code: {
       type: String,
       unique: true,
+      required: true,
     },
     departments: [{ type: Schema.Types.ObjectId, ref: "Department" }],
   },

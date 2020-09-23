@@ -1,3 +1,4 @@
 node_modules
 .env
+build
 node-push-notifications-firebase-adminsdk-sev23-f0f7c3bc3b.json

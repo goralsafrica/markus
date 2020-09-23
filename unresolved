@@ -1,3 +1,43 @@
 e prescription api
 schema for prescription
 list of possible payments in a hospital
+
+
+"periods":[
+        {
+            "start":{
+                "hour": "8",
+                "minute": "00",
+                "second": "00"
+            },
+            "end":{
+                "hour":"10",
+                "minute":"45",
+                "second":"00"
+            }
+        },
+        {
+            "start":{
+                "hour": "10",
+                "minute": "00",
+                "second": "00"
+            },
+            "end":{
+                "hour":"13",
+                "minute":"45",
+                "second":"00"
+            }
+        },
+        {
+            "start":{
+                "hour": "14",
+                "minute": "00",
+                "second": "00"
+            },
+            "end":{
+                "hour":"16",
+                "minute":"45",
+                "second":"00"
+            }
+        }
+    ]

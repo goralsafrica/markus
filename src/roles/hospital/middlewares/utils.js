@@ -6,6 +6,6 @@ export async function generateCodes(req, res, next) {
     hospital[0] + hospital[1] + hospital[2] + Math.floor(Math.random() * 101);
   const exists = await Hospital.exists({ code });
   if (exists) return generateCodes(req, res, next);
-  req.body.hospitalCode = code;
+  req.body.hospitalCode = code.toUpperCase();
   next();
 }

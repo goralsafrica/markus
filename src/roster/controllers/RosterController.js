@@ -1,15 +1,18 @@
-import Roster from "../model/Roster";
+import Roster from "../model/HospitalRoster";
 import { serverError, badRequestError, successMessage } from "../../utilities";
 
 class RosterController {
   static async create({ credentials, body }) {
     body.hospital = credentials.hospital;
-    const structure = Array(7).fill(Array(body.periods.length).fill([]));
-    body.roster = structure;
-    // return body;
+    const roster = {};
+    roster.monday = {};
+    // roster.monday[body.hospital] = [body.hospital, body.hospital];
+    body.roster = roster;
     try {
-      const roster = await Roster.create(body);
-      return successMessage(roster, "hospital roster has been created");
+      const newRoster = new Roster(body);
+      newRoster.roster.monday.set(body.hospital, "emeka");
+      if (await newRoster.save())
+        return successMessage(newRoster, "hospital roster has been created");
     } catch (err) {
       console.log(err);
       return serverError(

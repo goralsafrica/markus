@@ -34,7 +34,6 @@ export default function loginValidator(req, res, next) {
   req.body = serializeInput(data);
   next();
 }
-
 function serializeInput(data) {
   for (const prop in data) {
     data[prop] = validator.trim(data[prop]);
