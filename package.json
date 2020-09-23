@@ -6,7 +6,7 @@
   "scripts": {
     "start": "cross-env NODE_ENV=test node server.js",
     "test": "",
-    "build": "ls -a && rm -rf build && babel . --out-dir build --ignore ./node_modules",
+    "build": "cat package.json && rm -rf build && babel . --out-dir build --ignore ./node_modules --presets @babel/preset-react",
     "dev": "cross-env NODE_ENV=development nodemon --exec babel-node --experimental-modules server.js"
   },
   "engines": {
