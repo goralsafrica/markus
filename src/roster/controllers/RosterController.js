@@ -22,8 +22,9 @@ class RosterController {
     newHospitalRoster.hospital = credentials.hospital;
     newHospitalRoster.staffRoster = newStaffRoster._id;
     newHospitalRoster.shifts = body.shifts;
+    newHospitalRoster.valid = body.valid;
     try {
-      const [h, s] = await Promise.resolve([
+      const [h, s] = await Promise.all([
         newHospitalRoster.save(),
         newStaffRoster.save(),
       ]);
@@ -45,7 +46,7 @@ class RosterController {
     }
   }
 
-  static async findOne({ hospital }) {
+  static async findAll({ hospital }) {
     try {
       const roster = await HospitalRoster.find({ hospital }).populate({
         path: "staffRoster",
@@ -66,6 +67,49 @@ class RosterController {
           request: "invalid hospital id",
         },
         "failed to fetch hospital roster"
+      );
+    }
+  }
+
+  static async findCurrent({ hospital }) {
+    try {
+      const time = Date.now();
+      const currentRoster = await HospitalRoster.findOne({
+        "valid.start": {
+          $lte: time,
+        },
+        "valid.stop": {
+          $gte: time,
+        },
+        hospital,
+      }).populate({
+        path: "staffRoster",
+        model: "HospitalStaffRoster",
+      });
+      return successMessage(
+        currentRoster,
+        "hosital roster for the week has been fetched"
+      );
+    } catch (err) {
+      return serverError(
+        {
+          request: "invalid request",
+        },
+        "failed to fetch current roster"
+      );
+    }
+  }
+
+  static async findOne({ id }) {
+    try {
+      const roster = await HospitalRoster.findById(id);
+      return successMessage(roster, "hospital roster found");
+    } catch (err) {
+      return serverError(
+        {
+          request: "invalid roster id",
+        },
+        "failed to fetch roster"
       );
     }
   }

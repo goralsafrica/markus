@@ -51,8 +51,14 @@ const RosterSchema = new Schema(
       required: true,
     },
     valid: {
-      type: [Date],
-      required: false,
+      start: {
+        type: Number,
+        required: true,
+      },
+      stop: {
+        type: Number,
+        required: true,
+      },
     },
     openingDays: {
       type: [],

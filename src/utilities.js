@@ -41,14 +41,14 @@ export function serverError(error, message) {
  */
 
 export function badRequestError(errors, message) {
-  return {
+  return Promise.resolve({
     status: 400,
     result: {
       data: null,
       errors,
       message,
     },
-  };
+  });
 }
 
 /**
@@ -58,14 +58,14 @@ export function badRequestError(errors, message) {
  */
 
 export function successMessage(data, message) {
-  return {
+  return Promise.resolve({
     status: 200,
     result: {
       data,
       errors: null,
       message,
     },
-  };
+  });
 }
 
 export function sanitize(validator, data) {

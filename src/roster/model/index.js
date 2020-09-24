@@ -1,4 +1,4 @@
 import HospitalRoster from "./HospitalRoster";
-import HospitalStaffRouter from "./HospitalStaffRoster";
+import HospitalStaffRoster from "./HospitalStaffRoster";
 
-export { HospitalRoster, HospitalStaffRouter };
+export { HospitalRoster, HospitalStaffRoster };
