@@ -1,5 +1,6 @@
 import validator from "validator";
 import isEmpty from "is-empty";
+import { sanitize } from "../../../utilities";
 
 export function registerBranchValidator(req, res, next) {
   const errors = {};
@@ -37,6 +38,31 @@ export function registerBranchValidator(req, res, next) {
     data.departments.some((d) => !validator.isMongoId(d))
       ? (errors.departments = "invalid department id")
       : "";
+  } else {
+    data.departments = [];
   }
-  console.log(errors);
+
+  if (!isEmpty(errors)) {
+    return res.status(400).json({
+      data: null,
+      errors,
+      message: "failed to create bew branch",
+    });
+  }
+  const others = sanitize(validator, {
+    city: data.city,
+    address: data.address,
+    state: data.state,
+    phone: data.phone,
+    email: data.email,
+    branchName: data.branchName,
+    country: data.country,
+  });
+  data.departments.forEach((element) => {
+    validator.trim(element);
+    validator.escape(element);
+    return element;
+  });
+  req.body = data;
+  next();
 }

@@ -4,7 +4,7 @@ import { BranchController } from "../controllers/";
 const branchRouter = express.Router();
 
 //gets the details of a particular hospital
-branchRouter.post("/", registerBranchValidator, BranchController.create);
+branchRouter.post("/", registerBranchValidator, async () => {});
 branchRouter.get("/", BranchController.findAll);
 branchRouter.get("/:id", BranchController.findOne);
 branchRouter.put("/:id", BranchController.update);
