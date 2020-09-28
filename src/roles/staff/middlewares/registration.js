@@ -38,6 +38,18 @@ export async function createStaffValidator(req, res, next) {
     errors.firstName = "Invalid first name";
   }
 
+  if (validator.isMongoId(String(req.body.role))) {
+    data.role = req.body.role;
+  } else {
+    errors.role = "invalid role id";
+  }
+
+  if (validator.isMongoId(String(req.body.department))) {
+    data.department = req.body.department;
+  } else {
+    errors.department = "invalid department id";
+  }
+
   if (validator.isEmpty(data.lastName) || !validator.isAlpha(data.lastName)) {
     errors.lastName = "Invalid last name";
   }
@@ -46,12 +58,12 @@ export async function createStaffValidator(req, res, next) {
     errors.phone = "Invalid phone number";
   }
   if (!isEmpty(errors))
-    res.status(400).json({
+    return res.status(400).json({
       data: null,
       errors,
       message: "failed to create new user",
     });
-  next();
+  return next();
 }
 
 export async function checkIfStaffExists(req, res, next) {
@@ -84,8 +96,9 @@ export async function checkIfStaffExists(req, res, next) {
 
 export async function generateStaffCode(req, res, next) {
   try {
-    const staffs = await generate(Staff, req.credentials.hospital);
-    console.log(staffs);
+    const code = await generate(Staff, req.credentials.hospital);
+    req.body.code = code;
+    next();
   } catch (err) {
     return next({
       status: 400,

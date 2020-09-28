@@ -1,19 +1,19 @@
 import Staff from "../../staff/models/Staff";
-import validator from "validator";
+import Role from "../../staff/models/Role";
+import { serverError, successMessage } from "../../../utilities";
 import { hashSync } from "bcryptjs";
 class HospitalStaffController {
-  static async create(req, res, next) {
+  static async create(req) {
     const {
       firstName,
       lastName,
       email,
       password,
       phone,
-      branches,
+      branches = [],
       role,
+      code,
       department,
-      credentials,
-      administrativeRole,
     } = req.body;
     try {
       const hash = hashSync(password, 10);
@@ -21,44 +21,45 @@ class HospitalStaffController {
         firstName,
         lastName,
         email,
+        code,
         password: hash,
         phone,
         branches,
         department,
         role,
-        administrativeRole,
-        hospital: credentials.hospital,
+        hospital: req.credentials.hospital,
       });
       if (!data) throw new Error("failed to update db");
-      res.send({
-        data,
-        errors: null,
-        message: "new staff creation success !",
-      });
+      return successMessage(data, "new staff created");
     } catch (err) {
       console.error(err);
-      next([500, [err], "failed to create staff"]);
+      return serverError(
+        {
+          request: "server failed to respond :(",
+        },
+        "failed to create new staff"
+      );
     }
   }
 
-  static async findAll(req, res, next) {
+  static async findAll(req) {
     try {
+      console.log(await Role.find());
       const data = await Staff.find({
-        hospital: req.body.credentials.hospital,
+        hospital: req.credentials.hospital,
         priviledged: 0,
       })
         .select("-hospital")
         .populate("department")
         .populate("branches")
         .populate("role", "-category");
-      res.send({
-        data,
-        errors: null,
-        message: "staff fetched",
-      });
+      return successMessage(data, "hospital staff list retrieved");
     } catch (err) {
       console.error(err);
-      next([500, ["failed to fetch"], "failed request"]);
+      return serverError(
+        { request: "server failed to respond" },
+        "failed to fetch staff"
+      );
     }
   }
 

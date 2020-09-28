@@ -57,12 +57,12 @@ const StaffSchema = new Schema({
   role: {
     type: Schema.Types.ObjectId,
     ref: "Role",
-    required: false,
+    required: true,
   },
   department: {
     type: Schema.Types.ObjectId,
     ref: "Department",
-    required: false,
+    required: true,
   },
   branches: [{ type: Schema.Types.ObjectId, ref: "Branch" }],
 });
