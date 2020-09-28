@@ -76,33 +76,3 @@ export function updateHospitalValidator(req, res, next) {
   req.body = sanitize(validator, data);
   next();
 }
-
-export function registerBranchValidator(req, res, next) {
-  const errors = [];
-  const data = {};
-
-  data.address = !isEmpty(req.body.address) ? req.body.address : "";
-  data.city = !isEmpty(req.body.city) ? req.body.city : "";
-  data.state = !isEmpty(req.body.state) ? req.body.state : "";
-  data.country = !isEmpty(req.body.country) ? req.body.country : "";
-  // check for empty fields
-  Object.values(data).some((val) => isEmpty(val))
-    ? errors.push("All fields are required")
-    : "";
-  if (!errors.length) {
-    // VALIDATION RULES
-    [data.country, data.city, data.state].some(
-      (val) => !validator.isAlpha(validator.blacklist(val, [" ", "-"]))
-    )
-      ? errors.push("invalid name(s)")
-      : "";
-  }
-  if (errors.length)
-    return res.status(400).send({
-      data: null,
-      errors,
-      message: "hospital branch creation failed",
-    });
-  req.body = sanitize(validator, data);
-  next();
-}
