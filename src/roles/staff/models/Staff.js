@@ -53,6 +53,7 @@ const StaffSchema = new Schema({
   role: {
     type: Schema.Types.ObjectId,
     ref: "Role",
+    required: false,
   },
   department: {
     type: Schema.Types.ObjectId,

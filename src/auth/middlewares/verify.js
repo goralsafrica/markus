@@ -1,18 +1,15 @@
-import { verifyToken } from "../../utilities";
+import { verifyToken, unAuthorizedRequestError } from "../../utilities";
 export async function verifyUser(req, res, next) {
-  const token = req.headers.authorization
-    ? req.headers.authorization.split(" ").pop()
-    : "0918ytfcvbnjuytrbnkuytrdcv";
+  if (!req.headers.authorization) {
+    return next(unAuthorizedRequestError());
+  }
+  const token = req.headers.authorization.split(" ").pop();
   try {
     const data = await verifyToken(token);
+    if (!data) return unAuthorizedRequestError();
     req.credentials = data;
     next();
   } catch (err) {
-    console.error("ehn", err);
-    return next({
-      status: 401,
-      errors: { request: "invalid credentials" },
-      message: "unauthorized request",
-    });
+    return next(unAuthorizedRequestError());
   }
 }

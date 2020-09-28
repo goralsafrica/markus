@@ -3,6 +3,7 @@ import Hospital from "../../hospital/models/Hospital";
 import Staff from "../models/Staff";
 import validator from "validator";
 import isEmpty from "is-empty";
+import { badRequestError } from "../../../utilities";
 
 /**
  *
@@ -12,7 +13,7 @@ import isEmpty from "is-empty";
  *
  * @desc validates lmao inputs. sends errors and stops current endpoint work if any.
  */
-export async function inputValidator(req, res, next) {
+export async function createStaffValidator(req, res, next) {
   const errors = {};
   const data = req.body;
 
@@ -34,13 +35,11 @@ export async function inputValidator(req, res, next) {
   }
 
   if (!isEmpty(errors))
-    return res.status(400).json({
-      data: null,
-      errors: Object.values(errors),
-      message: "failed to create user",
-    });
+    return next(badRequestError(errors, "failed to create new staff"));
 
-  next();
+  console.log("data :", data);
+  console.log("errors :", errors);
+  //next();
 }
 
-export async function staffChecker(req, res, next) {}
+export async function checkIfStaffExists(req, res, next) {}

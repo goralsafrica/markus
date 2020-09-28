@@ -1,5 +1,4 @@
-import registerValidator from "./registration";
+import { createStaffValidator } from "./registration";
+import verifyStaff from "./auth";
 
-export default {
-  registerValidator,
-};
+export { createStaffValidator, verifyStaff };

@@ -51,6 +51,16 @@ export function badRequestError(errors, message) {
   });
 }
 
+export function unAuthorizedRequestError(message) {
+  return {
+    status: 401,
+    errors: {
+      request: "request was made with invalid credentials",
+    },
+    message: "failed to fulfill request",
+  };
+}
+
 /**
  *
  * @param {} data object containing the data

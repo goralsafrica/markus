@@ -3,20 +3,19 @@ import { Router } from "express";
 import hospitalRouter from "./hospital/routes";
 // import branchRouter from "./branch/routes";
 // import departmentRouter from "./department/routes";
-// import staffRouter from "./staff/staffRouter";
+import staffRouter from "./staff/staffRouter";
 // import patientRouter from "./patient/router";
-// import * as authMiddleware from "./auth/auth.middleware";
-// import verifyStaff from "./staff/middlewares/auth";
+import { verifyUser } from "../auth/middlewares";
+import { verifyStaff } from "./staff/middlewares";
 const rolesRouter = Router();
-
 rolesRouter.get("/", (req, res) => {
   res.json({
     message: "welcome to the roles module",
   });
 });
 rolesRouter.use("/hospital", hospitalRouter);
-// //apiRouter.use(authMiddleware.verifyToken, verifyStaff);
-// apiRouter.use("/staff", staffRouter);
+rolesRouter.use(verifyUser, verifyStaff);
+//rolesRouter.use("/staff", staffRouter);
 // apiRouter.use("/department", departmentRouter);
 // apiRouter.use("/branch", branchRouter);
 // apiRouter.use("/hospital", hospitalRouter);
