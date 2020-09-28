@@ -1,13 +1,18 @@
 import express from "express";
 import { StaffController } from "../controllers/";
-import { createStaffValidator } from "../../staff/middlewares";
+import {
+  createStaffValidator,
+  checkIfStaffExists,
+  generateStaffCode,
+} from "../../staff/middlewares";
 const staffRouter = express.Router();
 
 //gets the details of a particular hospital
 staffRouter.post(
   "/",
-  createStaffValidator
-  //Middlewares.staffChecker,
+  createStaffValidator,
+  checkIfStaffExists,
+  generateStaffCode
   //async (req, res) => {}
   //StaffController.create
 );

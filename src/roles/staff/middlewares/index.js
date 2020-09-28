@@ -1,4 +1,13 @@
-import { createStaffValidator } from "./registration";
+import {
+  createStaffValidator,
+  checkIfStaffExists,
+  generateStaffCode,
+} from "./registration";
 import verifyStaff from "./auth";
 
-export { createStaffValidator, verifyStaff };
+export {
+  createStaffValidator,
+  checkIfStaffExists,
+  verifyStaff,
+  generateStaffCode,
+};

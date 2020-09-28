@@ -3,8 +3,10 @@ import Hospital from "../../hospital/models/Hospital";
 import Staff from "../models/Staff";
 import validator from "validator";
 import isEmpty from "is-empty";
-import { badRequestError } from "../../../utilities";
-
+import {
+  badRequestError,
+  generateStaffCode as generate,
+} from "../../../utilities";
 /**
  *
  * @param req
@@ -15,12 +17,14 @@ import { badRequestError } from "../../../utilities";
  */
 export async function createStaffValidator(req, res, next) {
   const errors = {};
-  const data = req.body;
+  const data = {};
 
-  data.email = !isEmpty(data.email) ? data.email : "";
-  data.name = !isEmpty(data.name) ? data.name : "";
-  data.hospital = !isEmpty(data.hospital) ? data.hospital : "";
-  data.password = !isEmpty(data.password) ? data.password : "";
+  data.email = !isEmpty(req.body.email) ? req.body.email : "";
+  data.phone = !isEmpty(req.body.phone) ? req.body.phone : "";
+  data.firstName = !isEmpty(req.body.firstName) ? req.body.firstName : "";
+  data.lastName = !isEmpty(req.body.lastName) ? req.body.lastName : "";
+  data.email = !isEmpty(req.body.email) ? req.body.email : "";
+  data.password = !isEmpty(req.body.password) ? req.body.password : "";
 
   if (validator.isEmpty(data.email) || !validator.isEmail(data.email)) {
     errors.email = "invalid email";
@@ -30,16 +34,65 @@ export async function createStaffValidator(req, res, next) {
     errors.password = "password is required";
   }
 
-  if (validator.isEmpty(data.hospital)) {
-    errors.password = "Invalid credentials";
+  if (validator.isEmpty(data.firstName) || !validator.isAlpha(data.firstName)) {
+    errors.firstName = "Invalid first name";
   }
 
-  if (!isEmpty(errors))
-    return next(badRequestError(errors, "failed to create new staff"));
+  if (validator.isEmpty(data.lastName) || !validator.isAlpha(data.lastName)) {
+    errors.lastName = "Invalid last name";
+  }
 
-  console.log("data :", data);
-  console.log("errors :", errors);
-  //next();
+  if (validator.isEmpty(data.phone) || !validator.isMobilePhone(data.phone)) {
+    errors.phone = "Invalid phone number";
+  }
+  if (!isEmpty(errors))
+    res.status(400).json({
+      data: null,
+      errors,
+      message: "failed to create new user",
+    });
+  next();
 }
 
-export async function checkIfStaffExists(req, res, next) {}
+export async function checkIfStaffExists(req, res, next) {
+  const { email, phone } = req.body;
+  try {
+    const exists = await Staff.exists({
+      $or: [{ email }, { phone }],
+      hospital: req.credentials.hospital,
+    });
+    if (exists)
+      return res.status(400).json({
+        data: null,
+        errors: {
+          request:
+            "a staff with these credentials already exists in this hospital",
+        },
+        message: "failed to create new staff",
+      });
+    next();
+  } catch (err) {
+    return next({
+      status: 400,
+      errors: {
+        request: "failed to process request",
+      },
+      message: "failed to create new staff",
+    });
+  }
+}
+
+export async function generateStaffCode(req, res, next) {
+  try {
+    const staffs = await generate(Staff, req.credentials.hospital);
+    console.log(staffs);
+  } catch (err) {
+    return next({
+      status: 400,
+      errors: {
+        request: "failed to process request",
+      },
+      message: "failed to create new staff",
+    });
+  }
+}
