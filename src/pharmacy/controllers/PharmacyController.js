@@ -36,6 +36,25 @@ class PharmacyController {
       );
     }
   }
+
+  static async updateStatus(req) {
+    try {
+      //fetch prescription of a sesssion open
+      const data = await Prescription.findByIdAndUpdate(
+        req.params.prescriptionid,
+        { collected: 1 }
+      );
+      return successMessage(data, "patient session prescription retrieved");
+    } catch (err) {
+      console.error(err);
+      return serverError(
+        {
+          request: "unable to fulfill request",
+        },
+        "failed to retrieve drug collection waiting list"
+      );
+    }
+  }
 }
 
 export default PharmacyController;

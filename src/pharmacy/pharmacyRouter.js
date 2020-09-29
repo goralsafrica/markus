@@ -13,4 +13,10 @@ pharmacyRouter.get("/prescription/:sessionid", async (req, res) => {
   res.status(status).json(result);
 });
 
+pharmacyRouter.put("/prescription/:sessionid", async (req, res) => {
+  const { status, result } = await PharmacyController.updateStatus(req);
+  res.status(status).json(result);
+});
+
+pharmacyRouter;
 export default pharmacyRouter;
