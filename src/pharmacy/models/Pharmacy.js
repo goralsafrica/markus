@@ -31,17 +31,10 @@ const DrugSchema = new Schema({
 });
 
 const DrugCategorySchema = new Schema(
-  {
-    name: {
-      type: String,
-      required: true,
-    },
-    drugs: {
-      type: [DrugSchema],
-    },
-  },
+  {},
   {
     timestamps: true,
+    strict: false,
   }
 );
 
@@ -51,12 +44,15 @@ const PharmacySchema = new Schema(
       type: Schema.Types.ObjectId,
       required: true,
     },
-    categories: {
-      type: DrugCategorySchema,
+    drugs: {
+      type: Schema.Types.Mixed,
+      default: {},
     },
   },
   {
     timestamps: true,
+    minimize: false,
+    strict: false,
   }
 );
 

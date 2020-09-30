@@ -40,6 +40,27 @@ class PharmacyController {
       );
     }
   }
+
+  static async updateStore(req) {
+    try {
+      const data = await Pharmacy.findOneAndUpdate(
+        { branch: req.params.branchid },
+        req.body,
+        {
+          new: true,
+        }
+      );
+      return successMessage(data, "branch pharmacy stock has been updated");
+    } catch (err) {
+      console.log(message);
+      return serverError(
+        {
+          request: "server failed to respond",
+        },
+        "failed to update branch pharmacy stock"
+      );
+    }
+  }
 }
 
 export default PharmacyController;
