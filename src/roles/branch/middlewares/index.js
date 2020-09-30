@@ -1,4 +1,4 @@
-import { verifyHeadOfBranch } from "./verify";
+import { verifyHeadOfBranch, verifyBranchInHospital } from "./verify";
 import { registerBranchValidator } from "./register";
 
-export { verifyHeadOfBranch, registerBranchValidator };
+export { verifyHeadOfBranch, verifyBranchInHospital, registerBranchValidator };
