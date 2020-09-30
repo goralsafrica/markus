@@ -8,11 +8,8 @@ const pharmacyRouter = Router();
 pharmacyRouter.use(verifyUser, verifyAdmin);
 
 pharmacyRouter.post("/", verifyBranchInHospital, async (req, res) => {
-  const r = await PharmacyController.createStore(req);
-});
-pharmacyRouter.get("/", async (req, res) => {
-  return res.send(req.credentials);
-  // const {} = await PharmacyController.createStore;
+  const { status, result } = await PharmacyController.createStore(req);
+  return res.status(status).json(result);
 });
 pharmacyRouter.get("/prescription", async (req, res) => {
   const { status, result } = await PrescriptionController.getWaitingList(req);
@@ -27,6 +24,11 @@ pharmacyRouter.get("/prescription/:sessionid", async (req, res) => {
 pharmacyRouter.put("/prescription/:sessionid", async (req, res) => {
   const { status, result } = await PrescriptionController.updateStatus(req);
   res.status(status).json(result);
+});
+
+pharmacyRouter.get("/:branchid", async (req, res) => {
+  const { status, result } = await PharmacyController.getStore(req);
+  return res.status(status).json(result);
 });
 
 pharmacyRouter;

@@ -1,15 +1,49 @@
 import { Schema, model } from "mongoose";
 
-const DrugStockSchema = new Schema({
+const DrugSchema = new Schema({
   name: {
     type: String,
     required: true,
   },
-  description: {
-    type: String,
-    required: false,
+  description: String,
+  ageRange: {
+    minimum: {
+      type: Number,
+      required: true,
+    },
+    maximum: {
+      type: Number,
+      required: true,
+    },
+  },
+  mg: {
+    type: Number,
+    required: true,
+  },
+  price: {
+    type: Number,
+    required: true,
+  },
+  amount: {
+    type: Number,
+    required: true,
   },
 });
+
+const DrugCategorySchema = new Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+    },
+    drugs: {
+      type: [DrugSchema],
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
 
 const PharmacySchema = new Schema(
   {
@@ -17,7 +51,9 @@ const PharmacySchema = new Schema(
       type: Schema.Types.ObjectId,
       required: true,
     },
-    drugs: [DrugStockSchema],
+    categories: {
+      type: DrugCategorySchema,
+    },
   },
   {
     timestamps: true,
