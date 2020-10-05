@@ -11,7 +11,13 @@ export async function verifyAdmin(req, res, next) {
       existingStaff.role.name != "admin" ||
       existingStaff.priviledged !== 1
     )
-      return next([401, ["permission denied"], "unauthorized request"]);
+      return next({
+        status: 401,
+        errors: {
+          request: "permission denied",
+        },
+        message: "unauthorized request",
+      });
     next();
   } catch (err) {
     console.error(err);
