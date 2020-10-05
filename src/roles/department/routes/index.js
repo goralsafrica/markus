@@ -4,7 +4,7 @@ import { verifyHOD } from "../middlewares";
 import staffRouter from "./staff.router";
 
 const departmentRouter = Router();
-departmentRouter.use(verifyHOD);
+//departmentRouter.use(verifyHOD);
 departmentRouter.use("/staff", staffRouter);
 departmentRouter.use("/", mainRouter);
 

@@ -25,6 +25,15 @@ class DepartmentController {
       return next([500, ["server failed to respond"], "failed request"]);
     }
   }
+
+  static async create(req, res, next) {
+    // let { branch, department } = req.staff.administrativeRole;
+    try {
+      await console.log(require("mongoose").models);
+    } catch (err) {
+      console.error(err);
+    }
+  }
 }
 
 export default DepartmentController;

@@ -1,65 +1,48 @@
-import DepartmentController from "../src/hospital/controllers/department.controller";
+//const Department = require("../src/roles/department/models/Department");
+const departments = [
+  "Accident and emergency",
+  "Anesthetics",
+  "Breast screening",
+  "Cardiology",
+  "Chaplaincy",
+  "Critical care",
+  "Diagnostic imaging",
+  "Discharge lounge",
+  "Front desk",
+  "Ear nose and throat (ENT)",
+  "Elderly services",
+  "Gastroenterology",
+  "General surgery",
+  "Gynaecology",
+  "Haematology",
+  "Management",
+  "Maternity departments",
+  "Microbiology",
+  "Neonatal unit",
+  "Nephrology",
+  "Neurology",
+  "Nutrition and dietetics",
+  "Obstetrics and gynaecology units",
+  "Occupational therapy",
+  "Oncology",
+  "Ophthalmology",
+  "Orthopaedics",
+  "Pain management clinics",
+  "Pharmacy",
+  "Physiotherapy",
+  "Radiotherapy",
+  "Renal unit",
+  "Rheumatology",
+  "sexual health (genitourinary medicine)",
+  "Urology",
+  "Finance",
+  "Procurement",
+  "Repair & Maintenance",
+  "Information Technology",
+];
 
-import Department from "../src/department/department.model";
-//import DepartmentController from "../src/hospital/controllers/department.controller";
-// const departments = [
-//   "Accident and emergency",
-//   "Anesthetics",
-//   "Breast screening",
-//   "Cardiology",
-//   "Chaplaincy",
-//   "Critical care",
-//   "Diagnostic imaging",
-//   "Discharge lounge",
-//   "Ear nose and throat (ENT)",
-//   "Elderly services",
-//   "Gastroenterology",
-//   "General surgery",
-//   "Gynaecology",
-//   "Haematology",
-//   "Maternity departments",
-//   "Microbiology",
-//   "Neonatal unit",
-//   "Nephrology",
-//   "Neurology",
-//   "Nutrition and dietetics",
-//   "Obstetrics and gynaecology units",
-//   "Occupational therapy",
-//   "Oncology",
-//   "Ophthalmology",
-//   "Orthopaedics",
-//   "Pain management clinics",
-//   "Pharmacy",
-//   "Physiotherapy",
-//   "Radiotherapy",
-//   "Renal unit",
-//   "Rheumatology",
-//   "sexual health (genitourinary medicine)",
-//   "Urology",
-//   "Finance",
-//   "Procurement",
-//   "Repair & Maintenance",
-//   "Information Technology",
-// ];
-
-export default function createMultiple(req, res) {
-  //   const body = [];
-  //   roles.forEach((role) => {
-  //     body.push({
-  //       name: role,
-  //     });
-  //   });
-
-  //   console.log(body);
-  //   Deparment.create({
-  //     name
-  //   })
-  //     .then((res) => console.log(res))
-  //     .catch((er) => console.error(er));
-  // console.log("here");
-  // console.log(Department);
-  console.log(Department);
-  Department.create({
-    name: "management",
-  }).then((d) => console.log(d));
-}
+module.exports = function createMultiple(Department, req, res) {
+  Department.create(departments)
+    .then((d) => console.log(d))
+    .catch((err) => console.log(err));
+};

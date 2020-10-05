@@ -11,5 +11,4 @@ const DepartmentSchema = new Schema(
     timestamps: true,
   }
 );
-
 export default model("Department", DepartmentSchema);

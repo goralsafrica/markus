@@ -1,5 +1,6 @@
 import Staff from "../../staff/models/Staff";
-import Role from "../../staff/models/Role";
+// import Department from "../../department/models/Department";
+// import Role from "../../staff/models/Role";
 import { serverError, successMessage } from "../../../utilities";
 import { hashSync } from "bcryptjs";
 class HospitalStaffController {
@@ -44,22 +45,23 @@ class HospitalStaffController {
 
   static async findAll(req) {
     try {
-      console.log(await Role.find());
+      console.log(await require("mongoose").models);
       const data = await Staff.find({
         hospital: req.credentials.hospital,
         priviledged: 0,
       })
         .select("-hospital")
-        .populate("department")
+        // .populate("department")
+        .populate({
+          path: "department",
+          model: "Department",
+        })
         .populate("branches")
         .populate("role", "-category");
-      return successMessage(data, "hospital staff list retrieved");
+      // return successMessage(data, "hospital staff list retrieved");
     } catch (err) {
       console.error(err);
-      return serverError(
-        { request: "server failed to respond" },
-        "failed to fetch staff"
-      );
+      return serverError({ request: err.message }, "failed to fetch staff");
     }
   }
 
