@@ -1,12 +1,14 @@
 //IMPORT MOODULES
-import Hospital from "../../hospital/models/Hospital";
-import Staff from "../models/Staff";
 import validator from "validator";
 import isEmpty from "is-empty";
+import Joi from "joi";
+Joi.objectId = require("joi-objectid")(Joi);
 import {
   badRequestError,
   generateStaffCode as generate,
 } from "../../../utilities";
+import Hospital from "../../hospital/models/Hospital";
+import Staff from "../models/Staff";
 /**
  *
  * @param req
@@ -109,3 +111,8 @@ export async function generateStaffCode(req, res, next) {
     });
   }
 }
+
+const updateStaffSchema = Joi.object().keys({
+  department: Joi.objectId(),
+});
+export async function updateStaffDetailsValidator(req, res, next) {}

@@ -22,7 +22,15 @@ staffRouter.get("/", async (req, res) => {
   const { status, result } = await StaffController.findAll(req);
   res.status(status).json(result);
 });
-// staffRouter.get("/:id", StaffController.findOne);
+staffRouter.get("/:staffid", async (req, res) => {
+  const { status, result } = await StaffController.findOne(req);
+  res.status(status).json(result);
+});
+
+staffRouter.put("/:staffid", async (req, res) => {
+  const { status, result } = await StaffController.update(req);
+  res.status(status).json(result);
+});
 // staffRouter.put("/:staffid", StaffController.update);
 // staffRouter.delete("/:staffid", StaffController.delete); // remove from hospital
 // staffRouter.delete("/:branchid/:staffid", StaffController.remove); // remove from hospital

@@ -1,6 +1,6 @@
 import Staff from "../../staff/models/Staff";
 // import Department from "../../department/models/Department";
-// import Role from "../../staff/models/Role";
+import Role from "../../staff/models/Role";
 import { serverError, successMessage } from "../../../utilities";
 import { hashSync } from "bcryptjs";
 class HospitalStaffController {
@@ -45,61 +45,52 @@ class HospitalStaffController {
 
   static async findAll(req) {
     try {
-      console.log(await require("mongoose").models);
       const data = await Staff.find({
         hospital: req.credentials.hospital,
-        priviledged: 0,
       })
         .select("-hospital")
-        // .populate("department")
-        .populate({
-          path: "department",
-          model: "Department",
-        })
+        .populate("department")
         .populate("branches")
         .populate("role", "-category");
-      // return successMessage(data, "hospital staff list retrieved");
+      return successMessage(data, "hospital staff list retrieved");
     } catch (err) {
       console.error(err);
       return serverError({ request: err.message }, "failed to fetch staff");
     }
   }
 
-  static async findOne(req, res, next) {
+  static async findOne(req) {
     try {
-      const data = await Staff.findById(req.params.id)
+      const data = await Staff.findById(req.params.staffid)
         .populate("hospital", "+name -departments -branches -updatedAt")
         .populate("department", "name")
         .populate("role", "name")
         .populate("branches", "-departments");
-      res.send({
-        data,
-        errors: null,
-        message: "staff fetched",
-      });
+      return successMessage(data, "staff details retrieved");
     } catch (err) {
       console.error(err);
-      next([500, ["failed to fetch"], "failed request"]);
+      return serverError(
+        {
+          request: err.message,
+        },
+        "failed to retrieve staff details"
+      );
     }
   }
 
-  static async update(req, res, next) {
+  static async update(req) {
     const { department, branches, administrativeRole } = req.body;
     try {
-      const staff = await Staff.findById(req.params.staffid);
+      // const staff = await Staff.findById(req.params.staffid);
       // staff.branches = branches;
-      staff.administrativeRole = administrativeRole;
-      if (!(await staff.save())) throw new Error("failed");
+      // staff.administrativeRole = administrativeRole;
+      // if (!(await staff.save())) throw new Error("failed");
       // if (!department || !validator.isMongoId(department))
       //   return next([400, ["department is required"], "failed to update"]);
       // staff.department = department;
       // const saved = await staff.save();
       // if (!saved) throw new Error("failed");
-      res.send({
-        data: staff,
-        errors: null,
-        message: "staff details have been updated",
-      });
+      return successMessage(staff, "staff role has been updated");
     } catch (err) {
       console.log(err);
       next([500, ["failed to update staff details"], "failed request"]);
