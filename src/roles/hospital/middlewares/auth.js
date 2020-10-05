@@ -20,7 +20,13 @@ export async function verifyAdmin(req, res, next) {
       });
     next();
   } catch (err) {
-    console.error(err);
+    return next({
+      status: 500,
+      errors: {
+        request: "failed to verify user in session",
+      },
+      message: "authentication failed",
+    });
   }
 }
 
