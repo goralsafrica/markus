@@ -11,4 +11,9 @@ inventoryRouter.get("/:branchid", async (req, res) => {
   return res.status(status).json(result);
 });
 
+inventoryRouter.put("/:branchid", async (req, res) => {
+  const { status, result } = await InventoryController.update(req);
+  return res.status(status).json(result);
+});
+
 export default inventoryRouter;
