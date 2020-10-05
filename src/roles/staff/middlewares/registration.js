@@ -114,5 +114,6 @@ export async function generateStaffCode(req, res, next) {
 
 const updateStaffSchema = Joi.object().keys({
   department: Joi.objectId(),
+  branch: [],
 });
 export async function updateStaffDetailsValidator(req, res, next) {}
