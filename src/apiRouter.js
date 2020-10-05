@@ -4,6 +4,7 @@ import rolesRouter from "./roles/rolesRouter";
 import rosterRouter from "./roster/routes/rosterRouter";
 import pharmacyRouter from "./pharmacy/pharmacyRouter";
 import inventoryRouter from "./inventory/inventoryRouter";
+import auditTrailRouter from "./auditTrail/routes";
 const apiRouter = Router();
 
 apiRouter.get("/", (req, res) => {
@@ -16,6 +17,7 @@ apiRouter.use("/roles", rolesRouter);
 apiRouter.use("/roster", rosterRouter);
 apiRouter.use("/pharmacy", pharmacyRouter);
 apiRouter.use("/inventory", inventoryRouter);
+apiRouter.use("/logs", auditTrailRouter);
 //error handlers
 apiRouter.use((req, res, next) => {
   next({
