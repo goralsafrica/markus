@@ -13,6 +13,6 @@ logRouter.get("/", (req, res) => {
   });
 });
 logRouter.use("/staff", staffLogRouter);
-//logRouter.use("/patient", patientLogRouter);
+logRouter.use("/patient", patientLogRouter);
 
 export default logRouter;

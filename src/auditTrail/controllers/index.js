@@ -1,3 +1,3 @@
 import StaffLogController from "./StaffLogController";
-
-export { StaffLogController };
+import PatientLogController from "./PatientLogController";
+export { StaffLogController, PatientLogController };
