@@ -16,7 +16,6 @@ class AuthController {
       const staff = await Staff.findOne({ email, hospital }).select(
         "+password"
       );
-      console.log(staff);
       if (!staff)
         return Promise.resolve(
           badRequestError(

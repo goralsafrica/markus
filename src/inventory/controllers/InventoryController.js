@@ -46,6 +46,30 @@ class InventoryController {
       );
     }
   }
+
+  static async update(req) {
+    try {
+      const update = await Inventory.findByIdAndUpdate(
+        req.body.inventoryid,
+        {
+          store: req.body.store,
+        },
+        {
+          new: true,
+        }
+      );
+      if (update) {
+        return successMessage(update, "branch inventory has been updated");
+      }
+    } catch (err) {
+      return badRequestError(
+        {
+          request: err.message,
+        },
+        "failed to update hospital inventory"
+      );
+    }
+  }
 }
 
 export default InventoryController;

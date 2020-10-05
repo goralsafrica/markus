@@ -1,3 +1,2 @@
-chukwrurah@dev.com -> hod
 emmanuel@dev.com -> admin
 kruse@dev.com -> branch head

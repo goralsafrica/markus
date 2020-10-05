@@ -11,9 +11,12 @@ inventoryRouter.get("/:branchid", async (req, res) => {
   return res.status(status).json(result);
 });
 
-inventoryRouter.put("/:branchid", async (req, res) => {
+inventoryRouter.put("/:inventoryid", async (req, res) => {
+  //await InventoryController.update(req);
   const { status, result } = await InventoryController.update(req);
   return res.status(status).json(result);
 });
 
 export default inventoryRouter;
+
+// required middlewares [verify staff in branch, ]
