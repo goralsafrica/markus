@@ -6,10 +6,11 @@ async function verifyHeadOfBranch(req, res, next) {
   if (
     !staff.administrativeRole ||
     !staff.administrativeRole.branch ||
-    staff.administrativeRole.name != "head of branch"
+    staff.administrativeRole.name.name != "head of branch" ||
+    !Boolean(staff.priviledged)
   ) {
     return next({
-      status: 401,
+      status: 403,
       errors: {
         request: "You do not have permission to perform this operation",
       },

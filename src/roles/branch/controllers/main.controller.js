@@ -1,22 +1,28 @@
-import Branch from "../../branch/models/Branch";
-import Staff from "../../staff/models/Staff";
-import Hospital from "../../hospital/models/Hospital";
-//import { hashSync } from "bcryptjs";
+import { model } from "mongoose";
+import { successMessage, serverError } from "../../../utilities";
+const Branch = model("Branch");
+const Staff = model("Staff");
+
 class BranchController {
-  static async getDetails(req, res, next) {
+  static async getDetails(req) {
     const { branch } = req.staff.administrativeRole;
     try {
-      const data = await Branch.findById(branch._id);
-
-      if (!data) next([400, ["invalid branch id"], "branch not found"]);
-      res.send({
-        data,
-        errors: null,
-        message: "branch details found",
+      const data = await Branch.findById(branch._id).populate("departments");
+      const staff = await Staff.find({
+        branches: {
+          $in: [branch._id],
+        },
       });
+      data.staff = staff;
+      return successMessage(data, "branch details retrieved");
     } catch (err) {
       console.log(err);
-      next([500, "server  failed to respond :("]);
+      return serverError(
+        {
+          request: err.message,
+        },
+        "failed to get branch details"
+      );
     }
   }
 }

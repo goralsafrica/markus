@@ -41,19 +41,18 @@ class HospitalPatientController {
     }
   }
   static async findOne(req) {
-    // try {
-    //   const data = await Patient.findById(req.params.patientid);
-    //   if (!data) return next(400, ["patient not found"], "bad request");
-    //   data.records = await Record.find({ patient: req.params.patientid });
-    //   res.json({
-    //     data,
-    //     errors: null,
-    //     message: "patients records retrieved",
-    //   });
-    // } catch (err) {
-    //   console.log(err);
-    //   next([500, ["server  failed to respond :("], "failed to create branch"]);
-    // }
+    try {
+      const data = await Patient.findById(req.params.patientid);
+      // data.records = await Record.find({ patient: req.params.patientid });
+      // res.json({
+      //   data,
+      //   errors: null,
+      //   message: "patients records retrieved",
+      // });
+    } catch (err) {
+      console.log(err);
+      next([500, ["server  failed to respond :("], "failed to create branch"]);
+    }
   }
 }
 

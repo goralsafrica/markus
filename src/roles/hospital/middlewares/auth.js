@@ -12,7 +12,7 @@ export async function verifyAdmin(req, res, next) {
       existingStaff.priviledged !== 1
     )
       return next({
-        status: 401,
+        status: 403,
         errors: {
           request: "permission denied",
         },

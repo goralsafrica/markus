@@ -1,7 +1,7 @@
 import { Router } from "express";
 // import moderatorRouter from "./moderator/moderator.router";
 import hospitalRouter from "./hospital/routes";
-// import branchRouter from "./branch/routes";
+import branchRouter from "./branch/routes";
 import departmentRouter from "./department/routes";
 import staffRouter from "./staff/staffRouter";
 // import patientRouter from "./patient/router";
@@ -13,11 +13,12 @@ rolesRouter.get("/", (req, res) => {
     message: "welcome to the roles module",
   });
 });
+
+rolesRouter.use(verifyUser, verifyStaff);
+rolesRouter.use("/branch", branchRouter);
 rolesRouter.use("/hospital", hospitalRouter);
-//rolesRouter.use(verifyUser, verifyStaff);
 //rolesRouter.use("/staff", staffRouter);
 //rolesRouter.use("/department", departmentRouter);
-// apiRouter.use("/branch", branchRouter);
 // apiRouter.use("/hospital", hospitalRouter);
 // apiRouter.use("/moderator", moderatorRouter);
 

@@ -51,6 +51,17 @@ export function badRequestError(errors, message) {
   });
 }
 
+export function notFoundError(errors, message) {
+  return Promise.resolve({
+    status: 404,
+    result: {
+      data: null,
+      errors,
+      message,
+    },
+  });
+}
+
 /**
  *
  * @param {String} message summarized error message

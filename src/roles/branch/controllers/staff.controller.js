@@ -1,9 +1,8 @@
-import Branch from "../../branch/models/Branch";
 import Staff from "../../staff/models/Staff";
-import Hospital from "../../hospital/models/Hospital";
+import { successMessage, serverError } from "../../../utilities";
 
 class BranchStaffController {
-  static async getStaffs(req, res, next) {
+  static async getStaffs(req) {
     const { branch } = req.staff.administrativeRole;
     try {
       const data = await Staff.find({
@@ -20,43 +19,32 @@ class BranchStaffController {
             model: "StaffCategory",
           },
         });
-
-      if (!data) next([400, ["invalid branch id"], "staff members not found"]);
-      res.send({
-        data,
-        errors: null,
-        message: "branch staff members list retireved",
-      });
+      return successMessage(data, "staff list retrieved");
     } catch (err) {
       console.log(err);
-      next([500, ["server  failed to respond :("], "request failure"]);
+      return serverError(
+        {
+          request: err.message,
+        },
+        "failed to retrieve staff list"
+      );
     }
   }
 
   static async updateStaff(req, res, next) {
     try {
-      const staff = await Staff.findByIdAndUpdate(
-        req.params.staffid,
-        {
-          department: req.body.department,
-        },
-        {
-          useFindAndModify: false,
-        }
-      );
-      const data = await Staff.findById(req.params.staffid).populate({
-        path: "department",
-        model: "Department",
-      });
-      if (!staff || !data) throw new Error("okay");
-      res.json({
-        data,
-        errurs: null,
-        message: "staff details in branch has been updated successfully",
-      });
+      const staff = await Staff.findByIdAndUpdate(req.params.staffid, req.body)
+        .populate("department")
+        .populate("role")
+        .populate("administrativeRole");
+      return successMessage(staff, "staff details have been updated");
     } catch (err) {
-      //console.log(err);
-      next([500, "server  failed to respond :("]);
+      return serverError(
+        {
+          request: err.message,
+        },
+        "failed to update staff details"
+      );
     }
   }
 }
