@@ -1,11 +1,17 @@
 import express from "express";
-import * as adminHospitalMiddleWare from "../middlewares/register";
 import { PatientController } from "../controllers/";
-const departmentRouter = express.Router();
+const patientRouter = express.Router();
 
 //gets the details of a particular hospital
-departmentRouter.post("/", PatientController.create);
-departmentRouter.get("/", PatientController.findAll);
-departmentRouter.get("/:id", PatientController.findOne);
+// patientRouter.post("/", PatientController.create);
+patientRouter.get("/", async (req, res) => {
+  const { status, result } = await PatientController.findAll(req);
+  res.status(status).json(result);
+});
 
-export default departmentRouter;
+patientRouter.get("/:patientid", async (req, res) => {
+  const { status, result } = PatientController.findOne(req);
+  res.status(status).json(result);
+});
+
+export default patientRouter;
