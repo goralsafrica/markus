@@ -2,8 +2,9 @@ import Branch from "../../branch/models/Branch";
 import Staff from "../../staff/models/Staff";
 import Hospital from "../../hospital/models/Hospital";
 import Department from "../../department/models/Department";
+import { successMessage, serverError, notFoundError } from "../../../utilities";
 class BranchDepartmentController {
-  static async add(req, res, next) {
+  static async add(req) {
     const { branch } = req.staff.administrativeRole;
     try {
       const data = await Branch.findById(branch._id);
@@ -26,22 +27,21 @@ class BranchDepartmentController {
     }
   }
 
-  static async getDepartments(req, res, next) {
+  static async getDepartments(req) {
     const { branch } = req.staff.administrativeRole;
     try {
       const data = await Branch.findById(branch._id)
         .select("departments")
         .populate("departments");
-
-      if (!data) next([400, ["invalid branch id"], "departments not found"]);
-      res.send({
-        data,
-        errors: null,
-        message: "branch department list retireved",
-      });
+      return successMessage(data, "branch department list retrieved");
     } catch (err) {
       console.log(err);
-      next([500, ["server  failed to respond :("], "failed to retrieve list"]);
+      serverError(
+        {
+          request: err.message,
+        },
+        "failed to retrieve branch department list"
+      );
     }
   }
 
@@ -51,7 +51,6 @@ class BranchDepartmentController {
       const details = await Department.findById(req.params.departmentid).select(
         "name"
       );
-      console.log(details);
       const staff = await Staff.find({
         branches: {
           $in: [branch._id],
@@ -70,19 +69,14 @@ class BranchDepartmentController {
         details,
         staff,
       };
-      if (!data) throw new Error("failed");
-      res.send({
-        data,
-        errors: null,
-        message: "branch department list retireved",
-      });
+      return successMessage(data, "department details retrieved");
     } catch (err) {
-      console.log(err);
-      next([
-        500,
-        ["server  failed to respond :("],
-        "failed to retrieve details",
-      ]);
+      return notFoundError(
+        {
+          request: err.message,
+        },
+        "failed to fetch department details"
+      );
     }
   }
 
