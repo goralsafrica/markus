@@ -65,7 +65,10 @@ class HospitalStaffController {
         .populate("hospital", "+name -departments -branches -updatedAt")
         .populate("department", "name")
         .populate("role", "name")
-        .populate("branches", "-departments");
+        .populate("branches", "-departments")
+        .populate("administrativeRole.name")
+        .populate("administrativeRole.branch")
+        .populate("administrativeRole.department");
       return successMessage(data, "staff details retrieved");
     } catch (err) {
       console.error(err);
@@ -79,21 +82,21 @@ class HospitalStaffController {
   }
 
   static async update(req) {
-    const { department, branches, administrativeRole } = req.body;
     try {
-      // const staff = await Staff.findById(req.params.staffid);
-      // staff.branches = branches;
-      // staff.administrativeRole = administrativeRole;
-      // if (!(await staff.save())) throw new Error("failed");
-      // if (!department || !validator.isMongoId(department))
-      //   return next([400, ["department is required"], "failed to update"]);
-      // staff.department = department;
-      // const saved = await staff.save();
-      // if (!saved) throw new Error("failed");
-      return successMessage(staff, "staff role has been updated");
+      const staff = await Staff.findByIdAndUpdate(
+        req.params.staffid,
+        req.body,
+        { new: true }
+      );
+      return successMessage(staff, "staff details have been updated");
     } catch (err) {
       console.log(err);
-      next([500, ["failed to update staff details"], "failed request"]);
+      return serverError(
+        {
+          request: err.message,
+        },
+        "failed to update staff details"
+      );
     }
   }
 
@@ -103,30 +106,31 @@ class HospitalStaffController {
       staff.branches = staff.branches.filter(
         (branch) => branch != req.params.branchid
       );
-      staff.save();
-      res.send({
-        data: staff,
-        errors: null,
-        message: "staff has been successfully removed from branch",
-      });
+      if (await staff.save());
+      return successMessage(staff, "staff has been removed from branch");
     } catch (err) {
       console.error(err);
-      next([500, ["server failure"], "failed to remove staff from branch"]);
+      return serverError(
+        {
+          request: err.message,
+        },
+        "failed to remove staff from branch"
+      );
     }
   }
 
-  static async delete(req, res, next) {
+  static async delete(req) {
     try {
-      const staff = await Staff.findByIdAndDelete(req.params.staffid);
-      if (success)
-        return res.send({
-          data: success,
-          errors: null,
-          message: "staff has been successfully removed from hospital branch",
-        });
+      const removed = await Staff.findByIdAndDelete(req.params.staffid);
+      return successMessage(removed, "staff has been removed from hospital");
     } catch (err) {
       console.error(err);
-      next([500, ["server failure"], "failed to remove staff"]);
+      return serverError(
+        {
+          request: err.message,
+        },
+        "failed to remove staff from hospital"
+      );
     }
   }
 }

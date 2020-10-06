@@ -6,9 +6,11 @@ Joi.objectId = require("joi-objectid")(Joi);
 import {
   badRequestError,
   generateStaffCode as generate,
+  formatJoiError,
 } from "../../../utilities";
 import Hospital from "../../hospital/models/Hospital";
 import Staff from "../models/Staff";
+import { admin } from "firebase-admin/lib/credential";
 /**
  *
  * @param req
@@ -112,8 +114,32 @@ export async function generateStaffCode(req, res, next) {
   }
 }
 
+const administrativeRoleSchema = Joi.object()
+  .keys({
+    name: Joi.objectId(),
+    branch: Joi.objectId(),
+    department: Joi.objectId(),
+  })
+  .with("department", "branch");
+
 const updateStaffSchema = Joi.object().keys({
   department: Joi.objectId(),
-  branch: [],
+  branches: Joi.array().items(Joi.objectId()),
+  administrativeRole: administrativeRoleSchema,
 });
-export async function updateStaffDetailsValidator(req, res, next) {}
+export async function updateStaffDetailsValidator(req, res, next) {
+  try {
+    const data = await updateStaffSchema.validateAsync(req.body, {
+      abortEarly: false,
+    });
+    req.body = data;
+    next();
+  } catch (err) {
+    const errors = formatJoiError(err);
+    next({
+      status: 400,
+      errors,
+      message: "failed to update staff details",
+    });
+  }
+}

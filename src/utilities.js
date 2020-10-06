@@ -121,3 +121,11 @@ export async function generateStaffCode(model, hospital) {
     return Promise.reject(err);
   }
 }
+
+export function formatJoiError(err) {
+  const errors = {};
+  for (const msg of err.details) {
+    errors[msg.message.split('"')[1]] = msg.message.split('"').join("");
+  }
+  return errors;
+}

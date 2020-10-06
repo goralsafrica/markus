@@ -4,6 +4,7 @@ import {
   createStaffValidator,
   checkIfStaffExists,
   generateStaffCode,
+  updateStaffDetailsValidator,
 } from "../../staff/middlewares";
 const staffRouter = Router();
 
@@ -26,14 +27,16 @@ staffRouter.get("/:staffid", async (req, res) => {
   const { status, result } = await StaffController.findOne(req);
   res.status(status).json(result);
 });
-
-staffRouter.put("/:staffid", async (req, res) => {
+staffRouter.put("/:staffid", updateStaffDetailsValidator, async (req, res) => {
   const { status, result } = await StaffController.update(req);
   res.status(status).json(result);
 });
-// staffRouter.put("/:staffid", StaffController.update);
-// staffRouter.delete("/:staffid", StaffController.delete); // remove from hospital
-// staffRouter.delete("/:branchid/:staffid", StaffController.remove); // remove from hospital
-// staffRouter.put("/", Controllers.StaffController.update);
-
+staffRouter.delete("/:staffid", async (req, res) => {
+  const { status, result } = await StaffController.delete(req);
+  res.status(status).json(result);
+});
+staffRouter.delete("/:branchid/:staffid", async (req, res) => {
+  const { status, result } = await StaffController.remove(req);
+  res.status(status).json(result);
+});
 export default staffRouter;

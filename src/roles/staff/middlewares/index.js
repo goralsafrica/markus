@@ -2,6 +2,7 @@ import {
   createStaffValidator,
   checkIfStaffExists,
   generateStaffCode,
+  updateStaffDetailsValidator,
 } from "./registration";
 import verifyStaff from "./auth";
 
@@ -10,4 +11,5 @@ export {
   checkIfStaffExists,
   verifyStaff,
   generateStaffCode,
+  updateStaffDetailsValidator,
 };
