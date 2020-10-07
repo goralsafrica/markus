@@ -16,9 +16,9 @@ departmentRouter.get("/:departmentid", async (req, res) => {
 });
 
 //these routes can only be accessed if branch owner has been granted permission
-departmentRouter.post("/", BranchDepartmentController.add);
-departmentRouter.delete(
-  "/:departmentid",
-  BranchDepartmentController.removeDepartment
-);
+// departmentRouter.post("/", BranchDepartmentController.add);
+// departmentRouter.delete(
+//   "/:departmentid",
+//   BranchDepartmentController.removeDepartment
+// );
 export default departmentRouter;
