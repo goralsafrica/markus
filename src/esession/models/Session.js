@@ -1,4 +1,4 @@
-import { model, Schema, Mongoose } from "mongoose";
+import { model, Schema } from "mongoose";
 
 const SessionSchema = new Schema(
   {
@@ -46,4 +46,4 @@ const SessionSchema = new Schema(
   }
 );
 
-export default Mongoose.model("Session", SessionSchema);
+export default model("Session", SessionSchema);
