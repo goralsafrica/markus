@@ -4,10 +4,11 @@ import { verifyStaffValidator } from "../middlewares";
 import { verifyUser } from "../../auth/middlewares";
 const esessionAuthRouter = Router();
 
-esessionAuthRouter.get("/verify", verifyStaffValidator, async (req, res) => {
+esessionAuthRouter.post("/verify", verifyStaffValidator, async (req, res) => {
   const { result, status } = await AuthController.verify(req);
   return res.status(status).json(result);
 });
+esessionAuthRouter.post("/login");
 esessionAuthRouter.get(
   "/workspace",
   verifyUser,
