@@ -63,6 +63,36 @@ class EsessionAuthController {
       );
     }
   }
+
+  static async login(req) {
+    try {
+      const exists = await Staff.findOne({
+        _id: req.credentials.staff,
+        hospital: {
+          $in: [req.body.hospital],
+        },
+      });
+      if (staff) {
+        return successMessage({
+          token: deriveToken(req.body.hospital, req.credentials.staff),
+        });
+      }
+      return badRequestError(
+        {
+          request: "invalid credentials",
+        },
+        "failed to authenticate staff"
+      );
+    } catch (err) {
+      console.error(err);
+      return notFoundError(
+        {
+          request: err.message,
+        },
+        "failed to fatch workspaces"
+      );
+    }
+  }
 }
 
 export default EsessionAuthController;
