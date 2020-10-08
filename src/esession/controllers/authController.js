@@ -5,6 +5,7 @@ import {
   notFoundError,
   successMessage,
   badRequestError,
+  deriveToken,
 } from "../../utilities";
 const Staff = model("Staff");
 
@@ -26,6 +27,7 @@ class EsessionAuthController {
       return successMessage(
         {
           staff: "doctor exists",
+          token: deriveToken("", staff._id),
         },
         "verification success"
       );
@@ -36,6 +38,28 @@ class EsessionAuthController {
           request: err.message,
         },
         "failed to verify staff"
+      );
+    }
+  }
+
+  static async getWorkspaces(req) {
+    try {
+      const data = await Staff.findById(req.credentials.staff)
+        .select("hospital")
+        .populate("hospital");
+      return successMessage(
+        {
+          data,
+        },
+        "workspaces retrieved"
+      );
+    } catch (err) {
+      console.error(err);
+      return notFoundError(
+        {
+          request: err.message,
+        },
+        "failed to fatch workspaces"
       );
     }
   }

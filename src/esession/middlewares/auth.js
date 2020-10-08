@@ -5,12 +5,12 @@ const verifyStaffSchema = Joi.object().keys({
   email: Joi.string().email().required(),
   password: Joi.string().required(),
 });
-export async function verifyStaffValdator(req, res, next) {
+export async function verifyStaffValidator(req, res, next) {
   try {
     const data = await verifyStaffSchema.validateAsync(req.query, {
       abortEarly: false,
     });
-    console.log(data);
+    req.query = data;
     next();
   } catch (err) {
     const errors = formatJoiError(err);

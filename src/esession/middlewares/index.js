@@ -1,3 +1,3 @@
-import { verifyStaffValdator } from "./auth";
+import { verifyStaffValidator } from "./auth";
 
-export { verifyStaffValdator };
+export { verifyStaffValidator };
