@@ -8,7 +8,10 @@ esessionAuthRouter.post("/verify", verifyStaffValidator, async (req, res) => {
   const { result, status } = await AuthController.verify(req);
   return res.status(status).json(result);
 });
-esessionAuthRouter.post("/login");
+esessionAuthRouter.post("/login", async (req, res) => {
+  const { result, status } = await AuthController.login(req);
+  return res.status(status).json(result);
+});
 esessionAuthRouter.get(
   "/workspace",
   verifyUser,
