@@ -7,24 +7,18 @@ const SessionSchema = new Schema(
       ref: "Patient",
       required: true,
     },
+    workflow: {
+      type: Schema.Types.ObjectId,
+      ref: "Workflow",
+    },
     doctor: {
       type: Schema.Types.ObjectId,
-      ref: "Patient",
+      ref: "Staff",
       required: true,
     },
     residentHospital: {
       type: Schema.Types.ObjectId,
       ref: "Hospital",
-      required: true,
-    },
-    preceedingEmr: {
-      type: Schema.Types.ObjectId,
-      ref: "Record",
-      required: true,
-    },
-    preceedingSession: {
-      type: Schema.Types.ObjectId,
-      ref: "Session",
       required: true,
     },
     prescription: {

@@ -3,13 +3,13 @@ import { Router } from "express";
 const mainRouter = Router();
 
 mainRouter.post("", async (req, res) => {
-  // const { result, status } = await AuthController.verify(req);
-  // return res.status(status).json(result);
+  const { result, status } = await AuthController.create(req);
 });
 
 mainRouter.get("", async (req, res) => {
-  // const { result, status } = await AuthController.verify(req);
-  // return res.status(status).json(result);
+  res.json({
+    message: "welcome to the esession module",
+  });
 });
 
 // initialize session
