@@ -6,6 +6,7 @@ import pharmacyRouter from "./pharmacy/pharmacyRouter";
 import inventoryRouter from "./inventory/inventoryRouter";
 import auditTrailRouter from "./auditTrail/routes";
 import esessionRouter from "./esession/routes";
+import workFlowRouter from "./workflow/routes";
 const apiRouter = Router();
 
 apiRouter.get("/", (req, res) => {
@@ -20,6 +21,7 @@ apiRouter.use("/pharmacy", pharmacyRouter);
 apiRouter.use("/inventory", inventoryRouter);
 apiRouter.use("/logs", auditTrailRouter);
 apiRouter.use("/esession", esessionRouter);
+apiRouter.use("workflow", workFlowRouter);
 //error handlers
 apiRouter.use((req, res, next) => {
   next({
