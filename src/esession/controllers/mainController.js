@@ -1,8 +1,13 @@
-import { model } from "mongoose";
-import { badRequestError, successMessage } from "../../utilities";
-import Session from "../models/Session";
+import { model, models } from "mongoose";
+import {
+  badRequestError,
+  successMessage,
+  notFoundError,
+} from "../../utilities";
+
 const Patient = model("Patient");
-//Session = model("Session");
+import Session from "../models/Session"; // WORKS
+//const Session = model("Session"); //  DOES NOT WORK
 
 class MainController {
   static async create(req) {
@@ -21,7 +26,6 @@ class MainController {
         ...req.body,
         doctor: req.credentials.staff,
       });
-
       return successMessage(newSession, "session has been initialized ");
     } catch (err) {
       console.error(err);
@@ -30,6 +34,28 @@ class MainController {
           request: err.message,
         },
         "failed to initialize session"
+      );
+    }
+  }
+
+  static async update(req) {
+    try {
+      if (!(await Session.findById(req.params.sessionid)))
+        throw new Error("Session not found");
+      const data = await Session.findByIdAndUpdate(
+        req.params.sessionid,
+        req.body,
+        {
+          new: true,
+        }
+      );
+      return successMessage(data, "esession details have been updated");
+    } catch (err) {
+      return notFoundError(
+        {
+          request: err.message,
+        },
+        "failed to update esession details"
       );
     }
   }
