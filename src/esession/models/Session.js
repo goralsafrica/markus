@@ -16,7 +16,7 @@ const SessionSchema = new Schema(
       ref: "Staff",
       required: true,
     },
-    residentHospital: {
+    branch: {
       type: Schema.Types.ObjectId,
       ref: "Hospital",
       required: true,
@@ -24,7 +24,7 @@ const SessionSchema = new Schema(
     prescription: {
       type: Schema.Types.ObjectId,
       ref: "Prescription",
-      required: true,
+      required: false,
     },
     conversation: {
       type: String,
