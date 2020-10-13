@@ -72,14 +72,17 @@ class EsessionAuthController {
           $in: [req.body.hospital],
         },
       });
-      if (staff) {
-        return successMessage({
-          token: deriveToken(req.body.hospital, req.credentials.staff),
-        });
+      if (exists) {
+        return successMessage(
+          {
+            token: deriveToken(req.body.hospital, req.credentials.staff),
+          },
+          "authentication success :)"
+        );
       }
-      return badRequestError(
+      return notFoundError(
         {
-          request: "invalid credentials",
+          hospital: "hospital not found",
         },
         "failed to authenticate staff"
       );
@@ -89,7 +92,7 @@ class EsessionAuthController {
         {
           request: err.message,
         },
-        "failed to fatch workspaces"
+        "failed to authenticate"
       );
     }
   }
