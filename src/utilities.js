@@ -1,14 +1,13 @@
 import jwt from "jsonwebtoken";
 import * as config from "../config";
 
-export function deriveToken(hospital, staff) {
-  return jwt.sign(
-    {
-      hospital,
-      staff,
-    },
-    config.secretKey
-  );
+export function deriveToken(hospital, staff, temporary = false) {
+  let payload = {
+    hospital,
+    staff,
+  };
+  if (temporary) payload.temporary = true;
+  return jwt.sign(payload, config.secretKey);
 }
 
 export function verifyToken(payload) {
@@ -67,7 +66,7 @@ export function notFoundError(errors, message) {
  * @param {String} message summarized error message
  */
 
-export function unAuthorizedRequestError(message) {
+export function unAuthorizedRequestError() {
   return {
     status: 401,
     errors: {

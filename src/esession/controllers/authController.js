@@ -13,7 +13,9 @@ class EsessionAuthController {
   static async verify(req) {
     const { email, password } = req.query;
     try {
-      const staff = await Staff.findOne({ email }).select("+password");
+      const staff = await Staff.findOne({ email })
+        .select("+password +hospital")
+        .populate("hospital", "name _id url");
       if (!staff)
         return notFoundError({
           email: "no doctor's details matches the provided email address",
@@ -26,8 +28,8 @@ class EsessionAuthController {
       }
       return successMessage(
         {
-          staff: "doctor exists",
-          token: deriveToken("", staff._id),
+          hospitals: staff.hospital,
+          token: deriveToken("", staff._id, true),
         },
         "verification success"
       );
