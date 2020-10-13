@@ -1,13 +1,10 @@
-import { model, models } from "mongoose";
+import Patient from "../../roles/patient/models/Patient";
+import Session from "../models/Session";
 import {
   badRequestError,
   successMessage,
   notFoundError,
 } from "../../utilities";
-
-const Patient = model("Patient");
-import Session from "../models/Session"; // WORKS
-//const Session = model("Session"); //  DOES NOT WORK
 
 class MainController {
   static async create(req) {
