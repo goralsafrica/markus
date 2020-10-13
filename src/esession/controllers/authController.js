@@ -8,6 +8,7 @@ import {
   deriveToken,
 } from "../../utilities";
 const Staff = model("Staff");
+const ExpiredToken = model("ExpiredToken");
 
 class EsessionAuthController {
   static async verify(req) {
@@ -95,6 +96,27 @@ class EsessionAuthController {
           request: err.message,
         },
         "failed to authenticate"
+      );
+    }
+  }
+
+  static async logout(req) {
+    try {
+      await ExpiredToken.create({
+        token: req.headers.authorization.split(" ").pop(),
+      });
+      return successMessage(
+        {
+          request: "Sorry to see you go :(",
+        },
+        "logout succesful"
+      );
+    } catch (err) {
+      return serverError(
+        {
+          request: "failed to cancel session",
+        },
+        "logout not fulfilled"
       );
     }
   }

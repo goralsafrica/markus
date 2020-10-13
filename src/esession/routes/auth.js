@@ -21,4 +21,11 @@ esessionAuthRouter.get(
     return res.status(status).json(result);
   }
 );
+
+esessionAuthRouter.post("/logout", verifyEsessionUser, async (req, res) => {
+  console.log("heh");
+  const { result, status } = await AuthController.logout(req);
+  return res.status(status).json(result);
+});
+
 export default esessionAuthRouter;
