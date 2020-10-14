@@ -5,7 +5,7 @@ import { verifyEsessionUser, verifyUser } from "../../auth/middlewares";
 const workspaceRouter = Router();
 
 workspaceRouter.get(
-  "/workspace",
+  "/",
   verifyEsessionUser,
   verifyStaffValidator,
   async (req, res) => {
@@ -14,7 +14,7 @@ workspaceRouter.get(
   }
 );
 
-workspaceRouter.post("/workspace", verifyUser, async (req, res) => {
+workspaceRouter.post("/login", verifyUser, async (req, res) => {
   const { result, status } = await WorkspaceController.switchWorkspaces(req);
   return res.status(status).json(result);
 });

@@ -37,11 +37,12 @@ const StaffSchema = new Schema({
     required: true,
     select: false,
   },
-  hospital: {
-    type: Schema.Types.ObjectId,
-    ref: "Hospital",
-    required: true,
-  },
+  hospital: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Hospital",
+    },
+  ],
   phone: {
     type: String,
     required: true,

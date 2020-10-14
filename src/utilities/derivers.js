@@ -14,6 +14,10 @@ export function verifyToken(payload) {
   return jwt.verify(payload, process.env.SECRET_KEY);
 }
 
+export function extractToken(req) {
+  return req.headers.authorization.split(" ").pop();
+}
+
 export async function generateStaffCode(model, hospital) {
   try {
     const lastEntry = await model

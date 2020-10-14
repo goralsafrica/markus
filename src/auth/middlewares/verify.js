@@ -8,6 +8,7 @@ export async function verifyUser(req, res, next) {
   const token = req.headers.authorization.split(" ").pop();
   try {
     const data = await verifyToken(token);
+    const expired = await isExpired(token);
     if (!data || expired) return next(unAuthorizedRequestError());
     req.credentials = data;
     next();
