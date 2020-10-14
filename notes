@@ -1,4 +1,4 @@
 emmanuel@dev.com -> admin
 kruse@dev.com -> branch head
 
-    "start": "cross-env NODE_ENV=test node build/server.js",
+    "start": "cross-env NODE_ENV=test node build/server.js",git 
