@@ -12,15 +12,6 @@ esessionAuthRouter.post("/login", verifyEsessionUser, async (req, res) => {
   const { result, status } = await AuthController.login(req);
   return res.status(status).json(result);
 });
-esessionAuthRouter.get(
-  "/workspace",
-  verifyEsessionUser,
-  verifyStaffValidator,
-  async (req, res) => {
-    const { result, status } = await AuthController.getWorkspaces(req);
-    return res.status(status).json(result);
-  }
-);
 
 esessionAuthRouter.post("/logout", async (req, res) => {
   const { result, status } = await AuthController.logout(req);

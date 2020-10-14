@@ -8,13 +8,5 @@
         "useESModules": false
       }
     ]
-  ],
-  "ignore": [
-    "./node_modules",
-    "./seeders",
-    "structure",
-    "todo",
-    "unresolved",
-    "notes.txt"
   ]
 }

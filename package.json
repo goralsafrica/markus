@@ -4,8 +4,7 @@
   "description": "a simple backend implementation of a user hierachy system",
   "main": "server.js",
   "scripts": {
-    "start": "cross-env NODE_ENV=test node build/server.js",
-    "build": "rm -rf build && babel . --out-dir build --ignore ./node_modules",
+    "start": "cross-env NODE_ENV=test nodemon --exec babel-node --experimental-modules server.js",
     "dev": "cross-env NODE_ENV=development nodemon --exec babel-node --experimental-modules server.js"
   },
   "engines": {

@@ -1,4 +1,4 @@
 import AuthController from "./authController";
 import MainController from "./mainController";
-
-export { AuthController, MainController };
+import WorkspaceController from "./workspaceController";
+export { AuthController, MainController, WorkspaceController };

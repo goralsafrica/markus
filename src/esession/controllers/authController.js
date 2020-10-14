@@ -45,28 +45,6 @@ class EsessionAuthController {
     }
   }
 
-  static async getWorkspaces(req) {
-    try {
-      const data = await Staff.findById(req.credentials.staff)
-        .select("hospital")
-        .populate("hospital");
-      return successMessage(
-        {
-          data,
-        },
-        "workspaces retrieved"
-      );
-    } catch (err) {
-      console.error(err);
-      return notFoundError(
-        {
-          request: err.message,
-        },
-        "failed to fatch workspaces"
-      );
-    }
-  }
-
   static async login(req) {
     try {
       const exists = await Staff.findOne({
