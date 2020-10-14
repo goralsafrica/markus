@@ -36,3 +36,13 @@ export async function generateStaffCode(model, hospital) {
     return Promise.reject(err);
   }
 }
+
+export function encryptID(payload) {
+  return jwt.sign(payload, process.env.SECRET_KEY.toUpperCase(), {
+    expiresIn: 1000 * 60 * 60 * 3,
+  });
+}
+
+export function decryptID(payload) {
+  return jwt.verify(payload, process.env.SECRET_KEY.toUpperCase());
+}

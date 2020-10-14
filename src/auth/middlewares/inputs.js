@@ -1,7 +1,8 @@
 //IMPORT MOODULES
 import validator from "validator";
 import isEmpty from "is-empty";
-import { badRequestError } from "../../utilities";
+import joi from "joi";
+import { badRequestError, formatJoiError } from "../../utilities";
 /**
  *
  * @param req
@@ -10,7 +11,7 @@ import { badRequestError } from "../../utilities";
  *
  * @desc validates user inputs. sends errors and stops current endpoint work if any.
  */
-export default function loginValidator(req, res, next) {
+export function loginValidator(req, res, next) {
   const errors = {};
   const data = {};
   data.email = req.body.email ? req.body.email : "";
@@ -40,4 +41,18 @@ function serializeInput(data) {
     data[prop] = validator.escape(data[prop]);
   }
   return data;
+}
+const forgotPasswordSchema = joi.object().keys({
+  email: joi.string().email().required(),
+});
+export async function forgotPasswordValidator(req, res, next) {
+  try {
+    req.body = await forgotPasswordSchema.validateAsync(req.body, {
+      abortEarly: false,
+    });
+    next();
+  } catch (err) {
+    const errors = formatJoiError(err);
+    next({ status: 400, errors, message: "authentication failed" });
+  }
 }

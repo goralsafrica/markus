@@ -1,21 +1,26 @@
-import { compare } from "bcryptjs";
+import { compare, hashSync, hash } from "bcryptjs";
 import Hospital from "../roles/hospital/models/Hospital";
-import Patient from "../roles/patient/models/Patient";
 import Staff from "../roles/staff/models/Staff";
+import Patient from "../roles/patient/models/Patient";
 import {
   deriveToken,
   serverError,
   badRequestError,
   successMessage,
+  notFoundError,
 } from "../utilities";
+import { encryptID, decryptID } from "../utilities/derivers";
 
 class AuthController {
   static async login(user) {
     const { email, password, hospital } = user;
     try {
-      const staff = await Staff.findOne({ email, hospital }).select(
-        "+password"
-      );
+      const staff = await Staff.findOne({
+        email,
+        hospital: {
+          $in: [hospital],
+        },
+      }).select("+password");
       if (!staff)
         return Promise.resolve(
           badRequestError(
@@ -75,6 +80,55 @@ class AuthController {
         },
         "failed to login to workspace"
       );
+    }
+  }
+
+  static async forgotPassword(req) {
+    try {
+      const user = await Staff.findOne({ email: req.body.email });
+      if (!user) throw new Error("user not found");
+      console.log(req.baseUrl);
+      const temporaryURL = `${encryptID({ id: user._id })}`;
+      return successMessage(
+        {
+          "reset link": temporaryURL,
+        },
+        "reset link has been sent to email"
+      );
+    } catch (err) {
+      console.log(err);
+      return notFoundError({
+        request: err.message,
+      });
+    }
+  }
+
+  static async verifyResetPasswordToken(req) {
+    try {
+      const token = decryptID(req.params.token);
+      const data = await Staff.findById(token.id).select(
+        "firstName lastName email"
+      );
+      return successMessage(data, "authentication success");
+    } catch (err) {
+      return badRequestError({
+        request: err.message,
+      });
+    }
+  }
+
+  static async resetPassword(req) {
+    try {
+      req.body.password = await hash(req.body.password, 10);
+      const token = decryptID(req.params.token);
+      const data = await Staff.findByIdAndUpdate(token.id, {
+        password: req.body.password,
+      }).select("+password");
+      return successMessage(data, "authentication success");
+    } catch (err) {
+      return badRequestError({
+        request: err.message,
+      });
     }
   }
 }

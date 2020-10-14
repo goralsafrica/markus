@@ -1,4 +1,9 @@
-import loginValidator from "./login";
+import { loginValidator, forgotPasswordValidator } from "./inputs";
 import { verifyUser, verifyEsessionUser } from "./verify";
 
-export { loginValidator, verifyUser, verifyEsessionUser };
+export {
+  loginValidator,
+  verifyUser,
+  forgotPasswordValidator,
+  verifyEsessionUser,
+};
