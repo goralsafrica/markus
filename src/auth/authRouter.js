@@ -1,6 +1,10 @@
 import express from "express";
 import AuthController from "./auth.controller";
-import { loginValidator, forgotPasswordValidator } from "./middlewares";
+import {
+  loginValidator,
+  forgotPasswordValidator,
+  resetPasswordValidator,
+} from "./middlewares";
 const authRouter = express.Router();
 authRouter.post("/workspace", async (req, res) => {
   const { url } = req.body;
@@ -27,9 +31,13 @@ authRouter.get("/reset-password/:token", async (req, res) => {
   res.status(status).json(result);
 });
 
-authRouter.post("/reset-password/:token", async (req, res) => {
-  const { status, result } = await AuthController.resetPassword(req);
-  res.status(status).json(result);
-});
+authRouter.post(
+  "/reset-password/:user",
+  resetPasswordValidator,
+  async (req, res) => {
+    const { status, result } = await AuthController.resetPassword(req);
+    res.status(status).json(result);
+  }
+);
 //authRouter.post("/logout",)
 export default authRouter;

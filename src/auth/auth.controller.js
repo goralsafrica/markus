@@ -120,8 +120,7 @@ class AuthController {
   static async resetPassword(req) {
     try {
       req.body.password = await hash(req.body.password, 10);
-      const token = decryptID(req.params.token);
-      const data = await Staff.findByIdAndUpdate(token.id, {
+      const data = await Staff.findByIdAndUpdate(req.params.user, {
         password: req.body.password,
       }).select("+password");
       return successMessage(data, "authentication success");

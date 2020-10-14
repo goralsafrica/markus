@@ -56,3 +56,19 @@ export async function forgotPasswordValidator(req, res, next) {
     next({ status: 400, errors, message: "authentication failed" });
   }
 }
+
+const resetPasswordSchema = joi.object().keys({
+  password: joi.string().min(3).max(15).required(),
+  confirmPassword: joi.any().valid(joi.ref("password")).required(),
+});
+export async function resetPasswordValidator(req, res, next) {
+  try {
+    req.body = await resetPasswordSchema.validateAsync(req.body, {
+      abortEarly: false,
+    });
+    next();
+  } catch (err) {
+    const errors = formatJoiError(err);
+    next({ status: 400, errors, message: "authentication failed" });
+  }
+}
