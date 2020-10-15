@@ -17,7 +17,7 @@ export async function verifyUser(req, res, next) {
   }
 }
 
-export async function verifyEsessionUser(req, res, next) {
+export async function verifyTemporaryToken(req, res, next) {
   if (!req.headers.authorization) {
     return next(unAuthorizedRequestError());
   }
@@ -28,6 +28,16 @@ export async function verifyEsessionUser(req, res, next) {
     if (!data || expired || !data.temporary)
       return next(unAuthorizedRequestError());
     req.credentials = data;
+    next();
+  } catch (err) {
+    return next(unAuthorizedRequestError());
+  }
+}
+
+export async function verifyInviteToken(req, res, next) {
+  try {
+    if (!req.params.token || (await isExpired(req.params.token)))
+      throw new Error("invaid/expired token");
     next();
   } catch (err) {
     return next(unAuthorizedRequestError());

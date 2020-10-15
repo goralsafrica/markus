@@ -1,9 +1,9 @@
 import { model } from "mongoose";
 const Staff = model("Staff"),
+  ExpiredToken = model("ExpiredToken"),
   Hospital = model("Hospital");
 import {
   encrypt,
-  serverError,
   badRequestError,
   successMessage,
   decrypt,
@@ -64,11 +64,27 @@ export default class InviteController {
   static async acceptInvite(req) {
     try {
       let { invitee, hospital } = decrypt(req.params.token);
-      hospital = await Hospital.findById(hospital).select("name");
-      return successMessage({
-        invitee,
-        hospital,
-      });
+      if (invitee !== req.body.email)
+        throw new Error("email not assigned to token");
+      let staff = await Staff.findOne({ email: invitee });
+      if (staff) {
+        console.log(staff);
+        staff.hospital.push(hospital);
+        await ExpiredToken.create({ token: req.params.token });
+        await staff.save();
+        return successMessage(data, "invite to workspace complete");
+      } else {
+        return {
+          status: 307,
+          result: {
+            errors: null,
+            data: {
+              email: invitee,
+            },
+            message: "Welcome new user :)",
+          },
+        };
+      }
     } catch (err) {
       console.log(err);
       return badRequestError({

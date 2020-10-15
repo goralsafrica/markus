@@ -4,13 +4,14 @@ import {
   resetPasswordValidator,
   sendInviteMailValidator,
 } from "./inputs";
-import { verifyUser, verifyEsessionUser } from "./verify";
+import { verifyUser, verifyTemporaryToken, verifyInviteToken } from "./verify";
 
 export {
   loginValidator,
   verifyUser,
   forgotPasswordValidator,
-  verifyEsessionUser,
+  verifyTemporaryToken,
+  verifyInviteToken,
   resetPasswordValidator,
   sendInviteMailValidator,
 };
