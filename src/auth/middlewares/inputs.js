@@ -72,3 +72,15 @@ export async function resetPasswordValidator(req, res, next) {
     next({ status: 400, errors, message: "authentication failed" });
   }
 }
+
+export async function sendInviteMailValidator(req, res, next) {
+  try {
+    req.body = await forgotPasswordSchema.validateAsync(req.body, {
+      abortEarly: false,
+    });
+    next();
+  } catch (err) {
+    const errors = formatJoiError(err);
+    next({ status: 400, errors, message: "authentication failed" });
+  }
+}

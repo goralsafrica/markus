@@ -2,6 +2,7 @@ import {
   loginValidator,
   forgotPasswordValidator,
   resetPasswordValidator,
+  sendInviteMailValidator,
 } from "./inputs";
 import { verifyUser, verifyEsessionUser } from "./verify";
 
@@ -11,4 +12,5 @@ export {
   forgotPasswordValidator,
   verifyEsessionUser,
   resetPasswordValidator,
+  sendInviteMailValidator,
 };

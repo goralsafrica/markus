@@ -8,8 +8,9 @@ import {
   badRequestError,
   successMessage,
   notFoundError,
+  decrypt,
+  encrypt,
 } from "../utilities";
-import { encryptID, decryptID } from "../utilities/derivers";
 
 class AuthController {
   static async login(user) {
@@ -88,7 +89,7 @@ class AuthController {
       const user = await Staff.findOne({ email: req.body.email });
       if (!user) throw new Error("user not found");
       console.log(req.baseUrl);
-      const temporaryURL = `${encryptID({ id: user._id })}`;
+      const temporaryURL = `${encrypt({ id: user._id })}`;
       return successMessage(
         {
           "reset link": temporaryURL,
@@ -105,7 +106,7 @@ class AuthController {
 
   static async verifyResetPasswordToken(req) {
     try {
-      const token = decryptID(req.params.token);
+      const token = decrypt(req.params.token);
       const data = await Staff.findById(token.id).select(
         "firstName lastName email"
       );

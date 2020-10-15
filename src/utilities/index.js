@@ -9,12 +9,16 @@ import {
 import { formatJoiError, getDays, sanitize } from "./misc";
 import {
   deriveToken,
+  encrypt,
+  decrypt,
   generateStaffCode,
   verifyToken,
   extractToken,
 } from "./derivers";
 export {
   badRequestError,
+  encrypt,
+  decrypt,
   successMessage,
   notAllowedError,
   notFoundError,
