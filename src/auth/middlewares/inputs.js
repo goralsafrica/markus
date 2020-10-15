@@ -84,3 +84,23 @@ export async function sendInviteMailValidator(req, res, next) {
     next({ status: 400, errors, message: "authentication failed" });
   }
 }
+
+const twoFASchema = joi.object().keys({
+  frequency: joi.number().default(45),
+  token: joi
+    .number()
+    .ruleset.min(100000)
+    .max(999999)
+    .rule({ message: "number must be 6 digits" }),
+});
+export async function twoFAValidator(req, res, next) {
+  try {
+    req.body = await twoFASchema.validateAsync(req.body, {
+      abortEarly: false,
+    });
+    next();
+  } catch (err) {
+    const errors = formatJoiError(err);
+    next({ status: 400, errors, message: "authentication failed" });
+  }
+}

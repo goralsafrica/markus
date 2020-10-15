@@ -131,6 +131,26 @@ class AuthController {
       });
     }
   }
+
+  static async twoFactorAuth(req) {
+    try {
+      const staff = await Staff.findById(req.credentials.staff);
+      staff["two-factor-auth"] = req.body;
+      staff["two-factor-auth"].dueDate = new Date(
+        Date.now() + 86400000 * req.body.frequency
+      );
+      await staff.save();
+      return successMessage(
+        staff["two-factor-auth"],
+        "two factor authentication enabled/updated"
+      );
+    } catch (err) {
+      console.log(err);
+      return badRequestError({
+        request: err.message,
+      });
+    }
+  }
 }
 
 export default AuthController;

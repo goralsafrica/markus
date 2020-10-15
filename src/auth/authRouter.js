@@ -4,6 +4,8 @@ import {
   loginValidator,
   forgotPasswordValidator,
   resetPasswordValidator,
+  verifyUser,
+  twoFAValidator,
 } from "./middlewares";
 const authRouter = express.Router();
 authRouter.post("/workspace", async (req, res) => {
@@ -39,5 +41,14 @@ authRouter.post(
     res.status(status).json(result);
   }
 );
-//authRouter.post("/logout",)
+
+authRouter.put(
+  "/two-factor-auth",
+  verifyUser,
+  twoFAValidator,
+  async (req, res) => {
+    const { status, result } = await AuthController.twoFactorAuth(req);
+    res.status(status).json(result);
+  }
+);
 export default authRouter;
