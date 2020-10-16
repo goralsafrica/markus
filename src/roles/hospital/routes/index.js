@@ -17,7 +17,7 @@ hospitalRouter.use(verifyUser);
 
 // middleware to verify hospital admin :)
 // hospitalRouter.use(verifyUser, verifyAdmin);
-// hospitalRouter.use("/staff", staffRouter);
+hospitalRouter.use("/staff", staffRouter);
 // hospitalRouter.use("/branch", branchRouter);
 //hospitalRouter.use("/department", departmentRouter);
 hospitalRouter.use("/patient", patientRouter);

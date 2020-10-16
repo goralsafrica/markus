@@ -14,6 +14,10 @@ export function verifyToken(payload) {
   return jwt.verify(payload, process.env.SECRET_KEY);
 }
 
+export function extractToken(req) {
+  return req.headers.authorization.split(" ").pop();
+}
+
 export async function generateStaffCode(model, hospital) {
   try {
     const lastEntry = await model
@@ -31,4 +35,14 @@ export async function generateStaffCode(model, hospital) {
   } catch (err) {
     return Promise.reject(err);
   }
+}
+
+export function encrypt(payload, expiresIn = 1000 * 60 * 60 * 3) {
+  return jwt.sign(payload, process.env.SECRET_KEY.toUpperCase(), {
+    expiresIn,
+  });
+}
+
+export function decrypt(payload) {
+  return jwt.verify(payload, process.env.SECRET_KEY.toUpperCase());
 }

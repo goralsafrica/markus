@@ -15,6 +15,15 @@ const AdministrativeRoleSchema = new Schema({
   },
 });
 
+const SecuritySchema = new Schema({
+  token: String,
+  dueDate: Date,
+  frequency: {
+    type: Number,
+    default: 45,
+  },
+});
+
 const StaffSchema = new Schema({
   firstName: {
     type: String,
@@ -37,11 +46,16 @@ const StaffSchema = new Schema({
     required: true,
     select: false,
   },
-  hospital: {
-    type: Schema.Types.ObjectId,
-    ref: "Hospital",
-    required: true,
+  "two-factor-auth": {
+    type: SecuritySchema,
+    select: false,
   },
+  hospital: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Hospital",
+    },
+  ],
   phone: {
     type: String,
     required: true,

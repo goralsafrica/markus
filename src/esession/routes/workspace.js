@@ -1,12 +1,17 @@
 import { Router } from "express";
-import { WorkspaceController } from "../controllers";
+import { WorkspaceController, InviteController } from "../controllers";
 import { verifyStaffValidator } from "../middlewares";
-import { verifyEsessionUser, verifyUser } from "../../auth/middlewares";
+import {
+  verifyTemporaryToken,
+  verifyUser,
+  sendInviteMailValidator,
+  verifyInviteToken,
+} from "../../auth/middlewares";
 const workspaceRouter = Router();
 
 workspaceRouter.get(
-  "/workspace",
-  verifyEsessionUser,
+  "/",
+  verifyTemporaryToken,
   verifyStaffValidator,
   async (req, res) => {
     const { result, status } = await WorkspaceController.getWorkspaces(req);
@@ -14,9 +19,38 @@ workspaceRouter.get(
   }
 );
 
-workspaceRouter.post("/workspace", verifyUser, async (req, res) => {
+workspaceRouter.post("/login", verifyUser, async (req, res) => {
   const { result, status } = await WorkspaceController.switchWorkspaces(req);
   return res.status(status).json(result);
 });
+
+workspaceRouter.post(
+  "/invite",
+  verifyUser,
+  sendInviteMailValidator,
+  async (req, res) => {
+    const { result, status } = await InviteController.sendInviteMail(req);
+    return res.status(status).json(result);
+  }
+);
+
+workspaceRouter.get(
+  "/invite/accept/:token",
+  verifyInviteToken,
+  async (req, res) => {
+    const { status, result } = await InviteController.verifyInviteToken(req);
+    res.status(status).json(result);
+  }
+);
+
+workspaceRouter.post(
+  "/invite/accept/:token",
+  verifyInviteToken,
+  sendInviteMailValidator,
+  async (req, res) => {
+    const { status, result } = await InviteController.acceptInvite(req);
+    res.status(status).json(result);
+  }
+);
 
 export default workspaceRouter;

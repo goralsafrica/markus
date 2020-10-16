@@ -1,7 +1,7 @@
 import Staff from "../../staff/models/Staff";
 // import Department from "../../department/models/Department";
 import Role from "../../staff/models/Role";
-import { serverError, successMessage } from "../../../utilities";
+import { successMessage } from "../../../utilities";
 import { hashSync } from "bcryptjs";
 class HospitalStaffController {
   static async create(req) {
@@ -28,7 +28,7 @@ class HospitalStaffController {
         branches,
         department,
         role,
-        hospital: req.credentials.hospital,
+        hospital: [req.credentials.hospital],
       });
       if (!data) throw new Error("failed to update db");
       return successMessage(data, "new staff created");

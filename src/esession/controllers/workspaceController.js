@@ -1,6 +1,13 @@
 import { model, models } from "mongoose";
 const Staff = model("Staff");
-import { notFoundError, notAllowedError } from "../../utilities";
+const ExpiredToken = model("ExpiredToken");
+import {
+  notFoundError,
+  notAllowedError,
+  extractToken,
+  deriveToken,
+  successMessage,
+} from "../../utilities";
 export default class WorkspaceController {
   static async getWorkspaces(req) {
     try {
@@ -27,13 +34,19 @@ export default class WorkspaceController {
   static async switchWorkspaces(req) {
     try {
       const exists = await Staff.exists({
-        hospitals: {
+        hospital: {
           $in: [req.body.hospital],
         },
       });
-      if (exists) throw new Error("");
-      deriveToken(req.body.hospital);
+      if (exists) {
+        await ExpiredToken.create({ token: extractToken(req) });
+        return successMessage({
+          token: deriveToken(req.body.hospital, req.credentials.staff),
+        });
+      }
+      throw new Error("not allowed");
     } catch (err) {
+      console.log(err);
       return notAllowedError(
         "you do not permission to enter this workspace",
         "authentication failed"

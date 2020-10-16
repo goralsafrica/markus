@@ -2,3 +2,7 @@ emmanuel@dev.com -> admin
 kruse@dev.com -> branch head
 
     "start": "cross-env NODE_ENV=test node build/server.js",git 
+
+create hospital branch in the process 
+
+esession auth token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJob3NwaXRhbCI6IjVmNmI0ZjZlOTA5NmZlMTEyYjk1NGE4OSIsInN0YWZmIjoiNWY2YjRmNmU5MDk2ZmUxMTJiOTU0YThhIiwiaWF0IjoxNjAyNzYyMTQ4fQ.BG3yGjtuPVxr57sXAGeCeEnYRt5DXncOxkGnN3aswdY
