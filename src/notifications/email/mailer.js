@@ -1,9 +1,18 @@
 import { createTestAccount, createTransport } from "nodemailer";
+import { smtpDetails } from "../../../config";
 
-export default async function () {
-  try {
-    const transporter = createTransport({});
-  } catch (err) {
-    console.error(err);
+let transporter = createTransport(smtpDetails);
+
+export default async function (subject, Ssender, emails) {
+  if (Array.isArray(emails)) {
+    emails = emails.join(", ");
   }
+
+  try {
+    await transporter.sendMail({
+      from: `Markus <${sender}>`,
+      to: emails,
+      subject,
+    });
+  } catch (err) {}
 }
