@@ -15,6 +15,7 @@ import {
   forgotPasswordValidator,
 } from "../../auth/middlewares";
 import { checkIfStaffExists } from "../../roles/staff/middlewares/registration";
+import mailer from "../../notifications/email/mailer";
 const esessionAuthRouter = Router();
 
 esessionAuthRouter.post("/verify", verifyStaffValidator, async (req, res) => {
@@ -69,6 +70,10 @@ esessionAuthRouter.put(
 esessionAuthRouter.post("/logout", async (req, res) => {
   const { result, status } = await AuthController.logout(req);
   return res.status(status).json(result);
+});
+
+esessionAuthRouter.get("/mail", async (req, res) => {
+  mailer("Holla", "markus@dev.com", ["emeka.emmanuel045@yahoo.com"]);
 });
 
 export default esessionAuthRouter;
