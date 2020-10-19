@@ -1,4 +1,4 @@
-import { model } from "mongoose";
+import { model, models } from "mongoose";
 import { compare } from "bcryptjs";
 import {
   serverError,
@@ -7,8 +7,10 @@ import {
   badRequestError,
   deriveToken,
 } from "../../utilities";
+import StaffWorkspace from "../../roles/staff/models/StaffWorkspace";
 const Staff = model("Staff");
 const ExpiredToken = model("ExpiredToken");
+console.log(models);
 
 class EsessionAuthController {
   static async verify(req) {
