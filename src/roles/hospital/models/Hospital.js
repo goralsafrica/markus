@@ -10,20 +10,17 @@ const hospitalSchema = Schema(
     },
     email: {
       type: String,
+      unique: true,
       required: true,
     },
     phone: {
       type: String,
+      unique: true,
       required: true,
     },
     url: {
       type: String,
       unique: true,
-    },
-    code: {
-      type: String,
-      unique: true,
-      required: true,
     },
     departments: [{ type: Schema.Types.ObjectId, ref: "Department" }],
   },

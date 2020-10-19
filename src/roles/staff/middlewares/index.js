@@ -1,5 +1,6 @@
 import {
   createStaffValidator,
+  checkIfStaffExistsInHospital,
   checkIfStaffExists,
   generateStaffCode,
   updateStaffDetailsValidator,
@@ -8,8 +9,8 @@ import verifyStaff from "./auth";
 
 export {
   createStaffValidator,
+  checkIfStaffExistsInHospital,
   checkIfStaffExists,
   verifyStaff,
-  generateStaffCode,
   updateStaffDetailsValidator,
 };

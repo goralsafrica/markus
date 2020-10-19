@@ -5,8 +5,10 @@ import { HospitalController } from "../../roles/hospital/controllers";
 import {
   registerHospitalValidator,
   generateCodes,
+  verifyNewHospital,
 } from "../../roles/hospital/middlewares";
 import { verifyTemporaryToken } from "../../auth/middlewares";
+import { checkIfStaffExists } from "../../roles/staff/middlewares/registration";
 const esessionAuthRouter = Router();
 
 esessionAuthRouter.post("/verify", verifyStaffValidator, async (req, res) => {
@@ -20,7 +22,8 @@ esessionAuthRouter.post("/login", verifyTemporaryToken, async (req, res) => {
 esessionAuthRouter.post(
   "/register",
   registerHospitalValidator,
-  generateCodes,
+  verifyNewHospital,
+  checkIfStaffExists,
   async (req, res) => {
     const { result, status } = await HospitalController.create(req.body);
     return res.status(status).json(result);

@@ -1,23 +1,12 @@
 import { model, Schema } from "mongoose";
 
-const AdministrativeRoleSchema = new Schema({
-  name: String,
-  branch: String,
-  department: String,
-});
-
 const SecuritySchema = new Schema({
   token: String,
   dueDate: Date,
   frequency: {
     type: Number,
-    default: 45,
+    default: 30,
   },
-});
-
-const RoleSchema = new Schema({
-  name: String,
-  category: String,
 });
 
 const StaffSchema = new Schema({
@@ -32,44 +21,23 @@ const StaffSchema = new Schema({
   email: {
     type: String,
     required: true,
-  },
-  code: {
-    type: String,
-    required: true,
+    unique: true,
   },
   password: {
     type: String,
     required: true,
     select: false,
   },
+  phone: {
+    type: String,
+    unique: true,
+    required: true,
+  },
   "two-factor-auth": {
     type: SecuritySchema,
     select: false,
+    default: {},
   },
-  hospital: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "Hospital",
-    },
-  ],
-  phone: {
-    type: String,
-    required: true,
-  },
-  priviledged: {
-    type: Number,
-    default: 0,
-  },
-  administrativeRole: {
-    type: AdministrativeRoleSchema,
-    required: false,
-  },
-  role: {
-    type: RoleSchema,
-    required: true,
-  },
-  department: String,
-  branches: [{ type: Schema.Types.ObjectId, ref: "Branch" }],
 });
 
 export default model("Staff", StaffSchema);

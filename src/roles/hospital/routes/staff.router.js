@@ -2,8 +2,7 @@ import { Router } from "express";
 import { StaffController } from "../controllers/";
 import {
   createStaffValidator,
-  checkIfStaffExists,
-  generateStaffCode,
+  checkIfStaffExistsInHospital,
   updateStaffDetailsValidator,
 } from "../../staff/middlewares";
 const staffRouter = Router();
@@ -12,8 +11,7 @@ const staffRouter = Router();
 staffRouter.post(
   "/",
   createStaffValidator,
-  checkIfStaffExists,
-  generateStaffCode,
+  checkIfStaffExistsInHospital,
   async (req, res) => {
     const { status, result } = await StaffController.create(req);
     return res.status(status).json(result);

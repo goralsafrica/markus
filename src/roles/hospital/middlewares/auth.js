@@ -39,7 +39,8 @@ export async function verifyNewHospital(req, res, next) {
   return next({
     status: 400,
     errors: {
-      request: "phone number / hospital already belongs to another hospital",
+      request:
+        "phone number/email hospital already belongs to another hospital",
     },
     message: "failed to create hospital",
   });

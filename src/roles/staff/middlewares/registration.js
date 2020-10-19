@@ -70,7 +70,7 @@ export async function createStaffValidator(req, res, next) {
   return next();
 }
 
-export async function checkIfStaffExists(req, res, next) {
+export async function checkIfStaffExistsInHospital(req, res, next) {
   const { email, phone } = req.body;
   try {
     const exists = await Staff.exists({
@@ -98,12 +98,24 @@ export async function checkIfStaffExists(req, res, next) {
   }
 }
 
-export async function generateStaffCode(req, res, next) {
+export async function checkIfStaffExists(req, res, next) {
+  const { adminEmail: email, adminPhone: phone } = req.body;
   try {
-    const code = await generate(Staff, req.credentials.hospital);
-    req.body.code = code;
+    const exists = await Staff.exists({
+      $or: [{ email }, { phone }],
+    });
+    console.log(exists);
+    if (exists)
+      return res.status(400).json({
+        data: null,
+        errors: {
+          request: "a staff with these credentials already exists",
+        },
+        message: "failed to create new staff",
+      });
     next();
   } catch (err) {
+    console.log(err);
     return next({
       status: 400,
       errors: {
@@ -121,7 +133,6 @@ const administrativeRoleSchema = Joi.object()
     department: Joi.objectId(),
   })
   .with("department", "branch");
-
 const updateStaffSchema = Joi.object().keys({
   department: Joi.objectId(),
   branches: Joi.array().items(Joi.objectId()),

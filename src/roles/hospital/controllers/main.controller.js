@@ -27,17 +27,12 @@ class HospitalController {
         url: user.url,
         code: user.hospitalCode,
       });
-      if (!createHospital) throw new Error("failed to create hospital");
       // creates partial details of a hospital branch
       const createBranch = Branch.create({
         branchName: "head branch",
         address: user.address,
         hospital: createHospital._id,
       });
-      if (!createBranch) {
-        await Hospital.findByIdAndDelete(createHospital._id);
-        throw new Error("failed to create branch in hospital");
-      }
 
       // create staff and store as an admin
       const createStaff = await Staff.create({
@@ -45,26 +40,23 @@ class HospitalController {
         lastName: user.adminLastName,
         email: user.adminEmail,
         phone: user.adminPhone,
-        role: {
-          name: "chief medical director",
-          category: "doctors",
-        },
-        administrativeRole: {
-          name: "chief medical director",
-        },
-        code: user.hospitalCode + "-001",
-        hospital: createHospital._id,
+        roles: [
+          {
+            name: "chief medical director",
+            category: "doctors",
+            hospital: createHospital._id,
+          },
+        ],
+        administrativeRoles: [
+          {
+            name: "chief medical director",
+            hospital: createHospital._id,
+          },
+        ],
+        hospitals: [createHospital._id],
         password: user.password,
-        priviledged: 1,
       });
 
-      if (!createStaff) {
-        console.log(createHospital._id, createBranch._id);
-        await Hospital.findByIdAndDelete(createHospital._id);
-        await Branch.findByIdAndDelete(createBranch._id);
-
-        throw new Error("failed to create staff");
-      }
       const token = deriveToken(createHospital._id, createStaff._id);
 
       // send mail
