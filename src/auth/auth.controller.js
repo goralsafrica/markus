@@ -65,21 +65,18 @@ class AuthController {
     try {
       const hospital = await Hospital.findOne({ url });
       if (!hospital)
-        return badRequestError(
+        return successMessage(
           { url: "url not found" },
-          "failed to login to workspace"
+          "workspace validation passed"
         );
-      return successMessage(
-        { hospital: hospital._id },
-        "workspace validation passed"
+      return badRequestError(
+        { url: "url taken" },
+        "workspace validation failed"
       );
     } catch (err) {
-      console.error(err);
-      return serverError(
-        {
-          request: "server failed to respond",
-        },
-        "failed to login to workspace"
+      return badRequestError(
+        { url: "url taken" },
+        "workspace validation failed"
       );
     }
   }
