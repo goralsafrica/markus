@@ -10,7 +10,6 @@ import {
 import StaffWorkspace from "../../roles/staff/models/StaffWorkspace";
 const Staff = model("Staff");
 const ExpiredToken = model("ExpiredToken");
-console.log(models);
 
 class EsessionAuthController {
   static async verify(req) {
@@ -29,9 +28,14 @@ class EsessionAuthController {
           request: "invalid credentials",
         });
       }
+      const hospitals = await StaffWorkspace.find({
+        staff: staff._id,
+      })
+        .select("hospital")
+        .populate("hospital", "name url");
       return successMessage(
         {
-          hospitals: staff.hospital,
+          hospitals,
           token: deriveToken("", staff._id, true),
         },
         "verification success"
