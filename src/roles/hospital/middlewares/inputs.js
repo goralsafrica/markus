@@ -63,8 +63,8 @@ const registerHospitalSchema = joi.object().keys({
   hospitalEmail: joi.string().email().required(),
   hospitalPhone: joi.string().required(),
   url: joi.string().required(),
-  password: joi.string(),
-  address: joi.string(),
+  password: joi.string().required(),
+  address: joi.string().required(),
 });
 export async function registerHospitalValidator(req, res, next) {
   try {

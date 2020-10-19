@@ -1,6 +1,4 @@
 import Staff from "../../staff/models/Staff";
-// import Department from "../../department/models/Department";
-import Role from "../../staff/models/Role";
 import { successMessage } from "../../../utilities";
 import { hashSync } from "bcryptjs";
 class HospitalStaffController {

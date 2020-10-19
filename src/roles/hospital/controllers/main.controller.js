@@ -1,6 +1,7 @@
 import Hospital from "../models/Hospital";
 import Staff from "../../staff/models/Staff";
 import Branch from "../../branch/models/Branch";
+import StaffWorkspace from "../../staff/models/StaffWorkspace";
 import { hashSync } from "bcryptjs";
 import {
   deriveToken,
@@ -15,11 +16,10 @@ import {
 
 class HospitalController {
   static async create(user) {
-    console.log(user);
     // hash password
     user.password = hashSync(user.password, 10);
     try {
-      //create new Hospital first
+      //create new hospital
       const createHospital = await Hospital.create({
         name: user.hospitalName,
         email: user.hospitalEmail,
@@ -28,35 +28,32 @@ class HospitalController {
         code: user.hospitalCode,
       });
       // creates partial details of a hospital branch
-      const createBranch = Branch.create({
+      const createBranch = await Branch.create({
         branchName: "head branch",
         address: user.address,
         hospital: createHospital._id,
       });
-
-      // create staff and store as an admin
+      // create new staff
       const createStaff = await Staff.create({
         firstName: user.adminFirstName,
         lastName: user.adminLastName,
         email: user.adminEmail,
         phone: user.adminPhone,
-        roles: [
-          {
-            name: "chief medical director",
-            category: "doctors",
-            hospital: createHospital._id,
-          },
-        ],
-        administrativeRoles: [
-          {
-            name: "chief medical director",
-            hospital: createHospital._id,
-          },
-        ],
-        hospitals: [createHospital._id],
         password: user.password,
       });
 
+      await StaffWorkspace.create({
+        staff: createStaff._id,
+        hospital: createHospital._id,
+        role: {
+          name: "chief medical director",
+          category: "doctor",
+        },
+        branches: [createBranch._id],
+        administrativeRole: {
+          name: "chief medical director",
+        },
+      });
       const token = deriveToken(createHospital._id, createStaff._id);
 
       // send mail

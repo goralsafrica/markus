@@ -104,7 +104,6 @@ export async function checkIfStaffExists(req, res, next) {
     const exists = await Staff.exists({
       $or: [{ email }, { phone }],
     });
-    console.log(exists);
     if (exists)
       return res.status(400).json({
         data: null,
