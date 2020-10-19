@@ -1,6 +1,7 @@
 import isEmpty from "is-empty";
 import validator from "validator";
-import { badRequestError, sanitize } from "../../../utilities";
+import joi from "joi";
+import { badRequestError, sanitize, formatJoiError } from "../../../utilities";
 import Hospital from "../models/Hospital";
 
 export function registerValidator(req, res, next) {
@@ -51,6 +52,34 @@ export function registerValidator(req, res, next) {
 
   req.body = sanitize(validator, data);
   next();
+}
+
+const registerHospitalSchema = joi.object().keys({
+  adminFirstName: joi.string().required(),
+  adminLastName: joi.string().required(),
+  adminPhone: joi.string().required(),
+  adminEmail: joi.string().email().required(),
+  hospitalName: joi.string().required(),
+  hospitalEmail: joi.string().email().required(),
+  hospitalPhone: joi.string().required(),
+  url: joi.string().required(),
+  password: joi.string(),
+  address: joi.string(),
+});
+export async function registerHospitalValidator(req, res, next) {
+  try {
+    req.body = await registerHospitalSchema.validateAsync(req.body, {
+      abortEarly: false,
+    });
+    next();
+  } catch (err) {
+    const errors = formatJoiError(err);
+    next({
+      status: 400,
+      errors,
+      message: "failed to create new workspace",
+    });
+  }
 }
 
 export function updateHospitalValidator(req, res, next) {

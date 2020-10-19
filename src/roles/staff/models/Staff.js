@@ -1,18 +1,9 @@
 import { model, Schema } from "mongoose";
 
 const AdministrativeRoleSchema = new Schema({
-  name: {
-    type: Schema.Types.ObjectId,
-    ref: "Role",
-  },
-  branch: {
-    type: Schema.Types.ObjectId,
-    ref: "Branch",
-  },
-  department: {
-    type: Schema.Types.ObjectId,
-    ref: "Department",
-  },
+  name: String,
+  branch: String,
+  department: String,
 });
 
 const SecuritySchema = new Schema({
@@ -22,6 +13,11 @@ const SecuritySchema = new Schema({
     type: Number,
     default: 45,
   },
+});
+
+const RoleSchema = new Schema({
+  name: String,
+  category: String,
 });
 
 const StaffSchema = new Schema({
@@ -69,15 +65,10 @@ const StaffSchema = new Schema({
     required: false,
   },
   role: {
-    type: Schema.Types.ObjectId,
-    ref: "Role",
+    type: RoleSchema,
     required: true,
   },
-  department: {
-    type: Schema.Types.ObjectId,
-    ref: "Department",
-    required: true,
-  },
+  department: String,
   branches: [{ type: Schema.Types.ObjectId, ref: "Branch" }],
 });
 

@@ -1,7 +1,13 @@
 import Hospital from "../models/Hospital";
 import Staff from "../../staff/models/Staff";
+import Branch from "../../branch/models/Branch";
 import { hashSync } from "bcryptjs";
-import { deriveToken, serverError, badRequestError } from "../../../utilities";
+import {
+  deriveToken,
+  serverError,
+  badRequestError,
+  successMessage,
+} from "../../../utilities";
 
 /**
  * @description Controller for all hospital - admin functions
@@ -9,6 +15,7 @@ import { deriveToken, serverError, badRequestError } from "../../../utilities";
 
 class HospitalController {
   static async create(user) {
+    console.log(user);
     // hash password
     user.password = hashSync(user.password, 10);
     try {
@@ -20,6 +27,17 @@ class HospitalController {
         url: user.url,
         code: user.hospitalCode,
       });
+      if (!createHospital) throw new Error("failed to create hospital");
+      // creates partial details of a hospital branch
+      const createBranch = Branch.create({
+        branchName: "head branch",
+        address: user.address,
+        hospital: createHospital._id,
+      });
+      if (!createBranch) {
+        await Hospital.findByIdAndDelete(createHospital._id);
+        throw new Error("failed to create branch in hospital");
+      }
 
       // create staff and store as an admin
       const createStaff = await Staff.create({
@@ -27,32 +45,37 @@ class HospitalController {
         lastName: user.adminLastName,
         email: user.adminEmail,
         phone: user.adminPhone,
-        department: "5f5f2e592efb0a2bc448d5c4",
-        role: "5f5b6c7cbecfefabaefe913f",
+        role: {
+          name: "chief medical director",
+          category: "doctors",
+        },
+        administrativeRole: {
+          name: "chief medical director",
+        },
+        code: user.hospitalCode + "-001",
         hospital: createHospital._id,
         password: user.password,
         priviledged: 1,
       });
-      if (!createHospital || !createStaff) return Promise.reject("error");
 
+      if (!createStaff) {
+        console.log(createHospital._id, createBranch._id);
+        await Hospital.findByIdAndDelete(createHospital._id);
+        await Branch.findByIdAndDelete(createBranch._id);
+
+        throw new Error("failed to create staff");
+      }
       const token = deriveToken(createHospital._id, createStaff._id);
-      return Promise.resolve({
-        status: 200,
-        result: {
-          data: {
-            token,
-          },
-          errors: null,
-          message: "hospital has been created successfully",
-        },
-      });
+
+      // send mail
+      return successMessage({ token }, "setup success");
     } catch (err) {
       console.error(err);
-      return Promise.resolve(
-        serverError(
-          { request: "server failed to respond" },
-          "failed to create new hospital"
-        )
+      return serverError(
+        {
+          request: err.message,
+        },
+        "setup failure"
       );
     }
   }

@@ -17,8 +17,7 @@ mainRouter.post(
   verifyNewHospital,
   generateCodes,
   async (req, res) => {
-    const details = req.body;
-    const r = await HospitalController.create(details);
+    const r = await HospitalController.create(req.body);
     res.status(r.status).json(r.result);
   }
 );

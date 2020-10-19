@@ -10,26 +10,11 @@ const branchSchema = Schema(
       type: String,
       required: true,
     },
-    city: {
-      type: String,
-      required: false,
-    },
-    state: {
-      type: String,
-      required: false,
-    },
-    country: {
-      type: String,
-      required: false,
-    },
-    email: {
-      type: String,
-      required: true,
-    },
-    phone: {
-      type: String,
-      required: true,
-    },
+    city: String,
+    state: String,
+    country: String,
+    email: String,
+    phone: String,
     hospital: {
       required: true,
       type: Schema.Types.ObjectId,

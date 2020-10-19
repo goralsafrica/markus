@@ -2,6 +2,7 @@ import {
   registerBranchValidator as branchValidator,
   registerValidator,
   updateHospitalValidator,
+  registerHospitalValidator,
 } from "./inputs";
 import { verifyAdmin, verifyNewHospital } from "./auth";
 import { generateCodes } from "./utils";
@@ -11,6 +12,7 @@ export {
   registerValidator,
   updateHospitalValidator,
   verifyAdmin,
+  registerHospitalValidator,
   branchValidator,
   verifyNewHospital,
   generateCodes,

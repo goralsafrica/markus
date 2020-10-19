@@ -1,7 +1,7 @@
 {
-  "Administration": true,
-  "Allied Health Professionals": true,
-  "Doctors": true,
-  "Nurses": true,
-  "Others": true
+  "administration": true,
+  "allied health professionals": true,
+  "doctors": true,
+  "nurses": true,
+  "others": true
 }
