@@ -7,7 +7,9 @@ import {
   verifyUser,
   twoFAValidator,
 } from "./middlewares";
+
 const authRouter = express.Router();
+
 authRouter.post("/workspace", async (req, res) => {
   const { url } = req.body;
   const { status, result } = await AuthController.verifyWorkspace(url);

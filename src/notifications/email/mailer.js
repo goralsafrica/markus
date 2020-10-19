@@ -3,7 +3,7 @@ import { smtpDetails } from "../../../config";
 
 let transporter = createTransport(smtpDetails);
 
-export default async function (subject, Ssender, emails) {
+export default async function (subject, sender, emails) {
   if (Array.isArray(emails)) {
     emails = emails.join(", ");
   }
@@ -14,5 +14,7 @@ export default async function (subject, Ssender, emails) {
       to: emails,
       subject,
     });
-  } catch (err) {}
+  } catch (err) {
+    console.log(err);
+  }
 }

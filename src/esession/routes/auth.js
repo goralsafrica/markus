@@ -12,7 +12,7 @@ esessionAuthRouter.post("/login", verifyTemporaryToken, async (req, res) => {
   const { result, status } = await AuthController.login(req);
   return res.status(status).json(result);
 });
-
+//esessionAuthRouter.post("/register")
 esessionAuthRouter.post("/logout", async (req, res) => {
   const { result, status } = await AuthController.logout(req);
   return res.status(status).json(result);
