@@ -1,3 +1,5 @@
+import Handlebars from "handlebars";
+import { join } from "path";
 import {
   createTestAccount,
   createTransport,
@@ -19,6 +21,8 @@ let transporter, testAccount;
     },
   });
 })();
+
+function loadTemplate(data, template) {}
 
 export default async function (subject, sender, emails, data, template) {
   if (Array.isArray(emails)) {
