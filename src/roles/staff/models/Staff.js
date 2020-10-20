@@ -38,6 +38,21 @@ const StaffSchema = new Schema({
     select: false,
     default: {},
   },
+  verificationCode: {
+    type: Number,
+    required: true,
+  },
+  verified: {
+    type: Boolean,
+    default: false,
+  },
+});
+
+StaffSchema.pre("save", function (next) {
+  this.firstName = this.firstName.toLowerCase();
+  this.lastName = this.lastName.toLowerCase();
+  this.email = this.email.toLowerCase();
+  next();
 });
 
 export default model("Staff", StaffSchema);

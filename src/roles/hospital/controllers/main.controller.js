@@ -19,6 +19,7 @@ class HospitalController {
   static async create(user) {
     // hash password
     user.password = hashSync(user.password, 10);
+    const verificationCode = Math.floor(Math.random() * 100000);
     try {
       //create new hospital
       const createHospital = await Hospital.create({
@@ -41,6 +42,7 @@ class HospitalController {
         email: user.adminEmail,
         phone: user.adminPhone,
         password: user.password,
+        verificationCode,
       });
 
       await StaffWorkspace.create({
