@@ -19,7 +19,7 @@ class HospitalController {
   static async create(user) {
     // hash password
     user.password = hashSync(user.password, 10);
-    const verificationCode = Math.floor(Math.random() * 100000);
+    const verificationCode = Math.floor(Math.random() * 10 ** 6);
     try {
       //create new hospital
       const createHospital = await Hospital.create({
@@ -58,9 +58,8 @@ class HospitalController {
         },
       });
       const token = deriveToken(createHospital._id, createStaff._id);
-
       // send mail
-      sendMail("Verify Your Accou");
+      //sendMail("Verify Your Accou");
       return successMessage({ token }, "setup success");
     } catch (err) {
       console.error(err);
