@@ -26,7 +26,12 @@ const hospitalSchema = Schema(
   },
   { timestamps: true }
 );
-
-hospitalSchema.pre("");
+// convert all values to lower case for uniformity
+hospitalSchema.pre("save", async function (next) {
+  for (const key in this) {
+    this[key] = this[key].toLowerCase();
+    next();
+  }
+});
 
 export default model("Hospital", hospitalSchema);
