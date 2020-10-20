@@ -36,7 +36,9 @@ export default async function (subject, sender, emails, data, template) {
     });
     console.log("Message sent: %s", info.messageId);
     console.log("Preview URL: %s", getTestMessageUrl(info));
+    return info;
   } catch (err) {
     console.log(err);
+    return err;
   }
 }

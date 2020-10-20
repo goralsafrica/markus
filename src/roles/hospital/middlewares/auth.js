@@ -32,15 +32,18 @@ export async function verifyAdmin(req, res, next) {
 
 export async function verifyNewHospital(req, res, next) {
   const exists = await Hospital.exists({
-    $or: [{ email: req.body.hospitalEmail }, { phone: req.body.hospitalPhone }],
+    $or: [
+      { email: req.body.hospitalEmail.toLowerCase() },
+      { phone: req.body.hospitalPhone },
+      { name: req.body.hospitalName.toLowerCase() },
+    ],
   });
   if (!exists) return next();
 
   return next({
     status: 400,
     errors: {
-      request:
-        "phone number/email hospital already belongs to another hospital",
+      request: "Hospital credentials already belongs to another hospital",
     },
     message: "failed to create hospital",
   });
