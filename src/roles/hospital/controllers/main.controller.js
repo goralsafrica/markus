@@ -2,6 +2,7 @@ import Hospital from "../models/Hospital";
 import Staff from "../../staff/models/Staff";
 import Branch from "../../branch/models/Branch";
 import StaffWorkspace from "../../staff/models/StaffWorkspace";
+import { sendMail } from "../../../notifications";
 import { hashSync } from "bcryptjs";
 import {
   deriveToken,
@@ -57,6 +58,7 @@ class HospitalController {
       const token = deriveToken(createHospital._id, createStaff._id);
 
       // send mail
+      sendMail("Verify Your Accou");
       return successMessage({ token }, "setup success");
     } catch (err) {
       console.error(err);

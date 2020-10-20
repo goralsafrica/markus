@@ -27,4 +27,6 @@ const hospitalSchema = Schema(
   { timestamps: true }
 );
 
+hospitalSchema.pre("");
+
 export default model("Hospital", hospitalSchema);
