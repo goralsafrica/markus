@@ -2,19 +2,21 @@ import express from "express";
 import { createServer } from "http";
 import loader from "./loaders";
 import * as config from "./config";
+import { ws_loader } from "./loaders/socket";
 const app = express();
 loader(app, config)
   .then((msg) => {
     console.log(msg);
-    const port = config.port;
     const server = createServer(app);
-    server.listen(port, () => {
-      return console.log(`server running on port ${port}`);
+    ws_loader(server).then(() => {
+      server.listen(config.port, () =>
+        console.log(`server running on port ${config.port}`)
+      );
     });
   })
   .catch((err) => {
     console.error(err);
-    process.exit(1);
+    process.exit();
   });
 
 export default app;
