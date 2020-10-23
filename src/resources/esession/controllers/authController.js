@@ -6,7 +6,7 @@ import {
   successMessage,
   badRequestError,
   deriveToken,
-} from "../../utilities";
+} from "../../../utilities";
 import StaffWorkspace from "../../roles/staff/models/StaffWorkspace";
 const Staff = model("Staff");
 const ExpiredToken = model("ExpiredToken");

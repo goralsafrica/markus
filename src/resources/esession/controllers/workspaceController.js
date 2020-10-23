@@ -7,7 +7,7 @@ import {
   extractToken,
   deriveToken,
   successMessage,
-} from "../../utilities";
+} from "../../../utilities";
 export default class WorkspaceController {
   static async getWorkspaces(req) {
     try {

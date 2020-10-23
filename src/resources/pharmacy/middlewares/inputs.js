@@ -1,8 +1,4 @@
-import validator from "validator";
-import empty from "is-empty";
-import { serverError, badRequestError } from "../../utilities";
 import possibleCategories from "../../../seeders/drugCategories.json";
-import isEmpty from "is-empty";
 function updateStoreValidator(req, res, next) {
   const errors = {};
   const data = {};

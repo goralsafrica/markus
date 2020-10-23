@@ -2,7 +2,11 @@ import Branch from "../../branch/models/Branch";
 import Staff from "../../staff/models/Staff";
 import Hospital from "../../hospital/models/Hospital";
 import Department from "../../department/models/Department";
-import { successMessage, serverError, notFoundError } from "../../../utilities";
+import {
+  successMessage,
+  serverError,
+  notFoundError,
+} from "../../../../utilities";
 class BranchDepartmentController {
   static async add(req) {
     const { branch } = req.staff.administrativeRole;

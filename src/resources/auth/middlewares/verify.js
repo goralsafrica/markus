@@ -1,5 +1,5 @@
 import ExpiredToken from "../models/ExpiredToken";
-import { verifyToken, unAuthorizedRequestError } from "../../utilities";
+import { verifyToken, unAuthorizedRequestError } from "../../../utilities";
 
 export async function verifyUser(req, res, next) {
   if (!req.headers.authorization) {

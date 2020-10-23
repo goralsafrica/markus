@@ -4,7 +4,7 @@ import {
   badRequestError,
   successMessage,
   getDays,
-} from "../../utilities";
+} from "../../../utilities";
 
 class RosterController {
   static async create({ credentials, body }) {

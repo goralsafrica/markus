@@ -1,5 +1,5 @@
 import Staff from "../../staff/models/Staff";
-import { successMessage } from "../../../utilities";
+import { successMessage } from "../../../../utilities";
 import { hashSync } from "bcryptjs";
 class HospitalStaffController {
   static async create(req) {

@@ -1,5 +1,9 @@
 import Inventory from "../models/Inventory";
-import { badRequestError, serverError, successMessage } from "../../utilities";
+import {
+  badRequestError,
+  serverError,
+  successMessage,
+} from "../../../utilities";
 
 class InventoryController {
   static async create(req) {

@@ -1,6 +1,6 @@
 import Pharmacy from "../models/Pharmacy";
 import Prescription from "../../esession/models/Prescription";
-import { successMessage, serverError } from "../../utilities";
+import { successMessage, serverError } from "../../../utilities";
 
 class PrescriptionController {
   static async getWaitingList() {

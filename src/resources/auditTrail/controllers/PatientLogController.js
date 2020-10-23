@@ -1,5 +1,5 @@
 import PatientLog from "../models/PatientLog";
-import { badRequestError, successMessage } from "../../utilities";
+import { badRequestError, successMessage } from "../../../utilities";
 
 class PatientLogController {
   static async create(req) {}

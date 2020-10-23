@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import * as config from "../../config";
+import * as config from "../config";
 
 export function deriveToken(hospital, staff, temporary = false) {
   let payload = {

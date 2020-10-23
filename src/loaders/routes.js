@@ -1,6 +1,6 @@
 import cors from "cors";
 import express from "express";
-import apiRouter from "../src/apiRouter";
+import apiRouter from "../apiRouter";
 
 export default function (app, config) {
   return new Promise((resolve, reject) => {
@@ -14,7 +14,6 @@ export default function (app, config) {
     //main entry for APIs
     app.use("/api", apiRouter);
 
-    //resolve if no errors
     resolve();
   });
 }

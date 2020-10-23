@@ -1,5 +1,5 @@
 import Staff from "../../staff/models/Staff";
-import { successMessage, serverError } from "../../../utilities";
+import { successMessage, serverError } from "../../../../utilities";
 
 class BranchStaffController {
   static async getStaffs(req) {

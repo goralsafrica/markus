@@ -4,7 +4,7 @@ import {
   badRequestError,
   successMessage,
   notFoundError,
-} from "../../utilities";
+} from "../../../utilities";
 
 class MainController {
   static async create(req) {

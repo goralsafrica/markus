@@ -10,7 +10,7 @@ import {
   notFoundError,
   decrypt,
   encrypt,
-} from "../utilities";
+} from "../../utilities";
 
 class AuthController {
   static async login(user) {

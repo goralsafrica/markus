@@ -1,5 +1,5 @@
 import StaffLog from "../models/StaffLog";
-import { badRequestError, successMessage } from "../../utilities";
+import { badRequestError, successMessage } from "../../../utilities";
 
 class StaffLogController {
   static async create(req) {}

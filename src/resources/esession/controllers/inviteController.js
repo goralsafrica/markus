@@ -7,7 +7,7 @@ import {
   badRequestError,
   successMessage,
   decrypt,
-} from "../../utilities";
+} from "../../../utilities";
 
 export default class InviteController {
   static async sendInviteMail(req) {

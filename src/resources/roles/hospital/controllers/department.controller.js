@@ -4,7 +4,7 @@ import {
   badRequestError,
   successMessage,
   serverError,
-} from "../../../utilities";
+} from "../../../../utilities";
 
 class DepartmentController {
   static async create(req) {

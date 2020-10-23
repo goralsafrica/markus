@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { serverError, successMessage } from "../../../utilities";
+import { serverError, successMessage } from "../../../../utilities";
 const Patient = mongoose.model("Patient");
 
 class HospitalPatientController {

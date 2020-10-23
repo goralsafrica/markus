@@ -1,5 +1,5 @@
 import Joi from "joi";
-import { formatJoiError } from "../../utilities";
+import { formatJoiError } from "../../../utilities";
 
 const verifyStaffSchema = Joi.object().keys({
   email: Joi.string().email().required(),

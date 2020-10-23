@@ -2,7 +2,7 @@
 import validator from "validator";
 import isEmpty from "is-empty";
 import joi from "joi";
-import { badRequestError, formatJoiError } from "../../utilities";
+import { badRequestError, formatJoiError } from "../../../utilities";
 /**
  *
  * @param req

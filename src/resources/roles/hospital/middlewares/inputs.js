@@ -1,7 +1,11 @@
 import isEmpty from "is-empty";
 import validator from "validator";
 import joi from "joi";
-import { badRequestError, sanitize, formatJoiError } from "../../../utilities";
+import {
+  badRequestError,
+  sanitize,
+  formatJoiError,
+} from "../../../../utilities";
 import Hospital from "../models/Hospital";
 
 export function registerValidator(req, res, next) {

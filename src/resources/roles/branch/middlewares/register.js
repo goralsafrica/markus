@@ -1,6 +1,6 @@
 import validator from "validator";
 import isEmpty from "is-empty";
-import { sanitize } from "../../../utilities";
+import { sanitize } from "../../../../utilities";
 
 export function registerBranchValidator(req, res, next) {
   const errors = {};

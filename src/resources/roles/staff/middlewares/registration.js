@@ -7,10 +7,9 @@ import {
   badRequestError,
   generateStaffCode as generate,
   formatJoiError,
-} from "../../../utilities";
+} from "../../../../utilities";
 import Hospital from "../../hospital/models/Hospital";
 import Staff from "../models/Staff";
-import { admin } from "firebase-admin/lib/credential";
 /**
  *
  * @param req

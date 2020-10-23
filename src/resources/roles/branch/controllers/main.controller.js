@@ -1,5 +1,5 @@
 import { model } from "mongoose";
-import { successMessage, serverError } from "../../../utilities";
+import { successMessage, serverError } from "../../../../utilities";
 const Branch = model("Branch");
 const Staff = model("Staff");
 

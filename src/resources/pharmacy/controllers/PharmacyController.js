@@ -1,5 +1,9 @@
 import Pharmacy from "../models/Pharmacy";
-import { successMessage, serverError, badRequestError } from "../../utilities";
+import {
+  successMessage,
+  serverError,
+  badRequestError,
+} from "../../../utilities";
 
 class PharmacyController {
   static async createStore(req) {

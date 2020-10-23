@@ -2,13 +2,10 @@
   "name": "gorals",
   "version": "1.0.0",
   "description": "a simple backend implementation of a user hierachy system",
-  "main": "server.js",
+  "main": "src/server.js",
   "scripts": {
-    "start": "cross-env NODE_ENV=test nodemon --exec babel-node --experimental-modules server.js",
-    "dev": "cross-env NODE_ENV=development nodemon --exec babel-node --experimental-modules server.js"
-  },
-  "engines": {
-    "node": "12.18.3"
+    "start": "cross-env NODE_ENV=test nodemon --exec babel-node --experimental-modules src/server.js",
+    "dev": "cross-env NODE_ENV=development nodemon --exec babel-node --experimental-modules src/server.js"
   },
   "author": "",
   "license": "ISC",

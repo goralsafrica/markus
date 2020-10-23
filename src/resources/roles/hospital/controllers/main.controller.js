@@ -9,7 +9,7 @@ import {
   serverError,
   badRequestError,
   successMessage,
-} from "../../../utilities";
+} from "../../../../utilities";
 
 /**
  * @description Controller for all hospital - admin functions

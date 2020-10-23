@@ -1,6 +1,6 @@
 import Joi from "joi";
 Joi.objectId = require("joi-objectid")(Joi);
-import { formatJoiError } from "../../utilities";
+import { formatJoiError } from "../../../utilities";
 const createSessionSchema = Joi.object().keys({
   firstName: Joi.string().required(),
   lastName: Joi.string().required(),
