@@ -53,7 +53,7 @@ class EsessionAuthController {
 
   static async login(req) {
     try {
-      const exists = await Staff.findOne({
+      const exists = await StaffWorkspace.findOne({
         _id: req.credentials.staff,
         hospital: {
           $in: [req.body.hospital],

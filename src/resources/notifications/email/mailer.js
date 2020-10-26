@@ -1,5 +1,4 @@
 import Handlebars from "handlebars";
-import { join } from "path";
 import {
   createTestAccount,
   createTransport,

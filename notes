@@ -8,3 +8,9 @@ requirements for every email
 - template
 - data object for template
 - recipients
+
+  "scripts": {
+    "start": "cross-env NODE_ENV=test nodemon --exec babel-node --experimental-modules src/server.js",
+    "build": "rm -rf dist && babel src --out-dir dist",
+    "dev": "cross-env NODE_ENV=development nodemon --exec babel-node --experimental-modules src/server.js"
+  },
