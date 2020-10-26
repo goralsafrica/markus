@@ -55,9 +55,7 @@ class EsessionAuthController {
     try {
       const exists = await StaffWorkspace.findOne({
         _id: req.credentials.staff,
-        hospital: {
-          $in: [req.body.hospital],
-        },
+        hospital: req.body.hospital,
       });
       if (exists) {
         return successMessage(
