@@ -5,7 +5,8 @@
   "main": "src/server.js",
   "scripts": {
     "start": "cross-env NODE_ENV=test node dist/server.js",
-    "build": "rm -rf dist && babel src --out-dir dist && cp -r src/seeders dist",
+    "build": "rm -rf dist && babel src --out-dir dist && cp -r src/seeders dist && echo Build succeeded !",
+    "test-build": "yarn build && yarn start",
     "dev": "cross-env NODE_ENV=development nodemon --exec babel-node --experimental-modules src/server.js"
   },
   "author": "",

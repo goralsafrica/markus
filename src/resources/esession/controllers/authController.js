@@ -28,13 +28,17 @@ class EsessionAuthController {
           request: "invalid credentials",
         });
       }
-      const hospitals = await StaffWorkspace.find({
+      let hospitals = await StaffWorkspace.find({
         staff: staff._id,
       })
         .select("hospital")
         .populate("hospital", "name url");
+      hospitals = hospitals.map((workspace) => workspace.hospital);
+      const s = staff.toJSON();
+      delete s.password;
       return successMessage(
         {
+          staff: s,
           hospitals,
           token: deriveToken("", staff._id, true),
         },
@@ -54,7 +58,7 @@ class EsessionAuthController {
   static async login(req) {
     try {
       const exists = await StaffWorkspace.findOne({
-        _id: req.credentials.staff,
+        staff: req.credentials.staff,
         hospital: req.body.hospital,
       });
       if (exists) {

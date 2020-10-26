@@ -41,6 +41,7 @@ const StaffSchema = new Schema({
   verificationCode: {
     type: Number,
     required: true,
+    select: false,
   },
   verified: {
     type: Boolean,
