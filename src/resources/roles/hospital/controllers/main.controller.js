@@ -57,8 +57,7 @@ class HospitalController {
           name: "chief medical director",
         },
       });
-      const token = deriveToken(createHospital._id, createStaff._id);
-      // send mail
+      const token = deriveToken(createHospital._id, createStaff._id, true);
       //sendMail("Verify Your Accou");
       return successMessage({ token }, "setup success");
     } catch (err) {

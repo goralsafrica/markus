@@ -24,14 +24,14 @@ let transporter, testAccount;
 
 function loadTemplate(data, template) {}
 
-export default async function (subject, sender, emails, data, template) {
-  if (Array.isArray(emails)) {
-    emails = emails.join(", ");
-  }
+export default async function (subject, sender, recipients, data, template) {
+  if (!Array.isArray(recipients))
+    throw new Error("Recipients must be of type aryay");
+
   try {
     const info = await transporter.sendMail({
       from: `Markus <${sender}>`,
-      to: emails,
+      to: recipients.join(", "),
       subject,
     });
     console.log("Message sent: %s", info.messageId);

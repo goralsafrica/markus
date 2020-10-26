@@ -28,14 +28,20 @@ esessionAuthRouter.post("/login", verifyTemporaryToken, async (req, res) => {
 });
 esessionAuthRouter.post(
   "/register",
-  // registerHospitalValidator,
-  // verifyNewHospital,
-  // checkIfStaffExists,
+  registerHospitalValidator,
+  verifyNewHospital,
+  checkIfStaffExists,
   async (req, res) => {
     const { result, status } = await HospitalController.create(req.body);
     return res.status(status).json(result);
   }
 );
+
+esessionAuthRouter.post("/register/verify", async (req, res) => {
+  const { result, status } = await MainAuthController.verifyCode(req.body);
+  return res.status(status).json(result);
+});
+
 esessionAuthRouter.post(
   "/forgot-password",
   forgotPasswordValidator,
