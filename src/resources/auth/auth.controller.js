@@ -63,7 +63,8 @@ class AuthController {
 
   static async verifyWorkspace(url) {
     try {
-      const hospital = await Hospital.findOne({ url });
+      const hospital = await Hospital.exists({ url });
+      console.log(hospital, url);
       if (!hospital)
         return successMessage(
           { url: "url not found" },

@@ -15,6 +15,7 @@ authRouter.post("/workspace", async (req, res) => {
   const { status, result } = await AuthController.verifyWorkspace(url);
   res.status(status).json(result);
 });
+
 authRouter.post("/login", loginValidator, async (req, res) => {
   const details = req.body;
   const r = await AuthController.login(details);
