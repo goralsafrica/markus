@@ -2,6 +2,7 @@ import Hospital from "../models/Hospital";
 import Staff from "../../staff/models/Staff";
 import Branch from "../../branch/models/Branch";
 import StaffWorkspace from "../../staff/models/StaffWorkspace";
+import TemporaryData from "../../../auth/models/TemporaryData";
 import { sendMail } from "../../../notifications";
 import { hashSync } from "bcryptjs";
 import {
@@ -43,7 +44,6 @@ class HospitalController {
         email: user.adminEmail,
         phone: user.adminPhone,
         password: user.password,
-        verificationCode,
       });
 
       await StaffWorkspace.create({
@@ -59,7 +59,18 @@ class HospitalController {
         },
       });
       const token = deriveToken(createHospital._id, createStaff._id, true);
-      //sendMail("Verify Your Accou");
+      await sendMail(
+        "Account Verification",
+        "noreply@goralsafrica.com",
+        [user.adminEmail],
+        { verificationCode }
+      );
+      await TemporaryData.create({
+        staff: createStaff._id,
+        type: "verification_code",
+        verificationCode,
+        createdAt: new Date(),
+      });
       return successMessage({ token }, "setup success");
     } catch (err) {
       console.error(err);

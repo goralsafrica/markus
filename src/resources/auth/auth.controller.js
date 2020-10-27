@@ -1,6 +1,7 @@
 import { compare, hashSync, hash } from "bcryptjs";
 import Hospital from "../roles/hospital/models/Hospital";
 import Staff from "../roles/staff/models/Staff";
+import TemporaryData from "./models/TemporaryData";
 import Patient from "../roles/patient/models/Patient";
 import {
   deriveToken,
@@ -141,6 +142,24 @@ class AuthController {
         staff["two-factor-auth"],
         "two factor authentication enabled/updated"
       );
+    } catch (err) {
+      console.log(err);
+      return badRequestError({
+        request: err.message,
+      });
+    }
+  }
+
+  static async verifyCode(req) {
+    try {
+      const data = await TemporaryData.find({
+        staff: req.credentials.staff,
+        type: "verification_code",
+      });
+      if (!code) throw new Error("No match found. non generated /expired code");
+
+      if (req.body.code != data.verificationCode)
+        throw new Error("Invalid verification code");
     } catch (err) {
       console.log(err);
       return badRequestError({

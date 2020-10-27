@@ -40,6 +40,11 @@ esessionAuthRouter.post(
 );
 
 esessionAuthRouter.post("/register/verify", async (req, res) => {
+  // const { result, status } = await HospitalController.verifyCode(req.body);
+  // return res.status(status).json(result);
+});
+
+esessionAuthRouter.post("/register/verify", async (req, res) => {
   const { result, status } = await MainAuthController.verifyCode(req.body);
   return res.status(status).json(result);
 });
@@ -83,7 +88,7 @@ esessionAuthRouter.post("/logout", async (req, res) => {
 });
 
 esessionAuthRouter.get("/mail", async (req, res) => {
-  mailer("Holla", "markus@dev.com", ["emeka.emmanuel045@yahoo.com"]);
+  mailer("Holla", "noreply@goralsafrica.com", ["emeka.emmanuel45@yahoo.com"]);
 });
 
 export default esessionAuthRouter;
