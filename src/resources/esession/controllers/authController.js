@@ -36,6 +36,7 @@ class EsessionAuthController {
       hospitals = hospitals.map((workspace) => workspace.hospital);
       const s = staff.toJSON();
       delete s.password;
+      console.log(s);
       return successMessage(
         {
           staff: s,
