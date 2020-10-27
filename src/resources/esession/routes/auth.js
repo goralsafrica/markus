@@ -22,10 +22,12 @@ esessionAuthRouter.post("/verify", verifyStaffValidator, async (req, res) => {
   const { result, status } = await AuthController.verify(req);
   return res.status(status).json(result);
 });
+
 esessionAuthRouter.post("/login", verifyTemporaryToken, async (req, res) => {
   const { result, status } = await AuthController.login(req);
   return res.status(status).json(result);
 });
+
 esessionAuthRouter.post(
   "/register",
   registerHospitalValidator,
@@ -56,6 +58,7 @@ esessionAuthRouter.get("/reset-password/:token", async (req, res) => {
   );
   res.status(status).json(result);
 });
+
 esessionAuthRouter.post(
   "/reset-password/:user",
   resetPasswordValidator,
@@ -64,6 +67,7 @@ esessionAuthRouter.post(
     res.status(status).json(result);
   }
 );
+
 esessionAuthRouter.put(
   "/two-factor-auth",
   verifyUser,

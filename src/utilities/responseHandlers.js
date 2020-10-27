@@ -89,3 +89,14 @@ export function successMessage(data, message) {
     },
   });
 }
+
+export function joiError(path, message) {
+  const err = new Error();
+  err.details = [
+    {
+      path,
+      message,
+    },
+  ];
+  return err;
+}

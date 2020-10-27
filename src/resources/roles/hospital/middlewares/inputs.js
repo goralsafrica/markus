@@ -5,7 +5,10 @@ import {
   badRequestError,
   sanitize,
   formatJoiError,
+  validatePhoneNumber,
+  joiError,
 } from "../../../../utilities";
+import titles from "../../../../seeders/titles.json";
 import Hospital from "../models/Hospital";
 
 export function registerValidator(req, res, next) {
@@ -61,11 +64,15 @@ export function registerValidator(req, res, next) {
 const registerHospitalSchema = joi.object().keys({
   adminFirstName: joi.string().required(),
   adminLastName: joi.string().required(),
-  adminPhone: joi.string().required(),
+  adminPhone: joi.number().required(),
   adminEmail: joi.string().email().required(),
   hospitalName: joi.string().required(),
   hospitalEmail: joi.string().email().required(),
-  hospitalPhone: joi.string().required(),
+  hospitalPhone: joi.number().required(),
+  title: joi
+    .string()
+    .required()
+    .valid(...Object.keys(titles)),
   url: joi.string().required(),
   password: joi.string().required(),
   address: joi.string().required(),
@@ -75,6 +82,14 @@ export async function registerHospitalValidator(req, res, next) {
     req.body = await registerHospitalSchema.validateAsync(req.body, {
       abortEarly: false,
     });
+    req.body.adminPhone = validatePhoneNumber(req.body.adminPhone);
+    if (!req.body.adminPhone)
+      throw joiError(["adminPhone"], "invalid admin phone number");
+
+    req.body.hospitalPhone = validatePhoneNumber(req.body.hospitalPhone);
+    if (!req.body.hospitalPhone)
+      throw joiError(["hospitalPhone"], "invalid hospital phone number");
+
     next();
   } catch (err) {
     const errors = formatJoiError(err);

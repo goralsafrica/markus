@@ -36,6 +36,7 @@ export async function verifyNewHospital(req, res, next) {
       { email: req.body.hospitalEmail.toLowerCase() },
       { phone: req.body.hospitalPhone },
       { name: req.body.hospitalName.toLowerCase() },
+      { url: req.body.url.toLowerCase() },
     ],
   });
   if (!exists) return next();

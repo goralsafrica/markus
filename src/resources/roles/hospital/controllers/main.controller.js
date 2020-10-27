@@ -37,6 +37,7 @@ class HospitalController {
       });
       // create new staff
       const createStaff = await Staff.create({
+        title: user.title,
         firstName: user.adminFirstName,
         lastName: user.adminLastName,
         email: user.adminEmail,

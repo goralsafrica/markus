@@ -5,8 +5,9 @@ import {
   unAuthorizedRequestError,
   serverError,
   successMessage,
+  joiError,
 } from "./responseHandlers";
-import { formatJoiError, getDays, sanitize } from "./misc";
+import { formatJoiError, getDays, sanitize, validatePhoneNumber } from "./misc";
 import {
   deriveToken,
   encrypt,
@@ -30,5 +31,7 @@ export {
   deriveToken,
   extractToken,
   generateStaffCode,
+  joiError,
   verifyToken,
+  validatePhoneNumber,
 };
