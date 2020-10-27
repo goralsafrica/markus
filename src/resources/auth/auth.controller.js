@@ -160,6 +160,12 @@ class AuthController {
 
       if (req.body.code != data.verificationCode)
         throw new Error("Invalid verification code");
+
+      // revoke token, verify user, generate token
+      await Staff.findByIdAndUpdate(req.credentials.staff, {
+        verified: true,
+      }).sort();
+      //const staffHospital = await Staff.find({}).sort()
     } catch (err) {
       console.log(err);
       return badRequestError({
