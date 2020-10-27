@@ -1,1 +1,1 @@
-export default ["verification_code", "socket_connection"];
+module.exports = ["verification_code", "socket_connection"];
