@@ -199,6 +199,12 @@ class AuthController {
         payload.verificationCode = data.verificationCode;
       } else {
         payload.verificationCode = randomNumber(6);
+        await TemporaryData.create({
+          staff,
+          type: "verification_code",
+          verificationCode: payload.verificationCode,
+          createdAt: new Date(),
+        });
       }
       await sendMail(
         "Account Verification Code",
@@ -206,10 +212,11 @@ class AuthController {
         [staffDetails.email],
         payload
       );
-
+      console.log(payload);
       return successMessage(
         {
-          request: "verification code has been resent to " + staffDetails.email,
+          request:
+            "verification code has been resent to Email: " + staffDetails.email,
         },
         "verification code sent "
       );
