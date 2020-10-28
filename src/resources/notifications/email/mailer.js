@@ -12,7 +12,6 @@ export default async function (subject, sender, recipients, payload, template) {
     throw new Error("Recipients must be of type aryay");
   try {
     const mail = await loadTemplate(template, payload);
-    console.log(mail);
     const info = await transporter.sendMail({
       from: `Markus <${sender}>`,
       to: recipients.join(", "),
