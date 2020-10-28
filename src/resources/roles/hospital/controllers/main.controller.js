@@ -65,7 +65,12 @@ class HospitalController {
         "Account Verification",
         "noreply@goralsafrica.com",
         [user.adminEmail],
-        { verificationCode }
+        {
+          code: verificationCode,
+          fullName: createStaff.firstName + " " + createStaff.lastName,
+          title: createStaff.title,
+        },
+        "verify-signup.hbs"
       );
 
       await TemporaryData.create({

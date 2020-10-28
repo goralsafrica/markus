@@ -162,7 +162,8 @@ class AuthController {
         verificationCode: req.body.token,
         type: "verification_code",
       });
-      if (!data) throw new Error("No match found. invalid /expired code");
+      if (!data || data.verificationCode != req.body.token)
+        throw new Error("Invalid /expired code");
 
       // revoke previous token, verify user, generate token
       await Staff.findByIdAndUpdate(staff, {
