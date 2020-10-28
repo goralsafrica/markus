@@ -4,6 +4,7 @@ import loader from "./loaders";
 import * as config from "./config";
 import { ws_loader } from "./loaders/socket";
 const app = express();
+app.express = express;
 loader(app, config)
   .then((msg) => {
     console.log(msg);
