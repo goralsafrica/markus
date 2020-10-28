@@ -48,5 +48,7 @@ export function decrypt(payload) {
 }
 
 export function randomNumber(amount) {
-  return Math.floor(Math.random() * 10 ** Number(amount));
+  const token = Math.floor(Math.random() * 10 ** Number(amount));
+  if (String(token).length != amount) randomNumber(amount);
+  return token;
 }
