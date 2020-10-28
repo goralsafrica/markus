@@ -105,7 +105,7 @@ esessionAuthRouter.get("/mail", async (req, res) => {
       "noreply@goralsafrica.com",
       ["emekaemmanuel045@gmail.com"],
       {
-        name: "Chukwurah Emmanuel",
+        fullName: "Chukwurah Emmanuel",
         code: 123232,
       },
       "verify-signup.hbs"
