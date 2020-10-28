@@ -10,6 +10,7 @@ import {
   serverError,
   badRequestError,
   successMessage,
+  randomNumber,
 } from "../../../../utilities";
 
 /**
@@ -20,7 +21,8 @@ class HospitalController {
   static async create(user) {
     // hash password
     user.password = hashSync(user.password, 10);
-    const verificationCode = Math.floor(Math.random() * 10 ** 6);
+    const verificationCode = randomNumber(6);
+    console.log(verificationCode);
     try {
       //create new hospital
       const createHospital = await Hospital.create({
