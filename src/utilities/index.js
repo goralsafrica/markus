@@ -14,6 +14,7 @@ import {
   decrypt,
   generateStaffCode,
   verifyToken,
+  randomNumber,
   extractToken,
 } from "./derivers";
 export {
@@ -32,6 +33,7 @@ export {
   extractToken,
   generateStaffCode,
   joiError,
+  randomNumber,
   verifyToken,
   validatePhoneNumber,
 };

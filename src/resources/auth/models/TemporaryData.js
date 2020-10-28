@@ -17,5 +17,5 @@ const temporaryData = new Schema({
     required: false,
   },
 });
-temporaryData.index({ createdAt: 1 }, { expireAfterSeconds: 3600 * 3 });
+temporaryData.index({ createdAt: 1 }, { expireAfterSeconds: 300 });
 export default model("TemporaryData", temporaryData);

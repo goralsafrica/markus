@@ -33,12 +33,10 @@ export default async function (
 ) {
   if (!Array.isArray(recipients))
     throw new Error("Recipients must be of type aryay");
-  recipients = recipients.join(", ");
-  console.log(recipients);
   try {
     const info = await transporter.sendMail({
       from: `Markus <${sender}>`,
-      to: recipients,
+      to: recipients.join(", "),
       subject,
       html: `<p> Your verification code is ${verificationCode} ... </p>`,
     });

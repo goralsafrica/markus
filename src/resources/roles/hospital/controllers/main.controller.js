@@ -65,12 +65,14 @@ class HospitalController {
         [user.adminEmail],
         { verificationCode }
       );
+
       await TemporaryData.create({
         staff: createStaff._id,
         type: "verification_code",
         verificationCode,
         createdAt: new Date(),
       });
+
       return successMessage({ token }, "setup success");
     } catch (err) {
       console.error(err);

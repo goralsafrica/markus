@@ -39,15 +39,26 @@ esessionAuthRouter.post(
   }
 );
 
-esessionAuthRouter.post("/register/verify", async (req, res) => {
-  // const { result, status } = await HospitalController.verifyCode(req.body);
-  // return res.status(status).json(result);
-});
+esessionAuthRouter.post(
+  "/register/verify",
+  verifyTemporaryToken,
+  twoFAValidator,
+  async (req, res) => {
+    const { result, status } = await MainAuthController.verifyCode(req);
+    return res.status(status).json(result);
+  }
+);
 
-esessionAuthRouter.post("/register/verify", async (req, res) => {
-  const { result, status } = await MainAuthController.verifyCode(req.body);
-  return res.status(status).json(result);
-});
+esessionAuthRouter.get(
+  "/register/verify",
+  verifyTemporaryToken,
+  async (req, res) => {
+    const { result, status } = await MainAuthController.resendVerificationCode(
+      req
+    );
+    return res.status(status).json(result);
+  }
+);
 
 esessionAuthRouter.post(
   "/forgot-password",

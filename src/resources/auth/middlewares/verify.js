@@ -27,6 +27,7 @@ export async function verifyTemporaryToken(req, res, next) {
     const expired = await isExpired(token);
     if (!data || expired || !data.temporary)
       return next(unAuthorizedRequestError());
+    data.token = token;
     req.credentials = data;
     next();
   } catch (err) {

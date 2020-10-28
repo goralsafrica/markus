@@ -10,8 +10,12 @@ import {
   successMessage,
   notFoundError,
   decrypt,
+  randomNumber,
   encrypt,
 } from "../../utilities";
+import StaffWorkspace from "../roles/staff/models/StaffWorkspace";
+import ExpiredToken from "./models/ExpiredToken";
+import { sendMail } from "../notifications";
 
 class AuthController {
   static async login(user) {
@@ -151,26 +155,72 @@ class AuthController {
   }
 
   static async verifyCode(req) {
+    const { staff, hospital, token } = req.credentials;
     try {
       const data = await TemporaryData.find({
-        staff: req.credentials.staff,
+        staff,
+        verificationCode: req.body.token,
         type: "verification_code",
       });
-      if (!code) throw new Error("No match found. non generated /expired code");
+      if (!data) throw new Error("No match found. invalid /expired code");
 
-      if (req.body.code != data.verificationCode)
-        throw new Error("Invalid verification code");
-
-      // revoke token, verify user, generate token
-      await Staff.findByIdAndUpdate(req.credentials.staff, {
+      // revoke previous token, verify user, generate token
+      await Staff.findByIdAndUpdate(staff, {
         verified: true,
-      }).sort();
-      //const staffHospital = await Staff.find({}).sort()
+      });
+      ExpiredToken.create({ token });
+      return successMessage(
+        { token: deriveToken(hospital, staff) },
+        "Verification success"
+      );
     } catch (err) {
       console.log(err);
-      return badRequestError({
-        request: err.message,
+      return badRequestError(
+        {
+          request: err.message,
+        },
+        "verification failed"
+      );
+    }
+  }
+
+  static async resendVerificationCode(req) {
+    const { staff, hospital, token } = req.credentials;
+    let payload = {};
+    try {
+      const data = await TemporaryData.findOne({
+        staff,
+        type: "verification_code",
       });
+      const staffDetails = await Staff.findById(staff);
+      if (staffDetails.verified)
+        throw new Error("you have already been verified");
+      if (data) {
+        payload.verificationCode = data.verificationCode;
+      } else {
+        payload.verificationCode = randomNumber(6);
+      }
+      await sendMail(
+        "Account Verification Code",
+        "noreply@goralsafrica.com",
+        [staffDetails.email],
+        payload
+      );
+
+      return successMessage(
+        {
+          request: "verification code has been resent to " + staffDetails.email,
+        },
+        "verification code sent "
+      );
+    } catch (err) {
+      console.log(err.message);
+      return badRequestError(
+        {
+          request: err.message,
+        },
+        "failed to resend mail"
+      );
     }
   }
 }

@@ -46,3 +46,7 @@ export function encrypt(payload, expiresIn = 1000 * 60 * 60 * 3) {
 export function decrypt(payload) {
   return jwt.verify(payload, process.env.SECRET_KEY.toUpperCase());
 }
+
+export function randomNumber(amount) {
+  return Math.floor(Math.random() * 10 ** Number(amount));
+}
