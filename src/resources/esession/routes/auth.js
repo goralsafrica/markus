@@ -16,6 +16,7 @@ import {
 } from "../../auth/middlewares";
 import { checkIfStaffExists } from "../../roles/staff/middlewares/registration";
 import mailer from "../../notifications/email/mailer";
+import loadTemplate from "../../notifications/email/loadTemplate";
 const esessionAuthRouter = Router();
 
 esessionAuthRouter.post("/verify", verifyStaffValidator, async (req, res) => {
@@ -112,6 +113,15 @@ esessionAuthRouter.get("/mail", async (req, res) => {
     .then(console.log)
     .catch((err) => console.log(err));
   res.send("done");
+});
+
+esessionAuthRouter.get("/template", async (req, res) => {
+  loadTemplate("verify-signup.hbs", {
+    fullName: "Chukwurah Emmanuel",
+    code: 123232,
+  })
+    .then((data) => res.send(data))
+    .catch((err) => console.log(err));
 });
 
 export default esessionAuthRouter;
