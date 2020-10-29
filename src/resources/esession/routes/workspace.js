@@ -3,22 +3,26 @@ import { WorkspaceController, InviteController } from "../controllers";
 import { HospitalController } from "../../roles/hospital/controllers";
 import { verifyStaffValidator } from "../middlewares";
 import {
-  verifyTemporaryToken,
   verifyUser,
   sendInviteMailValidator,
   verifyInviteToken,
 } from "../../auth/middlewares";
 const workspaceRouter = Router();
 
-workspaceRouter.get(
-  "/",
-  verifyTemporaryToken,
-  verifyStaffValidator,
-  async (req, res) => {
-    const { result, status } = await WorkspaceController.getWorkspaces(req);
-    return res.status(status).json(result);
-  }
-);
+/**
+ *
+ * ---- WORKSPACE MAIN ROUTES -----
+ *
+ **/
+// workspaceRouter.get(
+//   "/",
+//   verifyTemporaryToken,
+//   verifyStaffValidator,
+//   async (req, res) => {
+//     const { result, status } = await WorkspaceController.getWorkspaces(req);
+//     return res.status(status).json(result);
+//   }
+// );
 
 workspaceRouter.put(
   "/",
@@ -31,21 +35,21 @@ workspaceRouter.put(
   }
 );
 
-workspaceRouter.put(
-  "/",
-  verifyTemporaryToken,
-  verifyStaffValidator,
-  async (req, res) => {
-    const { result, status } = await WorkspaceController.getWorkspaces(req);
-    return res.status(status).json(result);
-  }
-);
-
+/**
+ *
+ * ---- WORKSPACE SWITCH ROUTES -----
+ *
+ **/
 workspaceRouter.post("/login", verifyUser, async (req, res) => {
   const { result, status } = await WorkspaceController.switchWorkspaces(req);
   return res.status(status).json(result);
 });
 
+/**
+ *
+ * ---- WORKSPACE INVITE ROUTES -----
+ *
+ **/
 workspaceRouter.post(
   "/invite",
   verifyUser,
@@ -55,7 +59,6 @@ workspaceRouter.post(
     return res.status(status).json(result);
   }
 );
-
 workspaceRouter.get(
   "/invite/accept/:token",
   verifyInviteToken,
@@ -64,7 +67,6 @@ workspaceRouter.get(
     res.status(status).json(result);
   }
 );
-
 workspaceRouter.post(
   "/invite/accept/:token",
   verifyInviteToken,

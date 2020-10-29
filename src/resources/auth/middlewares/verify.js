@@ -9,7 +9,8 @@ export async function verifyUser(req, res, next) {
   try {
     const data = await verifyToken(token);
     const expired = await isExpired(token);
-    if (!data || expired) return next(unAuthorizedRequestError());
+    if (!data || expired || data.tempotary)
+      return next(unAuthorizedRequestError());
     req.credentials = data;
     next();
   } catch (err) {

@@ -139,19 +139,15 @@ class HospitalController {
         },
         { new: true }
       );
-      if (!data) return Promise.reject("error handling request");
-      return {
-        status: 200,
-        result: {
-          data,
-          errors: null,
-          message: "hospital details have been successfully updated",
-        },
-      };
+      if (!data)
+        throw new Error(
+          "Invalid credentials: Credentials have been used already"
+        );
+      return successMessage(data, "workspace update success");
     } catch (err) {
       console.error(err);
       return serverError(
-        { request: "server failed to respond" },
+        { request: err.message },
         "failed to update hospital data"
       );
     }
