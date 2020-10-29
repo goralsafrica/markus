@@ -99,21 +99,19 @@ esessionAuthRouter.post("/logout", async (req, res) => {
 });
 
 esessionAuthRouter.get("/mail", async (req, res) => {
-  try {
-    const mail = await mailer(
-      "Holla",
-      "noreply@goralsafrica.com",
-      ["emekaemmanuel045@gmail.com"],
-      {
-        fullName: "Chukwurah Emmanuel",
-        code: 123232,
-      },
-      "verify-signup.hbs"
-    );
-    res.send("done");
-  } catch (err) {
-    console.log(err.message);
-  }
+  mailer(
+    "Holla",
+    "noreply@goralsafrica.com",
+    ["emekaemmanuel045@gmail.com"],
+    {
+      fullName: "Chukwurah Emmanuel",
+      code: 123232,
+    },
+    "verify-signup.hbs"
+  )
+    .then(console.log)
+    .catch((err) => console.log(err));
+  res.send("done");
 });
 
 export default esessionAuthRouter;
