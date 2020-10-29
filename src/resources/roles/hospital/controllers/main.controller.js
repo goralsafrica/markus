@@ -24,6 +24,16 @@ class HospitalController {
     const verificationCode = randomNumber(6);
     console.log(verificationCode);
     try {
+      // create staff
+      const createStaff = await Staff.create({
+        title: user.title,
+        firstName: user.adminFirstName,
+        lastName: user.adminLastName,
+        email: user.adminEmail,
+        phone: user.adminPhone,
+        password: user.password,
+      });
+
       //create new hospital
       const createHospital = await Hospital.create({
         name: user.hospitalName,
@@ -37,15 +47,6 @@ class HospitalController {
         branchName: "head branch",
         address: user.address,
         hospital: createHospital._id,
-      });
-      // create new staff
-      const createStaff = await Staff.create({
-        title: user.title,
-        firstName: user.adminFirstName,
-        lastName: user.adminLastName,
-        email: user.adminEmail,
-        phone: user.adminPhone,
-        password: user.password,
       });
 
       await StaffWorkspace.create({
