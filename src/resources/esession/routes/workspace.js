@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { WorkspaceController, InviteController } from "../controllers";
+import { HospitalController } from "../../roles/hospital/controllers";
 import { verifyStaffValidator } from "../middlewares";
 import {
   verifyTemporaryToken,
@@ -10,6 +11,27 @@ import {
 const workspaceRouter = Router();
 
 workspaceRouter.get(
+  "/",
+  verifyTemporaryToken,
+  verifyStaffValidator,
+  async (req, res) => {
+    const { result, status } = await WorkspaceController.getWorkspaces(req);
+    return res.status(status).json(result);
+  }
+);
+
+workspaceRouter.put(
+  "/",
+  verifyUser,
+  updateHospitalValidator,
+  //verifyAdmin,
+  async (req, res) => {
+    const r = await HospitalController.update(req);
+    res.status(r.status).json(r.result);
+  }
+);
+
+workspaceRouter.put(
   "/",
   verifyTemporaryToken,
   verifyStaffValidator,
