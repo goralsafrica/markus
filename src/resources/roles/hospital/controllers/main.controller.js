@@ -61,7 +61,8 @@ class HospitalController {
         },
       });
       const token = deriveToken(createHospital._id, createStaff._id, true);
-      await sendMail(
+
+      sendMail(
         "Account Verification",
         "noreply@goralsafrica.com",
         [user.adminEmail],
@@ -71,7 +72,9 @@ class HospitalController {
           title: createStaff.title,
         },
         "verify-signup.hbs"
-      );
+      )
+        .then(console.log)
+        .catch(console.log);
 
       await TemporaryData.create({
         staff: createStaff._id,

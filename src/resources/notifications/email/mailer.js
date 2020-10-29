@@ -4,6 +4,15 @@ import { smtpDetails } from "../../../config";
 
 let transporter = createTransport(smtpDetails);
 
+/**
+ *
+ * @param {String} subject
+ * @param {String} sender
+ * @param {[String]} recipients
+ * @param {Object} payload
+ * @param {String} template
+ * @description mailer function: do not use await as it slows down the process
+ */
 export default async function (subject, sender, recipients, payload, template) {
   if (!Array.isArray(recipients))
     throw new Error("Recipients must be of type aryay");
