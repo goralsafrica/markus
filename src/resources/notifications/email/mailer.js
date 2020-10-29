@@ -24,8 +24,7 @@ export default async function (subject, sender, recipients, payload, template) {
       subject,
       html,
     });
-    console.log("Message Sent ! to:", recipients);
-    return info;
+    return { message: "message sent", result: info };
   } catch (err) {
     console.log(err);
     return err;

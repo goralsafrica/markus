@@ -193,13 +193,18 @@ class AuthController {
         staff,
         type: "verification_code",
       });
+
       const staffDetails = await Staff.findById(staff);
       if (staffDetails.verified)
         throw new Error("you have already been verified");
+
+      payload.fullname = staffDetails.firstName + " " + staffDetails.lastName;
+      payload.tile = staffDetails.title;
+
       if (data) {
         payload.verificationCode = data.verificationCode;
       } else {
-        payload.verificationCode = randomNumber(6);
+        payload.code = randomNumber(6);
         await TemporaryData.create({
           staff,
           type: "verification_code",
@@ -207,13 +212,17 @@ class AuthController {
           createdAt: new Date(),
         });
       }
-      await sendMail(
+
+      sendMail(
         "Account Verification Code",
         "noreply@goralsafrica.com",
         [staffDetails.email],
-        payload
-      );
-      console.log(payload);
+        payload,
+        "verify-signup.hbs"
+      )
+        .then(console.log)
+        .catch(console.log);
+
       return successMessage(
         {
           request:
