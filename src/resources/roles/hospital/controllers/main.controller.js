@@ -129,15 +129,16 @@ class HospitalController {
   }
 
   static async update({ body, credentials }) {
+    for (const key in body) {
+      body[key] = body[key].toLowerCase();
+    }
     try {
-      const data = await Hospital.findByIdAndUpdate(
-        credentials.hospital,
+      const data = await Hospital.findOneAndUpdate(
+        { _id: credentials.hospital },
+        body,
         {
-          email: body.email,
-          name: body.name,
-          phone: body.phone,
-        },
-        { new: true }
+          new: true,
+        }
       );
       if (!data)
         throw new Error(

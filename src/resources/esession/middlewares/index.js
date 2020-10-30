@@ -1,3 +1,10 @@
 import { verifyStaffValidator } from "./auth";
-import { createSessionValidator } from "./register";
-export { verifyStaffValidator, createSessionValidator };
+import {
+  createSessionValidator,
+  createNewWorkspaceValidator,
+} from "./register";
+export {
+  verifyStaffValidator,
+  createNewWorkspaceValidator,
+  createSessionValidator,
+};

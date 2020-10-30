@@ -5,7 +5,7 @@ import {
   updateHospitalValidator,
   verifyAdmin,
 } from "../../roles/hospital/middlewares";
-import { verifyStaffValidator } from "../middlewares";
+import { createNewWorkspaceValidator } from "../middlewares";
 import {
   verifyUser,
   sendInviteMailValidator,
@@ -18,6 +18,16 @@ const workspaceRouter = Router();
  * ---- WORKSPACE MAIN ROUTES -----
  *
  **/
+workspaceRouter.post(
+  "/",
+  verifyUser,
+  createNewWorkspaceValidator,
+  async (req, res) => {
+    const r = await WorkspaceController.create(req);
+    res.status(r.status).json(r.result);
+  }
+);
+
 workspaceRouter.put(
   "/",
   verifyUser,

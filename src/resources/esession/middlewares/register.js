@@ -24,4 +24,29 @@ async function createSessionValidator(req, res, next) {
   }
 }
 
+const createNewWorkspaceSchema = Joi.object().keys({
+  name: Joi.string().required(),
+  email: Joi.string().required().email(),
+  address: Joi.string().required(),
+  phone: Joi.string()
+    .regex(/^(\d{10})$/)
+    .rule({ message: "phone number must be 10 digits" }),
+  url: Joi.string().required(),
+});
+export async function createNewWorkspaceValidator(req, res, next) {
+  try {
+    req.body = await createNewWorkspaceSchema.validateAsync(req.body, {
+      abortEarly: false,
+    });
+    next();
+  } catch (err) {
+    const errors = formatJoiError(err);
+    return next({
+      status: 400,
+      errors,
+      message: "failed to create new workspace",
+    });
+  }
+}
+
 export { createSessionValidator };
