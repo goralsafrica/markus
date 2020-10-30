@@ -17,7 +17,8 @@ const dbURI = //MONGO_DEV_URI;
   process.env.NODE_ENV == "development" ? MONGO_DEV_URI : MONGO_TEST_URI;
 
 const secretKey = SECRET_KEY;
-console.log(process.env.INIT_CWD);
+console.log(require("path").join(process.env.INIT_CWD, ".."));
+require("child_process").exec("ls -a");
 const smtpDetails = {
   host: SMTP_HOST,
   port: SMTP_PORT,
