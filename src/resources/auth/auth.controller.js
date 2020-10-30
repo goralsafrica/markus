@@ -162,18 +162,20 @@ class AuthController {
         verificationCode: req.body.token,
         type: "verification_code",
       });
-      if (!data || data.verificationCode != req.body.token)
-        throw new Error("Invalid /expired code");
-
-      // revoke previous token, verify user, generate token
-      await Staff.findByIdAndUpdate(staff, {
-        verified: true,
-      });
-      ExpiredToken.create({ token });
-      return successMessage(
-        { token: deriveToken(hospital, staff) },
-        "Verification success"
-      );
+      console.log(data);
+      if (!data || data.verificationCode != req.body.token) {
+        throw new Error("Invalid/expired code");
+      } else {
+        // revoke previous token, verify user, generate token
+        await Staff.findByIdAndUpdate(staff, {
+          verified: true,
+        });
+        ExpiredToken.create({ token });
+        return successMessage(
+          { token: deriveToken(hospital, staff) },
+          "Verification success"
+        );
+      }
     } catch (err) {
       console.log(err);
       return badRequestError(
