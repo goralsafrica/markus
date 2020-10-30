@@ -101,8 +101,11 @@ export async function registerHospitalValidator(req, res, next) {
 
 const updateHospitalValidatorSchema = joi.object().keys({
   name: joi.string().required(),
-  email: joi.string().email(),
-  phone: joi.number().required(),
+  email: joi.string().required().email(),
+  phone: joi
+    .string()
+    .regex(/^(\d{10})$/)
+    .rule({ message: "phone number must be 10 digits" }),
   url: joi.string().required(),
 });
 
@@ -111,8 +114,6 @@ export async function updateHospitalValidator(req, res, next) {
     req.body = await updateHospitalValidatorSchema.validateAsync(req.body, {
       abortEarly: false,
     });
-    req.body.phone = validatePhoneNumber(req.body.adminPhone);
-    if (!req.body.phone) throw joiError(["phone"], "invalid phone number");
     next();
   } catch (err) {
     const errors = formatJoiError(err);
