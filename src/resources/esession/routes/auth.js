@@ -26,6 +26,10 @@ esessionAuthRouter.post("/verify", verifyStaffValidator, async (req, res) => {
   const { result, status } = await AuthController.verify(req);
   return res.status(status).json(result);
 });
+esessionAuthRouter.get("/workspace", verifyTemporaryToken, async (req, res) => {
+  const { result, status } = await AuthController.getWorkspaces(req);
+  return res.status(status).json(result);
+});
 esessionAuthRouter.post("/login", verifyTemporaryToken, async (req, res) => {
   const { result, status } = await AuthController.login(req);
   return res.status(status).json(result);

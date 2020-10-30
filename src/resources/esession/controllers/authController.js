@@ -92,6 +92,25 @@ class EsessionAuthController {
     }
   }
 
+  static async getWorkspaces(req) {
+    try {
+      let workspaces = await StaffWorkspace.find({
+        staff: req.credentials.staff,
+      })
+        .select("hospital")
+        .populate("hospital", "name url email");
+      if (workspaces.length == 0) throw new Error("no workspaces found");
+      workspaces = workspaces.map((w) => w.hospital);
+      return successMessage(workspaces, "worspace list retrieved");
+    } catch (err) {
+      console.log(err);
+      return notFoundError(
+        { request: err.message },
+        "failed to fetch workspaces"
+      );
+    }
+  }
+
   static async logout(req) {
     try {
       await ExpiredToken.create({
