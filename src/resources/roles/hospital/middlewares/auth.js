@@ -1,29 +1,21 @@
-import Staff from "../../staff/models/Staff";
+import StaffWorkspace from "../../staff/models/StaffWorkspace";
 import Hospital from "../models/Hospital";
+
 export async function verifyAdmin(req, res, next) {
   const { staff, hospital } = req.credentials;
   try {
-    const existingStaff = await Staff.findById(staff, hospital)
-      .select("priviledged")
-      .populate("role");
-    if (
-      !existingStaff ||
-      existingStaff.role.name != "admin" ||
-      existingStaff.priviledged !== 1
-    )
-      return next({
-        status: 403,
-        errors: {
-          request: "permission denied",
-        },
-        message: "unauthorized request",
-      });
-    next();
+    const staff = StaffWorkspace.findOne({
+      staff,
+      hospital,
+      "administrativeRole.name": "chief medical doctor",
+    });
+    if (!staff) throw new Error("unauthorized user");
+    return next();
   } catch (err) {
     return next({
-      status: 500,
+      status: 400,
       errors: {
-        request: "failed to verify user in session",
+        request: err.message,
       },
       message: "authentication failed",
     });

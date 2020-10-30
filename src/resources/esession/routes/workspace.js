@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { WorkspaceController, InviteController } from "../controllers";
 import { HospitalController } from "../../roles/hospital/controllers";
+import { updateHospitalValidator } from "../../roles/hospital/middlewares";
 import { verifyStaffValidator } from "../middlewares";
 import {
   verifyUser,
@@ -27,8 +28,8 @@ const workspaceRouter = Router();
 workspaceRouter.put(
   "/",
   verifyUser,
-  updateHospitalValidator,
   //verifyAdmin,
+  updateHospitalValidator,
   async (req, res) => {
     const r = await HospitalController.update(req);
     res.status(r.status).json(r.result);

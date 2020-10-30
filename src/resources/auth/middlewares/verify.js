@@ -9,7 +9,7 @@ export async function verifyUser(req, res, next) {
   try {
     const data = await verifyToken(token);
     const expired = await isExpired(token);
-    if (!data || expired || data.tempotary)
+    if (!data || expired || data.temporary)
       return next(unAuthorizedRequestError());
     req.credentials = data;
     next();
@@ -24,11 +24,8 @@ export async function verifyTemporaryToken(req, res, next) {
   }
   const token = req.headers.authorization.split(" ").pop();
   try {
-    console.log(token);
     const data = await verifyToken(token);
-    console.log(data);
     const expired = await isExpired(token);
-    console.log(expired);
     if (!data || expired || !data.temporary)
       return next(unAuthorizedRequestError());
     data.token = token;

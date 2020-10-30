@@ -2,14 +2,12 @@ import isEmpty from "is-empty";
 import validator from "validator";
 import joi from "joi";
 import {
-  badRequestError,
   sanitize,
   formatJoiError,
   validatePhoneNumber,
   joiError,
 } from "../../../../utilities";
 import titles from "../../../../seeders/titles.json";
-import Hospital from "../models/Hospital";
 
 export function registerValidator(req, res, next) {
   const errors = {};
@@ -101,26 +99,27 @@ export async function registerHospitalValidator(req, res, next) {
   }
 }
 
-export function updateHospitalValidator(req, res, next) {
-  const errors = {};
-  const data = {};
-  data.name = req.body.name ? req.body.name : "";
-  data.email = req.body.email ? req.body.email : "";
-  data.phone = req.body.phone ? req.body.phone : "";
-  if (
-    isEmpty(data.name) ||
-    !validator.isAlpha(validator.blacklist(data.name, ["-", " "]))
-  ) {
-    errors.name = "invalid hospital name";
+const updateHospitalValidatorSchema = joi.object().keys({
+  name: joi.string().required(),
+  email: joi.string().email(),
+  phone: joi.number().required(),
+  url: joi.string().required(),
+});
+
+export async function updateHospitalValidator(req, res, next) {
+  try {
+    req.body = await updateHospitalValidatorSchema.validateAsync(req.body, {
+      abortEarly: false,
+    });
+    req.body.phone = validatePhoneNumber(req.body.adminPhone);
+    if (!req.body.phone) throw joiError(["phone"], "invalid phone number");
+    next();
+  } catch (err) {
+    const errors = formatJoiError(err);
+    return next({
+      status: 400,
+      errors,
+      message: "failed to update workspace details",
+    });
   }
-  if (isEmpty(data.phone) || !validator.isMobilePhone(data.phone))
-    errors.phone = "invalid phone number";
-
-  if (isEmpty(data.email) || !validator.isEmail(data.email))
-    errors.email = "invalid email address";
-
-  if (!isEmpty(errors))
-    return res.send(badRequestError(errors, "failed to update profile"));
-  req.body = sanitize(validator, data);
-  next();
 }

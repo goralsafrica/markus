@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import * as config from "../config";
 
 export function deriveToken(hospital, staff, temporary = false) {
-  if (!hospital || !staff)
+  if (!staff || !hospital)
     throw (new Error().message = {
       message: "incomplete details",
       data: { hospital, staff },

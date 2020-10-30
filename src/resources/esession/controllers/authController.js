@@ -6,6 +6,7 @@ import {
   successMessage,
   badRequestError,
   deriveToken,
+  extractToken,
 } from "../../../utilities";
 import StaffWorkspace from "../../roles/staff/models/StaffWorkspace";
 const Staff = model("Staff");
@@ -15,6 +16,7 @@ class EsessionAuthController {
   static async verify(req) {
     const { email, password } = req.query;
     try {
+      //get staff details
       const staff = await Staff.findOne({ email })
         .select("+password +hospital")
         .populate("hospital", "name _id url");
@@ -22,31 +24,34 @@ class EsessionAuthController {
         return notFoundError({
           email: "no doctor's details matches the provided email address",
         });
+      // verify password
       const correctPassword = await compare(password, staff.password);
       if (!correctPassword) {
         return badRequestError({
           request: "invalid credentials",
         });
       }
+      // get all staff workspaces
       let hospitals = await StaffWorkspace.find({
         staff: staff._id,
       })
         .select("hospital")
         .populate("hospital", "name url");
       hospitals = hospitals.map((workspace) => workspace.hospital);
+
       const s = staff.toJSON();
       delete s.password;
+      const token = deriveToken("none required", staff._id, true);
       return successMessage(
         {
           staff: s,
           hospitals,
-          token: deriveToken("", staff._id, true),
+          token,
         },
         "verification success"
       );
     } catch (err) {
-      console.error(err);
-      serverError(
+      return serverError(
         {
           request: err.message,
         },
@@ -62,6 +67,7 @@ class EsessionAuthController {
         hospital: req.body.hospital,
       });
       if (exists) {
+        await ExpiredToken.create({ token: extractToken(req) });
         return successMessage(
           {
             token: deriveToken(req.body.hospital, req.credentials.staff),
