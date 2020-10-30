@@ -19,16 +19,21 @@ import mailer from "../../notifications/email/mailer";
 import loadTemplate from "../../notifications/email/loadTemplate";
 const esessionAuthRouter = Router();
 
+/**
+ * --- LOGIN ROUTES --- *
+ **/
 esessionAuthRouter.post("/verify", verifyStaffValidator, async (req, res) => {
   const { result, status } = await AuthController.verify(req);
   return res.status(status).json(result);
 });
-
 esessionAuthRouter.post("/login", verifyTemporaryToken, async (req, res) => {
   const { result, status } = await AuthController.login(req);
   return res.status(status).json(result);
 });
 
+/**
+ * --- REGISTRATION AND VERIFICATION ROUTES --- *
+ */
 esessionAuthRouter.post(
   "/register",
   registerHospitalValidator,
@@ -39,7 +44,6 @@ esessionAuthRouter.post(
     return res.status(status).json(result);
   }
 );
-
 esessionAuthRouter.post(
   "/register/verify",
   verifyTemporaryToken,
@@ -61,6 +65,9 @@ esessionAuthRouter.get(
   }
 );
 
+/**
+ * --- FORGOT PASSWORD ROUTES --- *
+ */
 esessionAuthRouter.post(
   "/forgot-password",
   forgotPasswordValidator,
@@ -75,7 +82,6 @@ esessionAuthRouter.get("/reset-password/:token", async (req, res) => {
   );
   res.status(status).json(result);
 });
-
 esessionAuthRouter.post(
   "/reset-password/:user",
   resetPasswordValidator,
@@ -85,6 +91,9 @@ esessionAuthRouter.post(
   }
 );
 
+/**
+ * --- TWO FACTOR AUTH AND LOGOUT ROUTES --- *
+ */
 esessionAuthRouter.put(
   "/two-factor-auth",
   verifyUser,
@@ -99,6 +108,9 @@ esessionAuthRouter.post("/logout", async (req, res) => {
   return res.status(status).json(result);
 });
 
+/**
+ * --- TEST MAIL TEMPLATES ROUTES --- *
+ */
 esessionAuthRouter.get("/mail", async (req, res) => {
   mailer(
     "Holla",
@@ -114,7 +126,6 @@ esessionAuthRouter.get("/mail", async (req, res) => {
     .catch((err) => console.log(err));
   res.send("done");
 });
-
 esessionAuthRouter.get("/template", async (req, res) => {
   loadTemplate("verify-signup.hbs", {
     fullName: "Chukwurah Emmanuel",

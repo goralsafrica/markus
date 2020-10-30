@@ -4,12 +4,12 @@ import Hospital from "../models/Hospital";
 export async function verifyAdmin(req, res, next) {
   const { staff, hospital } = req.credentials;
   try {
-    const staff = StaffWorkspace.findOne({
+    const staffExists = await StaffWorkspace.exists({
       staff,
       hospital,
-      "administrativeRole.name": "chief medical doctor",
+      "administrativeRole.name": "chief medical director",
     });
-    if (!staff) throw new Error("unauthorized user");
+    if (!staffExists) throw new Error("unauthorized user");
     return next();
   } catch (err) {
     return next({

@@ -1,7 +1,10 @@
 import { Router } from "express";
 import { WorkspaceController, InviteController } from "../controllers";
 import { HospitalController } from "../../roles/hospital/controllers";
-import { updateHospitalValidator } from "../../roles/hospital/middlewares";
+import {
+  updateHospitalValidator,
+  verifyAdmin,
+} from "../../roles/hospital/middlewares";
 import { verifyStaffValidator } from "../middlewares";
 import {
   verifyUser,
@@ -15,20 +18,10 @@ const workspaceRouter = Router();
  * ---- WORKSPACE MAIN ROUTES -----
  *
  **/
-// workspaceRouter.get(
-//   "/",
-//   verifyTemporaryToken,
-//   verifyStaffValidator,
-//   async (req, res) => {
-//     const { result, status } = await WorkspaceController.getWorkspaces(req);
-//     return res.status(status).json(result);
-//   }
-// );
-
 workspaceRouter.put(
   "/",
   verifyUser,
-  //verifyAdmin,
+  verifyAdmin,
   updateHospitalValidator,
   async (req, res) => {
     const r = await HospitalController.update(req);
