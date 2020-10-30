@@ -25,7 +25,7 @@ class HospitalController {
     console.log(verificationCode);
     try {
       // create staff
-      const createStaff = await Staff.create({
+      const createStaff = new Staff({
         title: user.title,
         firstName: user.adminFirstName,
         lastName: user.adminLastName,
@@ -35,7 +35,7 @@ class HospitalController {
       });
 
       //create new hospital
-      const createHospital = await Hospital.create({
+      const createHospital = new Hospital({
         name: user.hospitalName,
         email: user.hospitalEmail,
         phone: user.hospitalPhone,
@@ -43,13 +43,13 @@ class HospitalController {
         code: user.hospitalCode,
       });
       // creates partial details of a hospital branch
-      const createBranch = await Branch.create({
+      const createBranch = new Branch({
         branchName: "head branch",
         address: user.address,
         hospital: createHospital._id,
       });
 
-      await StaffWorkspace.create({
+      const newStaffWorkspace = new StaffWorkspace({
         staff: createStaff._id,
         hospital: createHospital._id,
         role: {
@@ -61,6 +61,13 @@ class HospitalController {
           name: "chief medical director",
         },
       });
+      await Promise.all([
+        createStaff.save(),
+        createHospital.save(),
+        createBranch.save(),
+        newStaffWorkspace.save(),
+      ]);
+
       const token = deriveToken(createHospital._id, createStaff._id, true);
 
       sendMail(
