@@ -21,3 +21,11 @@ export async function removeSocket(socket) {
     throw err;
   }
 }
+
+export async function emitEvent(io) {
+  users.forEach((user) => {
+    io = io.to(user);
+  });
+  console.log("emit now");
+  io.emit("notification", "you don mad oo");
+}
