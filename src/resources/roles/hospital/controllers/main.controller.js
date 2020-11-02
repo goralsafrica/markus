@@ -67,7 +67,7 @@ class HospitalController {
         createBranch.save(),
         newStaffWorkspace.save(),
       ]);
-
+      console.log(createStaff._id);
       const token = deriveToken(createHospital._id, createStaff._id, true);
 
       sendMail(
