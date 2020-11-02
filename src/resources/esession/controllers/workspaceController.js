@@ -37,10 +37,10 @@ export default class WorkspaceController {
 
   static async switchWorkspaces(req) {
     try {
-      const exists = await Staff.exists({
-        hospital: {
-          $in: [req.body.hospital],
-        },
+      if (!req.body.hospital) throw new Error("hospital required");
+      const exists = await StaffWorkspace.exists({
+        hospital: req.body.hospital,
+        staff: req.credentials.staff,
       });
       if (exists) {
         await ExpiredToken.create({ token: extractToken(req) });
