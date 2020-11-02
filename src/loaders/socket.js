@@ -21,10 +21,10 @@ export const ws_loader = (server) =>
     });
 
     io.on("connection", (socket) => {
+      console.log("new user");
       handler.persistSocket(socket).then(() => {
         socket.emit("welcome", { msg: "welcome bossman !!" });
       });
-
       socket.on("disconnect", () => {
         handler.removeSocket(socket);
       });
