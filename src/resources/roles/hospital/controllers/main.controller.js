@@ -22,7 +22,8 @@ class HospitalController {
     // hash password
     user.password = hashSync(user.password, 10);
     const verificationCode = randomNumber(6);
-    console.log(verificationCode);
+    if (!verificationCode) randomNumber(6);
+    console.log("[Verification Code]", verificationCode);
     try {
       // create staff
       const createStaff = new Staff({
@@ -66,23 +67,25 @@ class HospitalController {
         createHospital.save(),
         createBranch.save(),
         newStaffWorkspace.save(),
-      ]);
-      console.log(createStaff._id);
-      const token = deriveToken(createHospital._id, createStaff._id, true);
-
-      sendMail(
-        "Account Verification",
-        "noreply@goralsafrica.com",
-        [user.adminEmail],
-        {
-          code: verificationCode,
-          fullName: createStaff.firstName + " " + createStaff.lastName,
-          title: createStaff.title,
-        },
-        "verify-signup.hbs"
-      )
+      ])
+        .then(() =>
+          sendMail(
+            "Account Verification",
+            "noreply@goralsafrica.com",
+            [user.adminEmail],
+            {
+              code: verificationCode,
+              fullName: createStaff.firstName + " " + createStaff.lastName,
+              title: createStaff.title,
+            },
+            "verify-signup.hbs"
+          )
+        )
         .then(console.log)
         .catch(console.log);
+
+      console.log("[Staff ID]", createStaff._id);
+      const token = deriveToken(createHospital._id, createStaff._id, true);
 
       await TemporaryData.create({
         staff: createStaff._id,
