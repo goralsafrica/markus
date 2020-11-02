@@ -25,4 +25,4 @@ const notifcationSchema = new Schema(
   }
 );
 
-notifcationSchema.post("save", notifier);
+notifcationSchema.post("save", (doc) => {});
