@@ -157,7 +157,8 @@ class AuthController {
   static async verifyCode(req) {
     const { staff, hospital, token } = req.credentials;
     try {
-      const data = await TemporaryData.find({
+      console.log(staff, req.body.token);
+      const data = await TemporaryData.findOne({
         staff,
         verificationCode: req.body.token,
         type: "verification_code",

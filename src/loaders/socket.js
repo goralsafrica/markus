@@ -6,6 +6,7 @@ export const ws_loader = (server) =>
 
     io.on("connection", (socket) => {
       console.log("new socket connection", socket.id);
+      console.log(socket.handshake);
       socket.emit("welcome", { msg: "welcome bossman !!" });
     });
 

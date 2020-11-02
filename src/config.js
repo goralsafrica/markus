@@ -14,7 +14,7 @@ const {
 const port = process.env.PORT || 8000;
 
 const dbURI = //MONGO_DEV_URI;
-  process.env.NODE_ENV == "development" ? MONGO_DEV_URI : MONGO_TEST_URI;
+  process.env.NODE_ENV !== "development" ? MONGO_DEV_URI : MONGO_TEST_URI;
 
 const secretKey = SECRET_KEY;
 const smtpDetails = {
