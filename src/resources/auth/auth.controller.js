@@ -196,8 +196,8 @@ class AuthController {
         staff,
         type: "verification_code",
       });
-
       const staffDetails = await Staff.findById(staff);
+      console.log(staffDetails, staff);
       if (staffDetails.verified)
         throw new Error("you have already been verified");
 
