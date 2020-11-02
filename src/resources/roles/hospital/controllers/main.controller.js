@@ -74,7 +74,7 @@ class HospitalController {
             "noreply@goralsafrica.com",
             [user.adminEmail],
             {
-              code: verificationCode,
+              verificationCode,
               fullName: createStaff.firstName + " " + createStaff.lastName,
               title: createStaff.title,
             },

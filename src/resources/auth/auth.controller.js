@@ -201,8 +201,8 @@ class AuthController {
       if (staffDetails.verified)
         throw new Error("you have already been verified");
 
-      payload.fullname = staffDetails.firstName + " " + staffDetails.lastName;
-      payload.tile = staffDetails.title;
+      payload.fullName = staffDetails.firstName + " " + staffDetails.lastName;
+      payload.title = staffDetails.title;
 
       if (data) {
         payload.verificationCode = data.verificationCode;
@@ -215,7 +215,7 @@ class AuthController {
           createdAt: new Date(),
         });
       }
-
+      console.log(payload);
       sendMail(
         "Account Verification Code",
         "noreply@goralsafrica.com",
