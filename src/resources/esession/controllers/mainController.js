@@ -61,8 +61,21 @@ class MainController {
   static async getNotifications(req) {
     const notificationsPerPage = 4;
     const { type, page } = req.query;
+    const query = {
+      recipients: {},
+    };
+    switch (type) {
+      case "personal":
+        query.recipients = { $size: 1 };
+        break;
+      case "workspace":
+        query.recipients = { $gt: { $size: 1 } };
+      default:
+        break;
+    }
+    query.recipients.$in = [req.credentials.staff];
     try {
-      const notifications = await Notification.find({});
+      const notifications = await Notification.find(query).select("-invitee");
       return successMessage(
         {
           data: notifications,
