@@ -207,7 +207,7 @@ class AuthController {
       if (data) {
         payload.verificationCode = data.verificationCode;
       } else {
-        payload.code = randomNumber(6);
+        payload.verificationCode = randomNumber(6);
         await TemporaryData.create({
           staff,
           type: "verification_code",

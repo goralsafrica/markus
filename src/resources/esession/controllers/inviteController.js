@@ -2,6 +2,7 @@ import { model } from "mongoose";
 const Staff = model("Staff"),
   ExpiredToken = model("ExpiredToken"),
   Hospital = model("Hospital");
+import Notification from "../../notifications/in-app/models/NotificationModel";
 import {
   encrypt,
   badRequestError,
@@ -13,19 +14,18 @@ import StaffWorkspace from "../../roles/staff/models/StaffWorkspace";
 
 export default class InviteController {
   static async sendInviteMail(req) {
+    let newNotification;
     try {
       const staff = await Staff.exists({
         email: req.body.email,
       });
       if (staff) {
-        if (
-          await StaffWorkspace.exists({
-            staff: staff._id,
-            hospital: req.credentials.hospital,
-          })
-        )
+        const existsInWorkspace = await StaffWorkspace.exists({
+          staff: staff._id,
+          hospital: req.credentials.hospital,
+        });
+        if (existsInWorkspace)
           throw new Error("User already exists in the application");
-      } else {
       }
       const token = encrypt(
         {
@@ -34,17 +34,31 @@ export default class InviteController {
         },
         1000 * 60 * 60 * 24
       );
-      sendMail(
-        "INVITATION MAIL",
-        "noreply@goralsafrica.com",
-        [req.body.email],
-        { verificationCode: token },
-        "verify-signup.hbs"
-      )
-        .then(console.log)
-        .catch((err) => {
-          throw err;
-        });
+      // newNotification = new Notification({
+      //   sender: req.credentials.staff,
+      //   senderRole: "Staff",
+      //   description: "invite",
+      //   hospital: req.credentials.hospital,
+      //   invitee: {
+      //     email: req.body.email,
+      //     staff: staff._id,
+      //     status: "pending",
+      //   },
+      //   recipients: staff ? [staff._id] : [],
+      // });
+      // sendMail(
+      //   "INVITATION MAIL",
+      //   "noreply@goralsafrica.com",
+      //   [req.body.email],
+      //   { verificationCode: token },
+      //   "verify-signup.hbs"
+      // )
+      //   .then(console.log)
+      //   .catch((err) => {
+      //     throw err;
+      //   });
+
+      //update audit trail
 
       return successMessage(
         {
