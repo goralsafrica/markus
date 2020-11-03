@@ -23,7 +23,6 @@ export async function removeSocket(socket) {
 }
 
 export async function emitEvent(io, users) {
-  console.log(io);
   users.forEach((user) => {
     io = io.to(user);
   });
