@@ -14,7 +14,8 @@ import StaffWorkspace from "../../roles/staff/models/StaffWorkspace";
 
 export default class InviteController {
   static async sendInviteMail(req) {
-    let newNotification;
+    const { email } = req.body;
+    const { hospital } = req.credentials;
     try {
       const staff = await Staff.exists({
         email: req.body.email,
@@ -27,42 +28,46 @@ export default class InviteController {
         if (existsInWorkspace)
           throw new Error("User already exists in the application");
       }
+
+      // send notifications
+      const newNotification = new Notification({
+        sender: req.credentials.staff,
+        senderRole: "Staff",
+        description: "invite",
+        hospital: req.credentials.hospital,
+        invitee: {
+          email: req.body.email,
+          status: "pending",
+        },
+      });
+      if (staff) {
+        newNotification.recipients = [staff._id];
+        newNotification.invitee.staff = staff._id;
+      }
+      await newNotification.save();
+      sendMail(
+        "INVITATION MAIL",
+        "noreply@goralsafrica.com",
+        [req.body.email],
+        { verificationCode: token },
+        "verify-signup.hbs"
+      )
+        .then(console.log)
+        .catch((err) => {
+          throw err;
+        });
+
+      //update audit trail
       const token = encrypt(
         {
-          hospital: req.credentials.hospital,
-          invitee: req.body.email,
+          hospital,
+          invitee: email,
         },
         1000 * 60 * 60 * 24
       );
-      // newNotification = new Notification({
-      //   sender: req.credentials.staff,
-      //   senderRole: "Staff",
-      //   description: "invite",
-      //   hospital: req.credentials.hospital,
-      //   invitee: {
-      //     email: req.body.email,
-      //     staff: staff._id,
-      //     status: "pending",
-      //   },
-      //   recipients: staff ? [staff._id] : [],
-      // });
-      // sendMail(
-      //   "INVITATION MAIL",
-      //   "noreply@goralsafrica.com",
-      //   [req.body.email],
-      //   { verificationCode: token },
-      //   "verify-signup.hbs"
-      // )
-      //   .then(console.log)
-      //   .catch((err) => {
-      //     throw err;
-      //   });
-
-      //update audit trail
-
       return successMessage(
         {
-          email: req.body.email,
+          email,
         },
         "Invite link has been sent"
       );

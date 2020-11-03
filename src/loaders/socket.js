@@ -22,6 +22,7 @@ export async function ws_loader(io) {
       socket.emit("welcome", { msg: "welcome bossman !!" });
     });
     socket.on("disconnect", () => {
+      console.log("[disconnected user]", socket.id);
       handler.removeSocket(socket);
     });
   });
