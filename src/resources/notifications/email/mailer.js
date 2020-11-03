@@ -26,7 +26,6 @@ export default async function (subject, sender, recipients, payload, template) {
     });
     return { message: "message sent", result: info };
   } catch (err) {
-    console.log(err);
-    return err;
+    throw new Error(`Email not sent: ${err.message}`);
   }
 }

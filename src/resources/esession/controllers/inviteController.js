@@ -8,19 +8,25 @@ import {
   successMessage,
   decrypt,
 } from "../../../utilities";
+import sendMail from "../../notifications/email/mailer";
+import StaffWorkspace from "../../roles/staff/models/StaffWorkspace";
 
 export default class InviteController {
   static async sendInviteMail(req) {
     try {
-      if (
-        await Staff.exists({
-          email: req.body.email,
-          hospital: {
-            $in: [req.credentials.hospital],
-          },
-        })
-      )
-        throw new Error("Doctor already exists in this hospital");
+      const staff = await Staff.exists({
+        email: req.body.email,
+      });
+      if (staff) {
+        if (
+          await StaffWorkspace.exists({
+            staff: staff._id,
+            hospital: req.credentials.hospital,
+          })
+        )
+          throw new Error("User already exists in the application");
+      } else {
+      }
       const token = encrypt(
         {
           hospital: req.credentials.hospital,
@@ -28,10 +34,21 @@ export default class InviteController {
         },
         1000 * 60 * 60 * 24
       );
-      //send mailer here
+      sendMail(
+        "INVITATION MAIL",
+        "noreply@goralsafrica.com",
+        [req.body.email],
+        { verificationCode: token },
+        "verify-signup.hbs"
+      )
+        .then(console.log)
+        .catch((err) => {
+          throw err;
+        });
+
       return successMessage(
         {
-          token,
+          email: req.body.email,
         },
         "Invite link has been sent"
       );
