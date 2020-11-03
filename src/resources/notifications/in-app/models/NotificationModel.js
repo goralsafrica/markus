@@ -1,5 +1,4 @@
 import { model, Schema } from "mongoose";
-import notifier from "./notifier";
 const notifcationSchema = new Schema(
   {
     sender: {
@@ -25,4 +24,6 @@ const notifcationSchema = new Schema(
   }
 );
 
-notifcationSchema.post("save", (doc) => {});
+///notifcationSchema.post("save", (doc) => {});
+
+export default model("Notification", notifcationSchema);

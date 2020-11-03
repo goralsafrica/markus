@@ -1,5 +1,6 @@
 import Patient from "../../roles/patient/models/Patient";
 import Session from "../models/Session";
+import Notification from "../../notifications/in-app/models/NotificationModel";
 import {
   badRequestError,
   successMessage,
@@ -53,6 +54,29 @@ class MainController {
           request: err.message,
         },
         "failed to update esession details"
+      );
+    }
+  }
+
+  static async getNotifications(req) {
+    const notificationsPerPage = 4;
+    const { type, page } = req.query;
+    try {
+      const notifications = await Notification.find({});
+      return successMessage(
+        {
+          data: notifications,
+          current_page: page,
+          amount: notificationsPerPage,
+        },
+        "notifications list retrieved"
+      );
+    } catch (err) {
+      return badRequestError(
+        {
+          request: err.message,
+        },
+        "failed to fetch notifications"
       );
     }
   }
