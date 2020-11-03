@@ -18,6 +18,7 @@ export async function ws_loader(io) {
 
   io.on("connection", (socket) => {
     handler.persistSocket(socket).then(() => {
+      console.log("[new user]", socket.id);
       socket.emit("welcome", { msg: "welcome bossman !!" });
     });
     socket.on("disconnect", () => {
