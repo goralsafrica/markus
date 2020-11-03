@@ -25,7 +25,7 @@ export default class InviteController {
           staff: staff._id,
           hospital: req.credentials.hospital,
         });
-        if (!existsInWorkspace)
+        if (existsInWorkspace)
           throw new Error("User already exists in the workspace");
       }
       // send notifications
