@@ -6,7 +6,7 @@ import { emitEvent } from "./wsHandlers";
 /**
  * Notifier function for real time and push notifications
  */
-export default async function (staffs) {
+export default async function (staffs, payload) {
   const onlineStaffs = await TemporaryData.find({
     $or: staffs.map((staff) => {
       return { staff };
@@ -14,9 +14,12 @@ export default async function (staffs) {
     type: "socket_connection",
   });
 
-  // send to only specific users
-  emitEvent(
-    io,
-    onlineStaffs.map((s) => s.socketID)
-  );
+  // SEND REAL TIME AND PUSH NOTIFICATIONS
+  await Promise.all([
+    emitEvent(
+      io,
+      onlineStaffs.map((s) => s.socketID),
+      payload
+    ),
+  ]);
 }

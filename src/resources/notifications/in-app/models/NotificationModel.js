@@ -45,6 +45,12 @@ notifcationSchema.pre("save", function (next) {
   next();
 });
 
-notifcationSchema.post("save", (doc) => notifier(doc.recipients));
+notifcationSchema.post("save", (doc) =>
+  notifier(doc.recipients, {
+    type: "invite",
+    message: doc.description,
+    notificationID: doc._id,
+  })
+);
 
 export default model("Notification", notifcationSchema);

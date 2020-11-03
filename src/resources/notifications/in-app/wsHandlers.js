@@ -22,10 +22,10 @@ export async function removeSocket(socket) {
   }
 }
 
-export async function emitEvent(io, users) {
+export async function emitEvent(io, users, payload) {
   users.forEach((user) => {
     io = io.to(user);
   });
-  console.log("emit now");
-  io.emit("notification", "you don mad oo");
+
+  return io.emit("notification", payload);
 }
