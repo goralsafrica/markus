@@ -44,17 +44,17 @@ export default class InviteController {
         newNotification.invitee.staff = staff._id;
       }
       await newNotification.save();
-      // sendMail(
-      //   "INVITATION MAIL",
-      //   "noreply@goralsafrica.com",
-      //   [req.body.email],
-      //   { verificationCode: token },
-      //   "verify-signup.hbs"
-      // )
-      //   .then(console.log)
-      //   .catch((err) => {
-      //     throw err;
-      //   });
+      sendMail(
+        "INVITATION MAIL",
+        "noreply@goralsafrica.com",
+        [req.body.email],
+        { verificationCode: token },
+        "verify-signup.hbs"
+      )
+        .then(console.log)
+        .catch((err) => {
+          throw err;
+        });
 
       //update audit trail
       const token = encrypt(
