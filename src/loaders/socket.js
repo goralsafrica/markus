@@ -15,7 +15,6 @@ export async function ws_loader(io) {
       socket.disconnect();
     }
   });
-
   io.on("connection", (socket) => {
     handler.persistSocket(socket).then(() => {
       console.log("[new user]", socket.id);

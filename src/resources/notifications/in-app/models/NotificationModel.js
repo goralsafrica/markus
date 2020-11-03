@@ -1,6 +1,7 @@
 import { model, Schema } from "mongoose";
-import {} from "../wsHandlers";
+import notifier from "../notifier";
 import descriptions from "./descriptions";
+
 const inviteeSchema = new Schema({
   email: String,
   staff: {
@@ -44,8 +45,6 @@ notifcationSchema.pre("save", function (next) {
   next();
 });
 
-notifcationSchema.post("save", (doc) => {
-  console.log(doc);
-});
+notifcationSchema.post("save", (doc) => notifier(doc.recipients));
 
 export default model("Notification", notifcationSchema);

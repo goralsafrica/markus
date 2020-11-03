@@ -17,7 +17,7 @@ export default class InviteController {
     const { email } = req.body;
     const { hospital } = req.credentials;
     try {
-      const staff = await Staff.exists({
+      const staff = await Staff.findOne({
         email: req.body.email,
       });
       if (staff) {
@@ -25,10 +25,9 @@ export default class InviteController {
           staff: staff._id,
           hospital: req.credentials.hospital,
         });
-        if (existsInWorkspace)
-          throw new Error("User already exists in the application");
+        if (!existsInWorkspace)
+          throw new Error("User already exists in the workspace");
       }
-
       // send notifications
       const newNotification = new Notification({
         sender: req.credentials.staff,
@@ -45,17 +44,17 @@ export default class InviteController {
         newNotification.invitee.staff = staff._id;
       }
       await newNotification.save();
-      sendMail(
-        "INVITATION MAIL",
-        "noreply@goralsafrica.com",
-        [req.body.email],
-        { verificationCode: token },
-        "verify-signup.hbs"
-      )
-        .then(console.log)
-        .catch((err) => {
-          throw err;
-        });
+      // sendMail(
+      //   "INVITATION MAIL",
+      //   "noreply@goralsafrica.com",
+      //   [req.body.email],
+      //   { verificationCode: token },
+      //   "verify-signup.hbs"
+      // )
+      //   .then(console.log)
+      //   .catch((err) => {
+      //     throw err;
+      //   });
 
       //update audit trail
       const token = encrypt(

@@ -1,5 +1,7 @@
+import { io } from "../../../server";
 import TemporaryData from "../../auth/models/TemporaryData";
 import Staff from "../../roles/staff/models/Staff";
+import { emitEvent } from "./wsHandlers";
 
 /**
  * Notifier function for real time and push notifications
@@ -12,5 +14,9 @@ export default async function (staffs) {
     type: "socket_connection",
   });
 
-  console.log(onlineStaffs);
+  // send to only specific users
+  emitEvent(
+    io,
+    onlineStaffs.map((s) => s.socketID)
+  );
 }
