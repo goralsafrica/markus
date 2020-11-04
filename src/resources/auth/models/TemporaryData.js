@@ -4,6 +4,7 @@ import types from "../../../seeders/temporaryDatatypes";
 const temporaryData = new Schema({
   staff: {
     type: Schema.Types.ObjectId,
+    ref: "Staff",
   },
   type: {
     type: String,

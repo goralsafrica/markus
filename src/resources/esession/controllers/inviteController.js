@@ -3,12 +3,10 @@ const Staff = model("Staff"),
   ExpiredToken = model("ExpiredToken"),
   Hospital = model("Hospital");
 import Notification from "../../notifications/in-app/models/NotificationModel";
+import Invite from "../../auth/models/Invite";
 import {
-  encrypt,
   badRequestError,
   successMessage,
-  decrypt,
-  notAllowedError,
   notFoundError,
 } from "../../../utilities";
 import sendMail from "../../notifications/email/mailer";
@@ -16,57 +14,42 @@ import StaffWorkspace from "../../roles/staff/models/StaffWorkspace";
 
 export default class InviteController {
   static async sendInviteMail(req) {
-    const { email } = req.body;
-    const { hospital } = req.credentials;
+    const { email, alreadyInvited } = req.body;
+    const { hospital, staff } = req.credentials;
     try {
-      const staff = await Staff.findOne({
+      const registeredUser = await Staff.findOne({
         email: req.body.email,
       });
-      if (staff) {
+      if (registeredUser) {
         const existsInWorkspace = await StaffWorkspace.exists({
-          staff: staff._id,
-          hospital: req.credentials.hospital,
+          staff: registeredUser._id,
+          hospital,
         });
         if (existsInWorkspace)
           throw new Error("User already exists in the workspace");
       }
-      // send notifications
-      const newNotification = new Notification({
-        sender: req.credentials.staff,
-        senderRole: "Staff",
-        description: "invite",
-        hospital: req.credentials.hospital,
-        invitee: {
-          email: req.body.email,
-          status: "pending",
-        },
+      if (alreadyInvited)
+        throw new Error("Invite has already been sent to this email");
+
+      const invite = new Invite({
+        recipient: email,
+        hospital,
+        sender: staff,
       });
-      if (staff) {
-        newNotification.recipients = [staff._id];
-        newNotification.invitee.staff = staff._id;
-      }
-      await newNotification.save();
+
+      await invite.save();
       sendMail(
         "INVITATION MAIL",
         "noreply@goralsafrica.com",
         [req.body.email],
-        { verificationCode: token },
+        { verificationCode: invite._id },
         "verify-signup.hbs"
       )
         .then(console.log)
         .catch((err) => {
           throw err;
         });
-
       //update audit trail
-      const token = encrypt(
-        {
-          hospital,
-          invitee: email,
-        },
-        1000 * 60 * 60 * 24
-      );
-      console.log(token);
       return successMessage(
         {
           email,
@@ -85,23 +68,19 @@ export default class InviteController {
 
   static async verifyInviteToken(req) {
     try {
-      let { invitee, hospital } = decrypt(req.params.token);
-      hospital = await Hospital.findById(hospital).select("name");
-      const notification = await Notification.findOne({
-        "invitee.email": invitee,
-      });
-      if (!notification)
+      const { token } = req.params,
+        invite = await Invite.findById(token).populate("hospital", "name");
+      if (!invite)
         return notFoundError(
           {
-            request: "unrecognized token",
+            request: "Invalid/expired Invite",
           },
           "failed to verify invite"
         );
-      return successMessage({
-        invitee,
-        hospital,
-        notification: notification._id,
-      });
+      return successMessage(
+        invite,
+        "invitation details successfully retrieved"
+      );
     } catch (err) {
       console.log(err);
       return badRequestError({

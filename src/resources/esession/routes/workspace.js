@@ -10,6 +10,7 @@ import {
   verifyUser,
   sendInviteMailValidator,
   verifyInviteToken,
+  checkInvite,
 } from "../../auth/middlewares";
 const workspaceRouter = Router();
 
@@ -58,6 +59,7 @@ workspaceRouter.post(
   "/invite",
   verifyUser,
   sendInviteMailValidator,
+  checkInvite,
   async (req, res) => {
     const { result, status } = await InviteController.sendInviteMail(req);
     return res.status(status).json(result);

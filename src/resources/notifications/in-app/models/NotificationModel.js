@@ -2,18 +2,6 @@ import { model, Schema } from "mongoose";
 import notifier from "../notifier";
 import descriptions from "./descriptions";
 
-const inviteeSchema = new Schema({
-  email: String,
-  staff: {
-    type: String,
-    ref: "Role",
-  },
-  status: {
-    type: String,
-    enum: ["accepted", "rejected", "pending"],
-  },
-});
-
 const notifcationSchema = new Schema(
   {
     sender: {
@@ -33,7 +21,6 @@ const notifcationSchema = new Schema(
       required: true,
     },
     recipients: [{ type: Schema.Types.ObjectId, ref: "Staff" }],
-    invitee: inviteeSchema,
   },
   {
     timestamps: true,

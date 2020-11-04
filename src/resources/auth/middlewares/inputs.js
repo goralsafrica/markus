@@ -2,6 +2,7 @@
 import validator from "validator";
 import isEmpty from "is-empty";
 import joi from "joi";
+import Invite from "../models/Invite";
 import { badRequestError, formatJoiError } from "../../../utilities";
 /**
  *
@@ -102,5 +103,25 @@ export async function twoFAValidator(req, res, next) {
   } catch (err) {
     const errors = formatJoiError(err);
     next({ status: 400, errors, message: "authentication failed" });
+  }
+}
+
+export async function checkInvite(req, res, next) {
+  try {
+    const all = await Invite.find();
+    const exists = await Invite.findOne({
+      recipient: req.body.email,
+      hospital: req.credentials.hospital,
+    });
+    req.body.alreadyInvited = Boolean(exists);
+    return next();
+  } catch (err) {
+    return next({
+      status: 400,
+      errors: {
+        request: err.message,
+      },
+      message: "failed to send invite",
+    });
   }
 }

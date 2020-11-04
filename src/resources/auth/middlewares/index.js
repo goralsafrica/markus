@@ -4,6 +4,7 @@ import {
   resetPasswordValidator,
   sendInviteMailValidator,
   twoFAValidator,
+  checkInvite,
 } from "./inputs";
 import { verifyUser, verifyTemporaryToken, verifyInviteToken } from "./verify";
 
@@ -14,6 +15,7 @@ export {
   forgotPasswordValidator,
   verifyTemporaryToken,
   verifyInviteToken,
+  checkInvite,
   resetPasswordValidator,
   sendInviteMailValidator,
 };
