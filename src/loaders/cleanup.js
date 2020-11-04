@@ -6,6 +6,7 @@ async function deleteTemporaryData() {
 }
 
 export default async function () {
+  deleteTemporaryData();
   process.on("SIGTERM", deleteTemporaryData);
   return;
 }
