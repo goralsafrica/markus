@@ -1,8 +1,7 @@
-import { models, model } from "mongoose";
+import { model } from "mongoose";
 
 async function deleteTemporaryData() {
-  await model("TemporaryData").deleteMany({});
-  return console.log("Removed Temporary Datas");
+  await model("TemporaryData").deleteMany({ type: "socket_connection" });
 }
 
 export default async function () {
