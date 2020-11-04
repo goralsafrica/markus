@@ -27,7 +27,7 @@ class HospitalController {
         throw new Error(
           "Registration failed: server failed to generate an accurate verification code"
         );
-
+      console.log("[ VERIFICATION CODE ]", verificationCode);
       // create staff
       const createStaff = new Staff({
         title: user.title,
