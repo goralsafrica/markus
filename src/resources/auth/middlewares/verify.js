@@ -30,8 +30,11 @@ export async function verifyTemporaryToken(req, res, next) {
   try {
     const data = await verifyToken(token);
     const expired = await isExpired(token);
-    if (!data || expired || !data.temporary)
-      return next(unAuthorizedRequestError());
+    console.log(data, expired);
+    if (req.url !== "/workspace") {
+      if (!data || expired || !data.temporary)
+        return next(unAuthorizedRequestError());
+    }
     data.token = token;
     req.credentials = data;
     next();
