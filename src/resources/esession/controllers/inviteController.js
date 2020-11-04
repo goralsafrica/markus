@@ -8,6 +8,8 @@ import {
   badRequestError,
   successMessage,
   decrypt,
+  notAllowedError,
+  notFoundError,
 } from "../../../utilities";
 import sendMail from "../../notifications/email/mailer";
 import StaffWorkspace from "../../roles/staff/models/StaffWorkspace";
@@ -64,6 +66,7 @@ export default class InviteController {
         },
         1000 * 60 * 60 * 24
       );
+      console.log(token);
       return successMessage(
         {
           email,
@@ -84,9 +87,20 @@ export default class InviteController {
     try {
       let { invitee, hospital } = decrypt(req.params.token);
       hospital = await Hospital.findById(hospital).select("name");
+      const notification = await Notification.findOne({
+        "invitee.email": invitee,
+      });
+      if (!notification)
+        return notFoundError(
+          {
+            request: "unrecognized token",
+          },
+          "failed to verify invite"
+        );
       return successMessage({
         invitee,
         hospital,
+        notification: notification._id,
       });
     } catch (err) {
       console.log(err);
@@ -105,8 +119,10 @@ export default class InviteController {
       if (staff) {
         console.log(staff);
         staff.hospital.push(hospital);
-        await ExpiredToken.create({ token: req.params.token });
-        await staff.save();
+        await Promise.all([
+          ExpiredToken.create({ token: req.params.token }),
+          staff.save(),
+        ]);
         return successMessage(data, "invite to workspace complete");
       } else {
         return {

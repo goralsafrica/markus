@@ -72,7 +72,7 @@ workspaceRouter.get(
   }
 );
 workspaceRouter.post(
-  "/invite/accept/:token",
+  "/invite/accept",
   verifyInviteToken,
   sendInviteMailValidator,
   async (req, res) => {
