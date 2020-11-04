@@ -7,6 +7,7 @@ import { emitEvent } from "./wsHandlers";
  * Notifier function for real time and push notifications
  */
 export default async function (staffs, payload) {
+  if (staffs.length == 0) return;
   const onlineStaffs = await TemporaryData.find({
     $or: staffs.map((staff) => {
       return { staff };
