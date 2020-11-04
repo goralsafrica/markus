@@ -9,10 +9,6 @@ export async function verifyUser(req, res, next) {
   try {
     const data = await verifyToken(token);
     const expired = await isExpired(token);
-    if (process.env.NODE_ENV == "test") {
-      console.log(req.url);
-      console.log(data, expired);
-    }
     if (!data || expired || data.temporary)
       return next(unAuthorizedRequestError());
     req.credentials = data;
@@ -30,7 +26,6 @@ export async function verifyTemporaryToken(req, res, next) {
   try {
     const data = await verifyToken(token);
     const expired = await isExpired(token);
-    console.log(data, expired);
     if (req.url !== "/workspace") {
       if (!data || expired || !data.temporary)
         return next(unAuthorizedRequestError());
