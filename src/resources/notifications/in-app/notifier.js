@@ -14,7 +14,7 @@ export default async function (staffs, payload) {
     }),
     type: "socket_connection",
   });
-  console.log(onlineStaffs);
+  console.log("[Recipients]", onlineStaffs);
 
   // SEND REAL TIME AND PUSH NOTIFICATIONS
   await Promise.all([
