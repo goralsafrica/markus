@@ -52,14 +52,14 @@ export function decrypt(payload) {
   return jwt.verify(payload, process.env.SECRET_KEY.toUpperCase());
 }
 
-export function randomNumber(amount) {
+export function randomNumber(amount = 6) {
   const multiplier = 10 ** amount;
-  const token = Math.floor(Math.random() * multiplier);
-  if (String(token).length != amount) {
-    randomNumber(amount);
-  } else {
-    return token;
+  const token = String(Math.floor(Math.random() * multiplier));
+  if (token.length == amount) return token;
+  let extra = "";
+  for (let i = 0; i < amount - token.length; i++) {
+    extra += String(Math.floor(Math.random() * (9 - 1) + 1));
   }
+  extra += token + "";
+  return extra;
 }
-
-randomNumber(6);

@@ -21,10 +21,13 @@ class HospitalController {
   static async create(user) {
     // hash password
     user.password = hashSync(user.password, 10);
-    const verificationCode = randomNumber(6);
-    if (!verificationCode) randomNumber(6);
-    console.log("[Verification Code]", verificationCode);
+    const verificationCode = randomNumber();
     try {
+      if (String(verificationCode).length !== 6)
+        throw new Error(
+          "Registration failed: server failed to generate an accurate verification code"
+        );
+
       // create staff
       const createStaff = new Staff({
         title: user.title,
