@@ -42,8 +42,8 @@ export default class InviteController {
         "INVITATION MAIL",
         "noreply@goralsafrica.com",
         [req.body.email],
-        { verificationCode: invite._id },
-        "verify-signup.hbs"
+        { token: invite._id },
+        "workspace-invite.hbs"
       )
         .then(console.log)
         .catch((err) => {
@@ -68,8 +68,10 @@ export default class InviteController {
 
   static async verifyInviteToken(req) {
     try {
-      const { token } = req.params,
-        invite = await Invite.findById(token).populate("hospital", "name");
+      const { token } = req.query,
+        invite = await Invite.findById(token)
+          .populate("hospital", "name")
+          .select("-recipient");
       if (!invite)
         return notFoundError(
           {
@@ -91,30 +93,25 @@ export default class InviteController {
 
   static async acceptInvite(req) {
     try {
-      let { invitee, hospital } = decrypt(req.params.token);
-      if (invitee !== req.body.email)
-        throw new Error("email not assigned to token");
-      let staff = await Staff.findOne({ email: invitee });
-      if (staff) {
-        console.log(staff);
-        staff.hospital.push(hospital);
-        await Promise.all([
-          ExpiredToken.create({ token: req.params.token }),
-          staff.save(),
-        ]);
-        return successMessage(data, "invite to workspace complete");
-      } else {
-        return {
-          status: 307,
-          result: {
-            errors: null,
-            data: {
-              email: invitee,
-            },
-            message: "Welcome new user :)",
-          },
-        };
-      }
+      let { email: recipient } = req.body,
+        { token } = req.query;
+      const invite = await Invite.findOne({ _id: token, recipient });
+      if (!invite)
+        throw new Error(
+          "Verification Failed. invalid invitee/unauthorized token"
+        );
+      let staff = await Staff.findOne({ email: recipient });
+      await StaffWorkspace.create({
+        staff: staff._id,
+        hospital: invite.hospital,
+      });
+      await Invite.findByIdAndUpdate(token, { status: "accepted" });
+      return successMessage(
+        {
+          email: recipient,
+        },
+        "Your have successfully been added to the workspace"
+      );
     } catch (err) {
       console.log(err);
       return badRequestError({

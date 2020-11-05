@@ -1,4 +1,5 @@
 import ExpiredToken from "../models/ExpiredToken";
+import Invite from "../models/Invite";
 import { verifyToken, unAuthorizedRequestError } from "../../../utilities";
 
 export async function verifyUser(req, res, next) {
@@ -40,11 +41,17 @@ export async function verifyTemporaryToken(req, res, next) {
 
 export async function verifyInviteToken(req, res, next) {
   try {
-    if (!req.params.token || (await isExpired(req.params.token)))
+    if (!req.query.token || !(await Invite.exists({ _id: req.query.token })))
       throw new Error("invaid/expired token");
     next();
   } catch (err) {
-    return next(unAuthorizedRequestError());
+    return next({
+      status: 404,
+      errors: {
+        request: err.message,
+      },
+      message: "verification failed",
+    });
   }
 }
 

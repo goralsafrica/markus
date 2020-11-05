@@ -108,7 +108,6 @@ export async function twoFAValidator(req, res, next) {
 
 export async function checkInvite(req, res, next) {
   try {
-    const all = await Invite.find();
     const exists = await Invite.findOne({
       recipient: req.body.email,
       hospital: req.credentials.hospital,
