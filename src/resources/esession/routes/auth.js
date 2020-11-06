@@ -124,7 +124,7 @@ esessionAuthRouter.get("/mail", async (req, res) => {
       fullName: "Chukwurah Emmanuel",
       code: 123232,
     },
-    "verify-signup.hbs"
+    "workspace-invite.hbs"
   )
     .then(console.log)
     .catch((err) => console.log(err));
