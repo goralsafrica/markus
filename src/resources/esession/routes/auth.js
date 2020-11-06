@@ -131,7 +131,7 @@ esessionAuthRouter.get("/mail", async (req, res) => {
   res.send("done");
 });
 esessionAuthRouter.get("/template", async (req, res) => {
-  loadTemplate("verify-signup.hbs", {
+  loadTemplate("workspace-invite.hbs", {
     fullName: "Chukwurah Emmanuel",
     code: 123232,
   })
