@@ -68,7 +68,7 @@ workspaceRouter.post(
 workspaceRouter.get("/invite", verifyInviteToken, async (req, res) => {
   const { status, result } = await InviteController.verifyInviteToken(req);
   res.send(`
-    <h1>Accept invite</h2>
+    <h1>Accept invite from ${result.data.hospital.name}</h2>
     <form action="/api/esession/workspace/invite/accept?token=${result.data._id}" method="POST">
       <input type="email" name="email" value="emeka.emmanuel45@yahoo.com" />
       <button type="submit">Submit</button>

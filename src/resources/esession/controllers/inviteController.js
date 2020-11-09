@@ -35,9 +35,10 @@ export default class InviteController {
         recipient: email,
         hospital,
         sender: staff,
+        status: "pending",
       });
 
-      await invite.save();
+      invite.save();
       sendMail(
         "INVITATION MAIL",
         "noreply@goralsafrica.com",
@@ -95,12 +96,20 @@ export default class InviteController {
     try {
       let { email: recipient } = req.body,
         { token } = req.query;
-      const invite = await Invite.findOne({ _id: token, recipient });
+      const invite = await Invite.findOne({
+        _id: token,
+        recipient,
+        status: "pending",
+      });
       if (!invite)
         throw new Error(
           "Verification Failed. invalid invitee/unauthorized token"
         );
       let staff = await Staff.findOne({ email: recipient });
+      if (!staff)
+        throw new Error(
+          "Unregistered Email. You have to register before accepting invite"
+        );
       await StaffWorkspace.create({
         staff: staff._id,
         hospital: invite.hospital,
@@ -113,7 +122,7 @@ export default class InviteController {
         "Your have successfully been added to the workspace"
       );
     } catch (err) {
-      console.log(err);
+      console.log(err.message);
       return badRequestError({
         request: err.message,
       });
