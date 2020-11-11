@@ -68,6 +68,7 @@ class AuthController {
 
   static async verifyWorkspace(url) {
     try {
+      if (url == "") throw new Error("invalid name");
       const hospital = await Hospital.exists({ url });
       if (!hospital)
         return successMessage(
@@ -80,7 +81,7 @@ class AuthController {
       );
     } catch (err) {
       return badRequestError(
-        { url: "url taken" },
+        { url: err.message },
         "workspace validation failed"
       );
     }
