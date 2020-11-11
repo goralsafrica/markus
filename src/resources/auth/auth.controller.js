@@ -72,7 +72,7 @@ class AuthController {
       const hospital = await Hospital.exists({ url });
       if (!hospital)
         return successMessage(
-          { url: "url not found" },
+          { url: "url is available" },
           "workspace validation passed"
         );
       return badRequestError(
