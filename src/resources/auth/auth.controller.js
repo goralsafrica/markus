@@ -68,7 +68,7 @@ class AuthController {
 
   static async verifyWorkspace(url) {
     try {
-      if (url == "") throw new Error("invalid url");
+      if (!url || url == "") throw new Error("invalid url");
       const hospital = await Hospital.exists({ url });
       if (!hospital)
         return successMessage(
