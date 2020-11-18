@@ -103,7 +103,7 @@ export default class InviteController {
       });
       if (!invite)
         throw new Error(
-          "Verification Failed. invalid invitee/unauthorized token"
+          "Verification Failed. <br/> Invalid email address / expired invite "
         );
       let staff = await Staff.findOne({ email: recipient });
       if (!staff)
@@ -118,6 +118,7 @@ export default class InviteController {
       return successMessage(
         {
           email: recipient,
+          hospital: invite.hospital,
         },
         "Your have successfully been added to the workspace"
       );
