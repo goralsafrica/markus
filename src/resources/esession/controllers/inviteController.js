@@ -43,7 +43,7 @@ export default class InviteController {
         "INVITATION MAIL",
         "noreply@goralsafrica.com",
         [req.body.email],
-        { token: invite._id },
+        { token: invite._id, user_status: registeredUser ? "existing" : "new" },
         "workspace-invite.hbs"
       )
         .then(console.log)

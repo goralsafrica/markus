@@ -27,7 +27,6 @@ class HospitalController {
         throw new Error(
           "Registration failed: server failed to generate an accurate verification code"
         );
-      console.log("[ VERIFICATION CODE ]", verificationCode);
       // create staff
       const createStaff = new Staff({
         title: user.title,
@@ -84,10 +83,9 @@ class HospitalController {
             "verify-signup.hbs"
           )
         )
-        .then(console.log)
-        .catch(console.log);
+        .then(({ message }) => console.log("[MESSAGE]", message))
+        .catch(console.error);
 
-      console.log("[Staff ID]", createStaff._id);
       const token = deriveToken(createHospital._id, createStaff._id, true);
 
       await TemporaryData.create({

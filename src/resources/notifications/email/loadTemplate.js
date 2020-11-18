@@ -2,6 +2,7 @@ import { compile } from "handlebars";
 import { join, resolve } from "path";
 import { readFileSync, existsSync } from "fs";
 export default async function (template, payload) {
+  payload.url = process.env.APP_URL;
   const filePath = join(__dirname, "templates/", template);
   try {
     if (!existsSync(filePath)) throw new Error("file not found");

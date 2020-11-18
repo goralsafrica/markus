@@ -107,7 +107,7 @@ export async function checkIfStaffExists(req, res, next) {
       return res.status(400).json({
         data: null,
         errors: {
-          request: "a staff with these credentials already exists",
+          request: "Staff credentials already exists",
         },
         message: "failed to create new staff",
       });
