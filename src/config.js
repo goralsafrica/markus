@@ -2,8 +2,9 @@ import { config } from "dotenv";
 
 config(".env");
 const {
-  MONGO_TEST_URI,
-  MONGO_DEV_URI,
+  TEST_DB_URI,
+  DEV_DB_URI,
+  STAGING_DB_URI,
   SECRET_KEY,
   SMTP_HOST,
   SMTP_PORT,
@@ -13,8 +14,7 @@ const {
 
 const port = process.env.PORT || 8000;
 
-const dbURI = MONGO_TEST_URI;
-//process.env.NODE_ENV !== "development" ? MONGO_DEV_URI : MONGO_TEST_URI;
+const dbURI = STAGING_DB_URI;
 
 const secretKey = SECRET_KEY;
 const smtpDetails = {
@@ -26,4 +26,5 @@ const smtpDetails = {
     pass: SMTP_PASSWORD,
   },
 };
+
 export { port, dbURI, secretKey, smtpDetails };

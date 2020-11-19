@@ -4,14 +4,7 @@ import isEmpty from "is-empty";
 import joi from "joi";
 import Invite from "../models/Invite";
 import { badRequestError, formatJoiError } from "../../../utilities";
-/**
- *
- * @param req
- * @param res
- * @param next
- *
- * @desc validates user inputs. sends errors and stops current endpoint work if any.
- */
+
 export function loginValidator(req, res, next) {
   const errors = {};
   const data = {};
@@ -43,6 +36,7 @@ function serializeInput(data) {
   }
   return data;
 }
+
 const forgotPasswordSchema = joi.object().keys({
   email: joi.string().email().required(),
 });
