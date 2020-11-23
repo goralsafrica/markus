@@ -6,6 +6,7 @@ import pharmacyRouter from "./resources/pharmacy/pharmacyRouter";
 import inventoryRouter from "./resources/inventory/inventoryRouter";
 import auditTrailRouter from "./resources/auditTrail/routes";
 import esessionRouter from "./resources/esession/routes";
+import emrRouter from "./resources/emr/emrRouter";
 import workFlowRouter from "./resources/workflow/routes";
 const apiRouter = Router();
 
@@ -21,6 +22,7 @@ apiRouter.use("/pharmacy", pharmacyRouter);
 apiRouter.use("/inventory", inventoryRouter);
 apiRouter.use("/logs", auditTrailRouter);
 apiRouter.use("/esession", esessionRouter);
+apiRouter.use("/emr", emrRouter);
 apiRouter.use("workflow", workFlowRouter);
 
 export default apiRouter;
