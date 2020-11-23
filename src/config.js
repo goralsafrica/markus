@@ -2,7 +2,6 @@ import { config } from "dotenv";
 
 config(".env");
 const {
-  TEST_DB_URI,
   DEV_DB_URI,
   STAGING_DB_URI,
   SECRET_KEY,

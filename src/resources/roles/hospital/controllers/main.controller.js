@@ -35,6 +35,7 @@ class HospitalController {
         email: user.adminEmail,
         phone: user.adminPhone,
         password: user.password,
+        verified: req.query.invite == true
       });
 
       //create new hospital

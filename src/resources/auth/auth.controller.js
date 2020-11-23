@@ -90,15 +90,17 @@ class AuthController {
   static async forgotPassword(req) {
     try {
       const user = await Staff.findOne({ email: req.body.email });
-      if (!user) throw new Error("user not found");
-      console.log(req.baseUrl);
-      const temporaryURL = `${encrypt({ id: user._id })}`;
-      return successMessage(
-        {
-          "reset link": temporaryURL,
-        },
-        "reset link has been sent to email"
-      );
+      if (!user) {
+        throw new Error("user not found");
+      } else {
+        const temporaryURL = `${encrypt({ id: user._id })}`;
+        return successMessage(
+          {
+            "reset link": temporaryURL,
+          },
+          "reset link has been sent to email"
+        );
+      }
     } catch (err) {
       console.log(err);
       return notFoundError({

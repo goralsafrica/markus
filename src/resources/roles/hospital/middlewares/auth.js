@@ -23,7 +23,6 @@ export async function verifyAdmin(req, res, next) {
 }
 
 export async function verifyNewHospital(req, res, next) {
-  console.log(req.body);
   const exists = await Hospital.exists({
     $or: [
       { email: req.body.hospitalEmail.toLowerCase() },

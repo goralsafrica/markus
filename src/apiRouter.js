@@ -22,21 +22,5 @@ apiRouter.use("/inventory", inventoryRouter);
 apiRouter.use("/logs", auditTrailRouter);
 apiRouter.use("/esession", esessionRouter);
 apiRouter.use("workflow", workFlowRouter);
-//error handlers
-apiRouter.use((req, res, next) => {
-  next({
-    status: 404,
-    errors: { request: "requested resource not found" },
-    message: "invalid request",
-  });
-});
-
-apiRouter.use(({ status, errors, message }, req, res, next) => {
-  res.status(status).json({
-    data: null,
-    errors,
-    message,
-  });
-});
 
 export default apiRouter;
