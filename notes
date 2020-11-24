@@ -1,8 +1,0 @@
-"start": "cross-env NODE_ENV=test node build/server.js",git
-
-
-requirements for every email
-- subject
-- template
-- data object for template
-- recipients

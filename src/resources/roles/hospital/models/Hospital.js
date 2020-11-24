@@ -24,6 +24,10 @@ const hospitalSchema = Schema(
       type: String,
       unique: true,
     },
+    slug: {
+      type: Number,
+      default: Date.now(),
+    },
     departments: [{ type: Schema.Types.ObjectId, ref: "Department" }],
   },
   { timestamps: true }

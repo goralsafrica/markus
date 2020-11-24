@@ -5,32 +5,35 @@ const opts = {
   required: true,
 };
 
-const emrSchema = new Schema({
-  patient: {
-    type: Schema.Types.ObjectId,
-    ref: "Patient",
-    required: true,
+const emrSchema = new Schema(
+  {
+    patient: {
+      type: Schema.Types.ObjectId,
+      ref: "Patient",
+      required: true,
+    },
+    // height in cm
+    height: opts,
+    // weight in kg
+    weight: opts,
+    // calculated bmi
+    bmi: opts,
+    // temperature in degree celsius
+    temperature: opts,
+    // pulse in beats/min
+    pulse: opts,
+    // resporatory rate in beats/min
+    respiratoryRate: opts,
+    // blood oxygen saturation in %
+    bloodOxygenSaturation: opts,
+    // blood pressure
+    //    FORMAT : systolic/diastolic
+    bloodPressure: {
+      systolic: opts,
+      diastolic: opts,
+    },
   },
-  // height in cm
-  height: opts,
-  // weight in kg
-  weight: opts,
-  // calculated bmi
-  bmi: opts,
-  // temperature in degree celsius
-  temperature: opts,
-  // pulse in beats/min
-  pulse: opts,
-  // resporatory rate in beats/min
-  respiratoryRate: opts,
-  // blood oxygen saturation in %
-  bloodOxygenSaturation: opts,
-  // blood pressure
-  //    FORMAT : systolic/diastolic
-  bloodPressure: {
-    systolic: opts,
-    diastolic: opts,
-  },
-});
+  { timestamps: true }
+);
 
-export default model("EMR", emrSchema);
+export default model("VitalReading", emrSchema);

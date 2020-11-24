@@ -1,11 +1,16 @@
 import Joi from "joi";
 Joi.objectId = require("joi-objectid")(Joi);
-import { formatJoiError } from "../../../utilities";
+import { formatJoiError, joiError } from "../../../utilities";
+
+const trim = () => Joi.string().trim();
+
 const createSessionSchema = Joi.object().keys({
-  firstName: Joi.string().required(),
+  firstName: trim().required(),
   lastName: Joi.string().required(),
-  branch: Joi.objectId().required(),
-  phone: Joi.number().integer(),
+  email: trim().email().required(),
+  phone: Joi.string()
+    .regex(/^(\d{11})$/)
+    .rule({ message: "phone number must be 11 digits" }),
 });
 
 async function createSessionValidator(req, res, next) {

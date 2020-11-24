@@ -2,7 +2,7 @@ import { model, Schema } from "mongoose";
 
 const SessionSchema = new Schema(
   {
-    workflow: {
+    associatedEMR: {
       type: Schema.Types.ObjectId,
       ref: "Workflow",
     },
@@ -11,20 +11,15 @@ const SessionSchema = new Schema(
       ref: "Staff",
       required: true,
     },
-    branch: {
+    patient: {
       type: Schema.Types.ObjectId,
-      ref: "Hospital",
-      required: true,
-    },
-    prescription: {
-      type: Schema.Types.ObjectId,
-      ref: "Prescription",
-      required: false,
+      ref: "Patient",
     },
     conversation: {
       type: String,
       required: false,
     },
+    recommendation: String,
     closed: {
       type: Boolean,
       default: false,

@@ -39,18 +39,6 @@ const PatientSchema = new Schema(
       ref: "Hospital",
       required: true,
     },
-    // password: {
-    //   type: String,
-    //   required: true,
-    // },
-    registered: {
-      type: Boolean,
-      default: false,
-    },
-    boarded: {
-      type: Boolean,
-      default: false,
-    },
   },
   {
     timestamps: true,

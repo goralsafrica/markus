@@ -1,5 +1,5 @@
 import Pharmacy from "../models/Pharmacy";
-import Prescription from "../../esession/models/Prescription";
+import Prescription from "../../emr/models/Prescription";
 import { successMessage, serverError } from "../../../utilities";
 
 class PrescriptionController {
