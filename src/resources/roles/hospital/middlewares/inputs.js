@@ -60,34 +60,38 @@ export function registerValidator(req, res, next) {
 }
 
 const registerHospitalSchema = joi.object().keys({
-  adminFirstName: joi.string().required(),
-  adminLastName: joi.string().required(),
-  adminPhone: joi.number().required(),
-  adminEmail: joi.string().email().required(),
-  hospitalName: joi.string().required(),
-  hospitalEmail: joi.string().email().required(),
-  hospitalPhone: joi.number().required(),
+  adminFirstName: joi.string().required().trim(),
+  adminLastName: joi.string().required().trim(),
+  adminPhone: joi
+    .string()
+    .required()
+    .regex(/^(\d{11})$/)
+    .rule({ message: "phone number must be 11 digits" })
+    .trim(),
+  adminEmail: joi.string().email().required().trim(),
+  hospitalName: joi.string().required().trim(),
+  hospitalEmail: joi.string().email().required().trim(),
+  hospitalPhone: joi
+    .string()
+    .required()
+    .regex(/^(\d{11})$/)
+    .rule({ message: "phone number must be 11 digits" })
+    .trim(),
   title: joi
     .string()
     .required()
-    .valid(...Object.keys(titles)),
-  url: joi.string().required(),
-  password: joi.string().required(),
-  address: joi.string().required(),
+    .valid(...Object.keys(titles))
+    .error(joiError(["title"], "invalid title"))
+    .trim(),
+  url: joi.string().required().trim(),
+  password: joi.string().required().trim(),
+  address: joi.string().required().trim(),
 });
 export async function registerHospitalValidator(req, res, next) {
   try {
     req.body = await registerHospitalSchema.validateAsync(req.body, {
       abortEarly: false,
     });
-    req.body.adminPhone = validatePhoneNumber(req.body.adminPhone);
-    if (!req.body.adminPhone)
-      throw joiError(["adminPhone"], "invalid admin phone number");
-
-    req.body.hospitalPhone = validatePhoneNumber(req.body.hospitalPhone);
-    if (!req.body.hospitalPhone)
-      throw joiError(["hospitalPhone"], "invalid hospital phone number");
-
     next();
   } catch (err) {
     const errors = formatJoiError(err);
@@ -104,9 +108,10 @@ const updateHospitalValidatorSchema = joi.object().keys({
   email: joi.string().required().email(),
   phone: joi
     .string()
-    .regex(/^(\d{10})$/)
-    .rule({ message: "phone number must be 10 digits" }),
+    .regex(/^(\d{11})$/)
+    .rule({ message: "phone number must be 11 digits" }),
   url: joi.string().required(),
+  adddress: joi.string().required(),
 });
 
 export async function updateHospitalValidator(req, res, next) {

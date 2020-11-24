@@ -44,7 +44,10 @@ esessionAuthRouter.post(
   verifyNewHospital,
   checkIfStaffExists,
   async (req, res) => {
-    const { result, status } = await HospitalController.create(req.body);
+    const { result, status } = await HospitalController.create(
+      req.body,
+      req.query
+    );
     return res.status(status).json(result);
   }
 );

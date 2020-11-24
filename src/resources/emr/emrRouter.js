@@ -1,5 +1,5 @@
 import { Router } from "express";
-import EMRController from "./controllers/EMRController";
+import { VitalSignsController, EMRController } from "./controllers";
 import { validateEMRForm } from "./middlewares";
 const emrRouter = Router();
 

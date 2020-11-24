@@ -2,11 +2,6 @@ import { model, Schema } from "mongoose";
 
 const SessionSchema = new Schema(
   {
-    patient: {
-      type: Schema.Types.ObjectId,
-      ref: "Patient",
-      required: true,
-    },
     workflow: {
       type: Schema.Types.ObjectId,
       ref: "Workflow",

@@ -18,13 +18,15 @@ export default async function (subject, sender, recipients, payload, template) {
     throw new Error("Recipients must be of type aryay");
   try {
     const html = await loadTemplate(template, payload);
-    const info = await transporter.sendMail({
+    const info = transporter.sendMail({
       from: `Markus <${sender}>`,
       to: recipients.join(", "),
       subject,
       html,
     });
-    return { message: "message sent", result: info };
+    info
+      .then((info) => ({ message: "message sent", result: info }))
+      .catch((err) => console.error(err));
   } catch (err) {
     throw new Error(`Email not sent: ${err.message}`);
   }

@@ -18,7 +18,7 @@ import {
  */
 
 class HospitalController {
-  static async create(user) {
+  static async create(user, query) {
     // hash password
     user.password = hashSync(user.password, 10);
     const verificationCode = randomNumber();
@@ -35,7 +35,7 @@ class HospitalController {
         email: user.adminEmail,
         phone: user.adminPhone,
         password: user.password,
-        verified: req.query.invite == true
+        verified: query.invite == true,
       });
 
       //create new hospital
@@ -158,7 +158,7 @@ class HospitalController {
         );
       return successMessage(data, "workspace update success");
     } catch (err) {
-      console.error(err);
+      console.error(err.message);
       return serverError(
         { request: err.message },
         "failed to update hospital data"

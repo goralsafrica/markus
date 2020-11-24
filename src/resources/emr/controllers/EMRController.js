@@ -1,9 +1,9 @@
 import { badRequestError } from "../../../utilities";
-import EMR from "../models/EMR";
+import VitalReading from "../models/VitalReading";
 
 class EMRController {
   // create a new EMR entry
-  static create(emrData) {}
+  static create(vitals) {}
 
   // find all EMR entries for a patient
   static findPatientRecords(patientid) {}
