@@ -11,8 +11,8 @@ import { verifyUser } from "../../../auth/middlewares";
 import { verifyAdmin } from "../middlewares";
 const hospitalRouter = express.Router();
 
-//gets the details of a particular hospital
-hospitalRouter.use(verifyUser);
+// //gets the details of a particular hospital
+// hospitalRouter.use(verifyUser);
 //hospitalRouter.use("/", mainRouter);
 
 // middleware to verify hospital admin :)

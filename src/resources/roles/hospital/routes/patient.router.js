@@ -9,6 +9,8 @@ patientRouter.get("/", async (req, res) => {
   res.status(status).json(result);
 });
 
+patientRouter.get("/search", async (req, res) => {});
+
 patientRouter.get("/:patientid", async (req, res) => {
   const { status, result } = PatientController.findOne(req);
   res.status(status).json(result);

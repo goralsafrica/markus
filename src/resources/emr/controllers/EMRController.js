@@ -9,12 +9,17 @@ import {
 } from "../../../utilities";
 
 class EMRController {
-  // create a new EMR entry
+  // create a new EMR entry [session,patient,vitalSigns,recommendation]
   static create(patientDetails, staffDetails) {
     try {
-      const patientExists = Patient.find({
-        $or: [{ email: patientDetails.email }, { phone }],
-      });
+      throw new Error("omo nothing has been done oo");
+      // create new patient if none exists
+      // else attach if to users
+      // create new emr entry
+      // create new session entry
+      // attach session entry to emr entry
+      // execute all promises
+      // send response
     } catch (err) {
       return serverError(
         {
