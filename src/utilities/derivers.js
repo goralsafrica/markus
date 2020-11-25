@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import * as config from "../config";
 
-export function deriveToken(hospital, staff, temporary = false) {
+export function deriveToken(hospital, staff, slug, temporary = false) {
   if (!staff || !hospital)
     throw (new Error().message = {
       message: "incomplete details",
@@ -10,6 +10,7 @@ export function deriveToken(hospital, staff, temporary = false) {
   let payload = {
     hospital,
     staff,
+    slug,
     temporary,
   };
   return jwt.sign(payload, config.secretKey);

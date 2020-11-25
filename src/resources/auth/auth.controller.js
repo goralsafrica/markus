@@ -18,54 +18,6 @@ import ExpiredToken from "./models/ExpiredToken";
 import { sendMail } from "../notifications";
 
 class AuthController {
-  static async login(user) {
-    const { email, password, hospital } = user;
-    try {
-      const staff = await Staff.findOne({
-        email,
-        hospital: {
-          $in: [hospital],
-        },
-      }).select("+password");
-      if (!staff)
-        return Promise.resolve(
-          badRequestError(
-            { request: "no record mathches the provided credentials" },
-            "login failure"
-          )
-        );
-      const correctPassword = await compare(password, await staff.password);
-
-      if (!(await correctPassword))
-        return Promise.resolve(
-          badRequestError(
-            { request: "invalid login credentials" },
-            "login failure"
-          )
-        );
-
-      const token = deriveToken(hospital, staff._id);
-
-      //arrange data to be sent back
-      return Promise.resolve({
-        status: 200,
-        result: {
-          data: {
-            firstName: staff.firstName,
-            lastName: staff.lastName,
-            email: staff.email,
-            token,
-          },
-          errors: null,
-          message: "login successful",
-        },
-      });
-    } catch (err) {
-      console.error("here", err);
-      return serverError(err, "failed to log user in");
-    }
-  }
-
   static async verifyWorkspace(url) {
     try {
       if (!url || url == "") throw new Error("invalid url");
@@ -131,6 +83,7 @@ class AuthController {
       }).select("+password");
       return successMessage(data, "authentication success");
     } catch (err) {
+      console.log(err.message);
       return badRequestError({
         request: err.message,
       });
@@ -150,7 +103,7 @@ class AuthController {
         "two factor authentication enabled/updated"
       );
     } catch (err) {
-      console.log(err);
+      console.log(err.message);
       return badRequestError({
         request: err.message,
       });
@@ -158,15 +111,13 @@ class AuthController {
   }
 
   static async verifyCode(req) {
-    const { staff, hospital, token } = req.credentials;
+    const { staff, hospital, token, slug } = req.credentials;
     try {
-      console.log(staff, req.body.token);
       const data = await TemporaryData.findOne({
         staff,
         verificationCode: req.body.token,
         type: "verification_code",
       });
-      console.log(data);
       if (!data || data.verificationCode != req.body.token) {
         throw new Error("Invalid/expired code");
       } else {
@@ -176,12 +127,12 @@ class AuthController {
         });
         ExpiredToken.create({ token });
         return successMessage(
-          { token: deriveToken(hospital, staff) },
+          { token: deriveToken(hospital, staff, slug) },
           "Verification success"
         );
       }
     } catch (err) {
-      console.log(err);
+      console.log(err.message);
       return badRequestError(
         {
           request: err.message,
@@ -200,7 +151,7 @@ class AuthController {
         type: "verification_code",
       });
       const staffDetails = await Staff.findById(staff);
-      console.log(staffDetails, staff);
+
       if (staffDetails.verified)
         throw new Error("you have already been verified");
 
@@ -218,7 +169,7 @@ class AuthController {
           createdAt: new Date(),
         });
       }
-      console.log(payload);
+
       sendMail(
         "Account Verification Code",
         "noreply@goralsafrica.com",

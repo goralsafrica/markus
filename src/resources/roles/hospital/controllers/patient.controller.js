@@ -8,7 +8,25 @@ import Patient from "../../patient/models/Patient";
 import Hospital from "../models/Hospital";
 
 class HospitalPatientController {
-  static async create(req, res, next) {}
+  static async create(body, user) {
+    try {
+      const newPatient = new Patient({ ...body, hospital: user.hospital });
+      if (body.importedEmrCode !== undefined) {
+        newPatient.importedEmrCode = user.slug + "-" + body.importedEmrCode;
+      }
+      if (await newPatient.save())
+        return successMessage(
+          newPatient,
+          "patient has been successfully created"
+        );
+    } catch (err) {
+      console.log(err);
+      return badRequestError({
+        request:
+          "patient credentials (email or phone number) already exist in this hospital",
+      });
+    }
+  }
   static async search(query, staffCredentials) {
     const self = HospitalPatientController;
     try {
@@ -16,10 +34,9 @@ class HospitalPatientController {
         throw new Error(
           "invalid request ! enter patient hospital code or patient name"
         );
-      const { slug } = await Hospital.findById(
-        staffCredentials.hospital
-      ).select("slug");
-      const query = self.getQuery(query, slug);
+      const params = self.getQuery(query.value, staffCredentials.slug);
+      const suggestions = await Patient.find(params);
+      return successMessage(suggestions, "search results fouund");
     } catch (err) {
       return badRequestError(
         { request: err.message },
@@ -27,6 +44,29 @@ class HospitalPatientController {
       );
     }
   }
+
+  static getQuery(value, slug) {
+    // query could be a full name or half name or generated code of imported code
+    const options = [];
+    function push(payload) {
+      return options.push(payload);
+    }
+    const possibleValues = value.split(" ");
+    if (possibleValues.length > 1) {
+      push({ firstName: possibleValues[0] });
+      push({ firstName: possibleValues[1] });
+      push({ lastName: possibleValues[0] });
+      push({ lastName: possibleValues[1] });
+    } else {
+      push({ firstName: possibleValues[0] });
+      push({ lastName: possibleValues[0] });
+      push({ code: possibleValues[0] });
+      push({ importedEmrCode: slug + "-" + possibleValues[0] });
+    }
+
+    return { $or: options };
+  }
+
   static async findAll(req) {
     try {
       const patients = await Patient.find({
@@ -58,12 +98,6 @@ class HospitalPatientController {
       console.log(err);
       next([500, ["server  failed to respond :("], "failed to create branch"]);
     }
-  }
-
-  static getQuery(query, slug) {
-    // query could be a full name or half name or generated code of imported code
-    const result = {};
-    con;
   }
 }
 

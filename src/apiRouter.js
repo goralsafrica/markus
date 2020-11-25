@@ -16,7 +16,7 @@ apiRouter.get("/", (req, res) => {
   });
 });
 apiRouter.use("/auth", authRouter);
-apiRouter.use("/roles", rolesRouter);
+apiRouter.use("/role", rolesRouter);
 apiRouter.use("/roster", rosterRouter);
 apiRouter.use("/pharmacy", pharmacyRouter);
 apiRouter.use("/inventory", inventoryRouter);

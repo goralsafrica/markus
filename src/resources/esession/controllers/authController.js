@@ -1,4 +1,4 @@
-import { model, models } from "mongoose";
+import { model } from "mongoose";
 import { compare } from "bcryptjs";
 import {
   serverError,
@@ -36,12 +36,17 @@ class EsessionAuthController {
         staff: staff._id,
       })
         .select("hospital")
-        .populate("hospital", "name url");
+        .populate("hospital", "name url slug");
       hospitals = hospitals.map((workspace) => workspace.hospital);
 
       const s = staff.toJSON();
       delete s.password;
-      const token = deriveToken("none required", staff._id, true);
+      const token = deriveToken(
+        "none required",
+        staff._id,
+        "none required",
+        true
+      );
       return successMessage(
         {
           staff: s,
@@ -65,12 +70,16 @@ class EsessionAuthController {
       const exists = await StaffWorkspace.findOne({
         staff: req.credentials.staff,
         hospital: req.body.hospital,
-      });
+      }).populate("hospital");
       if (exists) {
         await ExpiredToken.create({ token: extractToken(req) });
         return successMessage(
           {
-            token: deriveToken(req.body.hospital, req.credentials.staff),
+            token: deriveToken(
+              req.body.hospital,
+              req.credentials.staff,
+              exists.hospital.slug
+            ),
           },
           "authentication success :)"
         );
@@ -118,7 +127,7 @@ class EsessionAuthController {
       });
       return successMessage(
         {
-          request: "Sorry to see you go :(",
+          request: "You've been logged out! Sorry to see you go :(",
         },
         "logout succesful"
       );

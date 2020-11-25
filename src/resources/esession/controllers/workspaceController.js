@@ -38,14 +38,18 @@ export default class WorkspaceController {
   static async switchWorkspaces(req) {
     try {
       if (!req.body.hospital) throw new Error("hospital required");
-      const exists = await StaffWorkspace.exists({
+      const exists = await StaffWorkspace.findOne({
         hospital: req.body.hospital,
         staff: req.credentials.staff,
-      });
+      }).populate("hospital");
       if (exists) {
         await ExpiredToken.create({ token: extractToken(req) });
         return successMessage({
-          token: deriveToken(req.body.hospital, req.credentials.staff),
+          token: deriveToken(
+            req.body.hospital,
+            req.credentials.staff,
+            exists.hospital.slug
+          ),
         });
       }
       throw new Error("not allowed");

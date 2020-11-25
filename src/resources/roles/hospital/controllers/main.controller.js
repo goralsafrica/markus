@@ -45,6 +45,7 @@ class HospitalController {
         phone: user.hospitalPhone,
         url: user.url,
         code: user.hospitalCode,
+        slug: Number(Date.now()),
       });
       // creates partial details of a hospital branch
       const createBranch = new Branch({
@@ -87,7 +88,12 @@ class HospitalController {
         .then(({ message }) => console.log("[MESSAGE]", message))
         .catch(console.error);
 
-      const token = deriveToken(createHospital._id, createStaff._id, true);
+      const token = deriveToken(
+        createHospital._id,
+        createStaff._id,
+        createHospital.slug,
+        true
+      );
 
       await TemporaryData.create({
         staff: createStaff._id,

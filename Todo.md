@@ -1,7 +1,7 @@
 ### TODOs...
 
-- Add leading 0 for phone numbers (resolved)
-- Add hospital slug to each Hospital (done)
+- Ensure unique patients in hospital
+- Generate patient code in hospital
 - Resolve create workspace route with any token
 - Revisit assign staff middlleware (joi)
 - Revisit get patient details endpoint

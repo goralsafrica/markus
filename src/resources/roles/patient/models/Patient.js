@@ -23,10 +23,12 @@ const PatientSchema = new Schema(
       type: String,
     },
     dob: {
-      type: String,
+      type: Date,
+      required: true,
     },
     gender: {
       type: String,
+      required: true,
     },
     bloodGroup: {
       type: String,
@@ -39,10 +41,23 @@ const PatientSchema = new Schema(
       ref: "Hospital",
       required: true,
     },
+    importedEmrCode: String,
   },
   {
     timestamps: true,
   }
 );
+
+PatientSchema.pre("save", function (next) {
+  this.firstName = this.firstName.toLowerCase();
+  this.lastName = this.lastName.toLowerCase();
+  if (this.email) {
+    this.email = this.email.toLowerCase();
+  }
+  if (this.bloodGroup) {
+    this.bloodGroup = this.bloodGroup.toUpperCase();
+  }
+  next();
+});
 
 export default model("Patient", PatientSchema);
