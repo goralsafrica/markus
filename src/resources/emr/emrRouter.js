@@ -1,9 +1,10 @@
 import { Router } from "express";
 import { VitalSignsController, EMRController } from "./controllers";
 import { validateEMRForm } from "./middlewares";
+import { verifyUser } from "../auth/middlewares";
 const emrRouter = Router();
 
-emrRouter.post("/", validateEMRForm, async (req, res) => {
+emrRouter.post("/", verifyUser, validateEMRForm, async (req, res) => {
   const { status, result } = await EMRController.create(req.body);
   res.status(status).json(result);
 });
