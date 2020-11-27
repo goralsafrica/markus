@@ -1,6 +1,11 @@
 import Staff from "../../staff/models/Staff";
-import { successMessage } from "../../../../utilities";
+import {
+  successMessage,
+  serverError,
+  notFoundError,
+} from "../../../../utilities";
 import { hashSync } from "bcryptjs";
+import StaffWorkspace from "../../staff/models/StaffWorkspace";
 class HospitalStaffController {
   static async create(req) {
     const {
@@ -43,13 +48,9 @@ class HospitalStaffController {
 
   static async findAll(req) {
     try {
-      const data = await Staff.find({
+      const data = await StaffWorkspace.find({
         hospital: req.credentials.hospital,
-      })
-        .select("-hospital")
-        .populate("department")
-        .populate("branches")
-        .populate("role", "-category");
+      }).populate("staff");
       return successMessage(data, "hospital staff list retrieved");
     } catch (err) {
       console.error(err);
@@ -59,14 +60,9 @@ class HospitalStaffController {
 
   static async findOne(req) {
     try {
-      const data = await Staff.findById(req.params.staffid)
-        .populate("hospital", "+name -departments -branches -updatedAt")
-        .populate("department", "name")
-        .populate("role", "name")
-        .populate("branches", "-departments")
-        .populate("administrativeRole.name")
-        .populate("administrativeRole.branch")
-        .populate("administrativeRole.department");
+      const data = await StaffWorkspace.findById(req.params.staffid).populate(
+        "staff"
+      );
       return successMessage(data, "staff details retrieved");
     } catch (err) {
       console.error(err);
@@ -119,13 +115,16 @@ class HospitalStaffController {
 
   static async delete(req) {
     try {
-      const removed = await Staff.findByIdAndDelete(req.params.staffid);
+      const removed = await StaffWorkspace.findOneAndDelete({
+        _id: req.params.staffid,
+        // hospital: req.credentials.hospital,
+      });
       return successMessage(removed, "staff has been removed from hospital");
     } catch (err) {
-      console.error(err);
-      return serverError(
+      console.log(err.message);
+      return notFoundError(
         {
-          request: err.message,
+          request: "staff not found",
         },
         "failed to remove staff from hospital"
       );
