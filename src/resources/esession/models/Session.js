@@ -15,15 +15,34 @@ const SessionSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "Patient",
     },
-    conversation: {
-      type: String,
-      required: false,
-    },
-    recommendation: String,
-    closed: {
-      type: Boolean,
-      default: false,
-    },
+    conversations: [
+      {
+        fileName: {
+          type: String,
+          required: true,
+        },
+        file: {
+          type: String,
+          required: true,
+        },
+        extension: {
+          type: String,
+          required: true,
+        },
+        url: {
+          type: String,
+          required: true,
+        },
+        startTime: {
+          type: Date,
+          required: true,
+        },
+        endTime: {
+          type: Date,
+          required: true,
+        },
+      },
+    ],
   },
   {
     timestamps: true,

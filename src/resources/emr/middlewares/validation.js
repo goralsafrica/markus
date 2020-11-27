@@ -21,14 +21,24 @@ const vitalSignsValidation = joi.object().keys({
   }),
 });
 
+const attachmentSchema = joi.object().keys({
+  fileName: joi.string().required(),
+  extension: joi.string().required(),
+  file: joi.string().required(),
+  url: joi.string().required(),
+  startTime: joi.date().required(),
+  endTime: joi.date().required(),
+});
+
 const emrValidation = joi.object().keys({
   patient: joi.objectID().required().trim(),
+  attachments: joi.array().items(attachmentSchema).required(),
 });
 
 export async function validateEMRForm(req, res, next) {
   try {
     req.body = await emrValidation.validateAsync(req.body, opts);
-    console.log(req.body);
+    next();
   } catch (err) {
     const errors = formatJoiError(err);
     return res

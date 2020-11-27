@@ -10,16 +10,34 @@ import {
 
 class EMRController {
   // create a new EMR entry [session,patient,vitalSigns,recommendation]
-  static create(patientDetails, staffDetails) {
+  static async create(sessionDetails, staffDetails) {
     try {
-      throw new Error("omo nothing has been done oo");
-      // create new patient if none exists
-      // else attach if to users
+      //throw new Error("omo nothing has been done oo");
       // create new emr entry
+      let emr = new EMR({
+        hospital: staffDetails.hospital,
+        patient: sessionDetails.patient,
+      });
       // create new session entry
+      let session = new Session({
+        associatedEMR: emr._id,
+        doctor: staffDetails.staff,
+        patient: sessionDetails.patient,
+        conversations: sessionDetails.attachments,
+      });
       // attach session entry to emr entry
+      emr.session = session._id;
+
       // execute all promises
+      [emr, session] = await Promise.all([emr.save(), session.save()]);
+
+      // audit trail
+
       // send response
+      return successMessage(
+        { emr: emr._id },
+        "new EMR entry has been successfully posted"
+      );
     } catch (err) {
       return serverError(
         {

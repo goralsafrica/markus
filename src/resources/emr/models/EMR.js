@@ -10,11 +10,11 @@ const emrSchema = new Schema(
   {
     hospital: objectid("Hospital"),
     branch: objectid("Branch", false),
-    session: objectid("Session", false),
+    session: objectid("Session"),
     patient: objectid("Patient"),
     vitalSigns: objectid("VitalReading", false),
     prescription: objectid("Prescription", false),
-    recommendation: objectid("Recommendation"),
+    recommendation: objectid("Recommendation", false),
   },
   {
     timestamps: true,
