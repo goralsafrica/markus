@@ -1,16 +1,26 @@
 import express from "express";
 import { PatientsController } from "../controllers/";
-import { addPatientValidator } from "../../patient/middlewares/validate";
+import {
+  addPatientValidator,
+  verifyNewPatient,
+  getPatientCode,
+} from "../../patient/middlewares";
 const patientRouter = express.Router();
 
 //gets the details of a particular hospital
-patientRouter.post("/", addPatientValidator, async (req, res) => {
-  const { status, result } = await PatientsController.create(
-    req.body,
-    req.credentials
-  );
-  return res.status(status).json(result);
-});
+patientRouter.post(
+  "/",
+  addPatientValidator,
+  //verifyNewPatient,
+  getPatientCode,
+  async (req, res) => {
+    const { status, result } = await PatientsController.create(
+      req.body,
+      req.credentials
+    );
+    return res.status(status).json(result);
+  }
+);
 
 patientRouter.get("/", async (req, res) => {
   const { status, result } = await PatientsController.findAll(req);

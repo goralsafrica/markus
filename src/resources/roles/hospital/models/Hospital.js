@@ -29,6 +29,12 @@ const hospitalSchema = Schema(
       default: Date.now(),
     },
     departments: [{ type: Schema.Types.ObjectId, ref: "Department" }],
+    // last registered patient
+    lrp: {
+      type: Number,
+      select: false,
+      default: 0,
+    },
   },
   { timestamps: true }
 );

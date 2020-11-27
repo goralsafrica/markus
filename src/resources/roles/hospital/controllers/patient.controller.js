@@ -53,16 +53,15 @@ class HospitalPatientController {
     }
     const possibleValues = value.split(" ");
     if (possibleValues.length > 1) {
-      push({ firstName: possibleValues[0].toLowerCase() });
-      push({ firstName: possibleValues[1].toLowerCase() });
-      push({ lastName: possibleValues[0].toLowerCase() });
-      push({ lastName: possibleValues[1].toLowerCase() });
-    } else {
-      push({ firstName: possibleValues[0].toLowerCase() });
-      push({ lastName: possibleValues[0].toLowerCase() });
-      push({ code: possibleValues[0] });
-      push({ importedEmrCode: slug + "-" + possibleValues[0] });
+      push({ firstName: RegExp(possibleValues[1], "i") });
+      push({ lastName: RegExp(possibleValues[1], "i") });
     }
+    push({ firstName: RegExp(possibleValues[0], "i") });
+    push({ lastName: RegExp(possibleValues[0], "i") });
+    // if (Number(possibleValues[0]) !== NaN) {
+    //   push({ code: possibleValues[0] });
+    // }
+    push({ importedEmrCode: slug + "-" + possibleValues[0] });
 
     return { $or: options };
   }

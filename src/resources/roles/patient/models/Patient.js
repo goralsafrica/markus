@@ -41,6 +41,10 @@ const PatientSchema = new Schema(
       ref: "Hospital",
       required: true,
     },
+    code: {
+      type: Number,
+      required: true,
+    },
     importedEmrCode: String,
   },
   {
