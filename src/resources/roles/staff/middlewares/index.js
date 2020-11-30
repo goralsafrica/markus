@@ -2,9 +2,9 @@ import {
   createStaffValidator,
   checkIfStaffExistsInHospital,
   checkIfStaffExists,
-  generateStaffCode,
   updateStaffDetailsValidator,
-} from "./registration";
+  updateStaffValidator,
+} from "./validate";
 import verifyStaff from "./auth";
 
 export {
@@ -13,4 +13,5 @@ export {
   checkIfStaffExists,
   verifyStaff,
   updateStaffDetailsValidator,
+  updateStaffValidator,
 };

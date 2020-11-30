@@ -117,7 +117,7 @@ class HospitalStaffController {
     try {
       const removed = await StaffWorkspace.findOneAndDelete({
         _id: req.params.staffid,
-        // hospital: req.credentials.hospital,
+        hospital: req.credentials.hospital,
       });
       return successMessage(removed, "staff has been removed from hospital");
     } catch (err) {

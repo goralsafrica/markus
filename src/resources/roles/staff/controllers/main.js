@@ -1,3 +1,4 @@
+import { badRequestError, successMessage } from "../../../../utilities";
 import Staff from "../models/Staff";
 class StaffController {
   static async getDetails(req, res, next) {
@@ -18,6 +19,22 @@ class StaffController {
 
   static async sendResignationLetter(req, res, next) {
     console.log("done");
+  }
+
+  static async updateDetails(data, staffid) {
+    try {
+      const update = await Staff.findByIdAndUpdate(staffid, data, {
+        new: true,
+      });
+      return successMessage(update, "update success");
+    } catch (err) {
+      return badRequestError(
+        {
+          request: err.message,
+        },
+        "failed to update staff details"
+      );
+    }
   }
 }
 

@@ -17,7 +17,7 @@ rolesRouter.get("/", (req, res) => {
 rolesRouter.use(verifyUser, verifyStaff);
 rolesRouter.use("/branch", branchRouter);
 rolesRouter.use("/hospital", hospitalRouter);
-//rolesRouter.use("/staff", staffRouter);
+rolesRouter.use("/staff", staffRouter);
 //rolesRouter.use("/department", departmentRouter);
 // apiRouter.use("/hospital", hospitalRouter);
 // apiRouter.use("/moderator", moderatorRouter);

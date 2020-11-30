@@ -14,7 +14,7 @@ import {
   verifyUser,
   forgotPasswordValidator,
 } from "../../auth/middlewares";
-import { checkIfStaffExists } from "../../roles/staff/middlewares/registration";
+import { checkIfStaffExists } from "../../roles/staff/middlewares";
 import mailer from "../../notifications/email/mailer";
 import loadTemplate from "../../notifications/email/loadTemplate";
 const esessionAuthRouter = Router();

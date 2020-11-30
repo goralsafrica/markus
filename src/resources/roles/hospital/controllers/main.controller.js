@@ -85,7 +85,7 @@ class HospitalController {
             "verify-signup.hbs"
           )
         )
-        .then(({ message }) => console.log("[MESSAGE]", message))
+        .then((data) => console.log("[MESSAGE]", data))
         .catch(console.error);
 
       const token = deriveToken(

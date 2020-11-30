@@ -2,22 +2,12 @@
 import validator from "validator";
 import isEmpty from "is-empty";
 import Joi from "joi";
-Joi.objectId = require("joi-objectid")(Joi);
-import {
-  badRequestError,
-  generateStaffCode as generate,
-  formatJoiError,
-} from "../../../../utilities";
-import Hospital from "../../hospital/models/Hospital";
+import { formatJoiError, joiError } from "../../../../utilities";
 import Staff from "../models/Staff";
-/**
- *
- * @param req
- * @param res
- * @param next
- *
- * @desc validates lmao inputs. sends errors and stops current endpoint work if any.
- */
+import titles from "../../../../seeders/titles.json";
+
+Joi.objectId = require("joi-objectid")(Joi);
+
 export async function createStaffValidator(req, res, next) {
   const errors = {};
   const data = {};
@@ -131,7 +121,8 @@ const administrativeRoleSchema = Joi.object()
     department: Joi.objectId(),
   })
   .with("department", "branch");
-const updateStaffSchema = Joi.object().keys({
+
+const updateStaffDetailsSchema = Joi.object().keys({
   department: Joi.objectId(),
   branches: Joi.array().items(Joi.objectId()),
   administrativeRole: administrativeRoleSchema,
@@ -150,5 +141,31 @@ export async function updateStaffDetailsValidator(req, res, next) {
       errors,
       message: "failed to update staff details",
     });
+  }
+}
+
+const updateStaffSchema = Joi.object().keys({
+  firstName: Joi.string()
+    .trim()
+    .pattern(/^[A-Za-z]+$/)
+    .rule({ message: "invalid first name" }),
+  lastName: Joi.string()
+    .trim()
+    .pattern(/^[A-Za-z]+$/)
+    .rule({ message: "invalid last name" }),
+  title: Joi.string()
+    .valid(...Object.keys(titles))
+    .error(joiError(["title"], "invalid title")),
+});
+
+export async function updateStaffValidator(req, res, next) {
+  try {
+    req.body = await updateStaffSchema.validateAsync(req.body, {
+      abortEarly: false,
+    });
+    next();
+  } catch (err) {
+    const errors = formatJoiError(err);
+    return next({ status: 400, errors, message: "validation failed" });
   }
 }
