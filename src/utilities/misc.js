@@ -27,6 +27,20 @@ export function formatJoiError(err) {
   return errors;
 }
 
+export function formatNestedError(err) {
+  const errors = {};
+  for (const { path, message } of err.details) {
+    if (path.length == 2) {
+      const [parent, child] = path;
+      if (!errors[parent]) errors[parent] = {};
+      errors[parent][child] = message.split(".").join(" ").split('"').join("");
+    } else {
+      errors[path[0]] = message.split('"').join("");
+    }
+  }
+  return errors;
+}
+
 export function validatePhoneNumber(payload, country = "nigeria") {
   payload = payload.toString();
   if (payload.length == phoneNumberFormats[country].length)

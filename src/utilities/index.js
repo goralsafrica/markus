@@ -7,7 +7,13 @@ import {
   successMessage,
   joiError,
 } from "./responseHandlers";
-import { formatJoiError, getDays, sanitize, validatePhoneNumber } from "./misc";
+import {
+  formatJoiError,
+  getDays,
+  sanitize,
+  validatePhoneNumber,
+  formatNestedError,
+} from "./misc";
 import {
   deriveToken,
   encrypt,
@@ -35,5 +41,6 @@ export {
   joiError,
   randomNumber,
   verifyToken,
+  formatNestedError,
   validatePhoneNumber,
 };

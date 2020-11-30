@@ -4,7 +4,7 @@ const SessionSchema = new Schema(
   {
     associatedEMR: {
       type: Schema.Types.ObjectId,
-      ref: "Workflow",
+      ref: "EMR",
     },
     doctor: {
       type: Schema.Types.ObjectId,
@@ -29,7 +29,15 @@ const SessionSchema = new Schema(
           type: String,
           required: true,
         },
-        url: {
+        objectURL: {
+          type: String,
+          required: true,
+        },
+        s3FilePath: {
+          type: String,
+          required: true,
+        },
+        TranscriptionJobName: {
           type: String,
           required: true,
         },
@@ -39,6 +47,10 @@ const SessionSchema = new Schema(
         },
         endTime: {
           type: Date,
+          required: true,
+        },
+        duration: {
+          type: Number,
           required: true,
         },
       },

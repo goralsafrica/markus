@@ -60,7 +60,7 @@ class HospitalStaffController {
 
   static async findOne(req) {
     try {
-      const data = await StaffWorkspace.findById(req.params.staffid).populate(
+      let data = await StaffWorkspace.findById(req.params.staffid).populate(
         "staff"
       );
       return successMessage(data, "staff details retrieved");

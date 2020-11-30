@@ -23,7 +23,7 @@ class EMRController {
         associatedEMR: emr._id,
         doctor: staffDetails.staff,
         patient: sessionDetails.patient,
-        conversations: sessionDetails.attachments,
+        conversations: [sessionDetails.attachment],
       });
       // attach session entry to emr entry
       emr.session = session._id;
@@ -50,6 +50,31 @@ class EMRController {
 
   // find all EMR entries for a patient
   static findPatientRecords(patientid) {}
+
+  // find all doctor's sessions
+  static async getSessions(credentials) {
+    try {
+      const sessions = await Session.find({ doctor: credentials.staff })
+        .select("associatedEMR conversations")
+        .populate({
+          path: "associatedEMR",
+          select: "hospital",
+          populate: {
+            path: "hospital",
+            model: "Hospital",
+            select: "name email",
+          },
+        });
+      return successMessage(sessions, "doctor's session have been retrieved");
+    } catch (err) {
+      return serverError(
+        {
+          request: err.message,
+        },
+        "failed to retrieve session list"
+      );
+    }
+  }
 }
 
 export default EMRController;

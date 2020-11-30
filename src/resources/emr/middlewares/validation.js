@@ -1,6 +1,6 @@
 import joi from "joi";
 import joiObjectid from "joi-objectid";
-import { formatJoiError } from "../../../utilities";
+import { formatJoiError, formatNestedError } from "../../../utilities";
 
 joi.objectID = joiObjectid(joi, "invalid patient id");
 
@@ -25,14 +25,17 @@ const attachmentSchema = joi.object().keys({
   fileName: joi.string().required(),
   extension: joi.string().required(),
   file: joi.string().required(),
-  url: joi.string().required(),
+  objectURL: joi.string().required(),
+  s3FilePath: joi.string().required(),
+  TranscriptionJobName: joi.string().required(),
+  duration: joi.number().required(),
   startTime: joi.date().required(),
   endTime: joi.date().required(),
 });
 
 const emrValidation = joi.object().keys({
   patient: joi.objectID().required().trim(),
-  attachments: joi.array().items(attachmentSchema).required(),
+  attachment: attachmentSchema,
 });
 
 export async function validateEMRForm(req, res, next) {
@@ -40,7 +43,7 @@ export async function validateEMRForm(req, res, next) {
     req.body = await emrValidation.validateAsync(req.body, opts);
     next();
   } catch (err) {
-    const errors = formatJoiError(err);
+    const errors = formatNestedError(err);
     return res
       .status(400)
       .json({ data: null, errors, message: "emr entry validation failed" });
