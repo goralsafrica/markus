@@ -1,10 +1,14 @@
 import cors from "cors";
 import express from "express";
-import apiRouter from "../apiRouter";
+import multer from "multer";
 import { join } from "path";
+import apiRouter from "../apiRouter";
+
+const upload = multer({ dest: join(process.cwd(), "tmp") });
+
 export default function (app, config) {
   return new Promise((resolve, reject) => {
-    app.use(cors("localhost:8080"));
+    app.use(cors());
     app.use(express.json());
     app.use(
       express.urlencoded({
@@ -21,6 +25,13 @@ export default function (app, config) {
         errors: { request: "requested resource not found" },
         message: "invalid request",
       });
+    });
+
+    app.use(upload.array("photos", 12));
+
+    app.use(function (req, res, next) {
+      console.log(req.files);
+      next();
     });
 
     app.use(({ status, errors, message }, req, res, next) => {

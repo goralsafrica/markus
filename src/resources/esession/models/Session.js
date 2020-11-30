@@ -1,5 +1,49 @@
 import { model, Schema } from "mongoose";
 
+const conversationsSchema = new Schema({
+  fileName: {
+    type: String,
+    required: true,
+  },
+  file: {
+    type: String,
+    required: true,
+  },
+  extension: {
+    type: String,
+    required: true,
+  },
+  objectURL: {
+    type: String,
+    required: true,
+  },
+  s3FilePath: {
+    type: String,
+    required: true,
+  },
+  TranscriptionJobName: {
+    type: String,
+    required: true,
+  },
+  status: {
+    type: String,
+    default: "uninitialized",
+    enum: ["uninitialized", "pending", "transcribed"],
+  },
+  startTime: {
+    type: Date,
+    required: true,
+  },
+  endTime: {
+    type: Date,
+    required: true,
+  },
+  duration: {
+    type: Number,
+    required: true,
+  },
+});
+
 const SessionSchema = new Schema(
   {
     associatedEMR: {
@@ -15,46 +59,7 @@ const SessionSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "Patient",
     },
-    conversations: [
-      {
-        fileName: {
-          type: String,
-          required: true,
-        },
-        file: {
-          type: String,
-          required: true,
-        },
-        extension: {
-          type: String,
-          required: true,
-        },
-        objectURL: {
-          type: String,
-          required: true,
-        },
-        s3FilePath: {
-          type: String,
-          required: true,
-        },
-        TranscriptionJobName: {
-          type: String,
-          required: true,
-        },
-        startTime: {
-          type: Date,
-          required: true,
-        },
-        endTime: {
-          type: Date,
-          required: true,
-        },
-        duration: {
-          type: Number,
-          required: true,
-        },
-      },
-    ],
+    conversations: [conversationsSchema],
   },
   {
     timestamps: true,

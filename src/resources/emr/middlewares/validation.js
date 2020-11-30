@@ -49,3 +49,21 @@ export async function validateEMRForm(req, res, next) {
       .json({ data: null, errors, message: "emr entry validation failed" });
   }
 }
+
+const getSessionsSchema = joi.object().keys({
+  status: joi.string().valid(...["uninitialized", "pending", "transcribed"]),
+});
+
+export async function getSessionsValidator(req, res, next) {
+  try {
+    req.query = await getSessionsSchema.validateAsync(req.query, opts);
+    return next();
+  } catch (err) {
+    const errors = formatJoiError(err);
+    return next({
+      status: 400,
+      errors,
+      message: "failed to get sessions",
+    });
+  }
+}

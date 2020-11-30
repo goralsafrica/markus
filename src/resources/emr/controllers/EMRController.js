@@ -35,7 +35,7 @@ class EMRController {
 
       // send response
       return successMessage(
-        { emr: emr._id },
+        { emr: emr._id, conversation: session.conversations[0]._id },
         "new EMR entry has been successfully posted"
       );
     } catch (err) {
@@ -52,9 +52,11 @@ class EMRController {
   static findPatientRecords(patientid) {}
 
   // find all doctor's sessions
-  static async getSessions(credentials) {
+  static async getSessions(credentials, query) {
+    const params = { doctor: credentials.staff };
+    if (query && query.status) params.status = query.status;
     try {
-      const sessions = await Session.find({ doctor: credentials.staff })
+      const sessions = await Session.find(params)
         .select("associatedEMR conversations")
         .populate({
           path: "associatedEMR",
@@ -74,6 +76,13 @@ class EMRController {
         "failed to retrieve session list"
       );
     }
+  }
+
+  static async updateTranscription(conversationid) {
+    try {
+      // if () {
+      // }
+    } catch (err) {}
   }
 }
 
