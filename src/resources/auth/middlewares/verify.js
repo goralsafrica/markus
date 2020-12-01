@@ -23,17 +23,15 @@ export async function verifyUser(req, res, next) {
     ]);
     if (!data || expired || data.temporary)
       return next(unAuthorizedRequestError());
+
     // check if user,hospital and staff workspace exists
-    const staffInHospital = await StaffWorkspace.findOne({
-      hospital: data.hospital,
-      staff: data.staff,
-    });
-    if (staffInHospital) {
+    if (identifyUser(data)) {
       req.credentials = data;
       return next();
     }
     // else blacklist token and send unauthorzed message
-    await ExpiredToken.create({ token });
+    blacklistToken(token);
+
     return next(unAuthorizedRequestError());
   } catch (err) {
     return next(unAuthorizedRequestError());
@@ -62,10 +60,30 @@ export async function verifyTemporaryToken(req, res, next) {
   }
 }
 
+export async function verifyAnyToken(req, res, next) {
+  try {
+    const token = extractToken(req);
+    let [data, b] = await Promise.all([verifyToken(token), isExpired(token)]);
+    const a = Boolean(data);
+    b = Boolean(b);
+    if (a && !b) {
+      req.credentials = data;
+      return next();
+    }
+    if (b) {
+      blacklistToken(token);
+    }
+    return Promise.reject("error");
+  } catch (err) {
+    console.log(err.message, err.stack);
+    return next(unAuthorizedRequestError());
+  }
+}
+
 export async function verifyInviteToken(req, res, next) {
   try {
     if (!req.query.token || !(await Invite.exists({ _id: req.query.token })))
-      throw new Error("invaid/expired token");
+      throw new Error("invalid/expired token");
     next();
   } catch (err) {
     return next({
@@ -85,3 +103,23 @@ async function isExpired(token) {
     return new Error("failed to validate");
   }
 }
+
+function blacklistToken(token) {
+  return ExpiredToken.create({ token })
+    .then(() => console.log("removed"))
+    .catch(console.log);
+}
+
+async function identifyUser({ staff, hospital }) {
+  try {
+    const enviroment = await StaffWorkspace.findOne({ staff, hospital })
+      .populate("staff")
+      .populate("hospital");
+    return Boolean(enviroment.staff) && Boolean(enviroment.hospital);
+  } catch (err) {
+    console.log(err.message);
+    return false;
+  }
+}
+
+export const verifyPermanentToken = verifyUser;

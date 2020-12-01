@@ -12,6 +12,7 @@ import {
   resetPasswordValidator,
   twoFAValidator,
   verifyUser,
+  verifyAnyToken,
   forgotPasswordValidator,
 } from "../../auth/middlewares";
 import { checkIfStaffExists } from "../../roles/staff/middlewares";
@@ -26,7 +27,7 @@ esessionAuthRouter.post("/verify", verifyStaffValidator, async (req, res) => {
   const { result, status } = await AuthController.verify(req);
   return res.status(status).json(result);
 });
-esessionAuthRouter.get("/workspace", verifyTemporaryToken, async (req, res) => {
+esessionAuthRouter.get("/workspace", verifyAnyToken, async (req, res) => {
   const { result, status } = await AuthController.getWorkspaces(req);
   return res.status(status).json(result);
 });
