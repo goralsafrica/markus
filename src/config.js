@@ -9,6 +9,8 @@ const {
   SMTP_PORT,
   SMTP_USER,
   SMTP_PASSWORD,
+  AWS_ACCESS_KEY_ID,
+  AWS_SECRET_ACCESS_KEY,
 } = process.env;
 
 const port = process.env.PORT || 8000;
@@ -26,4 +28,9 @@ const smtpDetails = {
   },
 };
 
-export { port, dbURI, secretKey, smtpDetails };
+const awsCredentials = {
+  accessKeyId: AWS_ACCESS_KEY_ID,
+  secretAccessKey: AWS_SECRET_ACCESS_KEY,
+};
+
+export { port, dbURI, secretKey, smtpDetails, awsCredentials };

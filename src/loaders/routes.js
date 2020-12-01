@@ -15,6 +15,15 @@ export default function (app, config) {
         extended: false,
       })
     );
+
+    app.post("/image", upload.single("image", 12), function (req, res, next) {
+      //res.set("Content-Type", "image/png");
+      console.log(req.file);
+      // res.sendFile(
+      //   "/home/kruse/Desktop/projects/gorals/markus/tmp/19bce7442214e04004d6f411136ca8f7"
+      // );
+    });
+
     app.use(app.express.static(join(__dirname, "../../public")));
     //main entry for APIs
     app.use("/api", apiRouter);
@@ -25,13 +34,6 @@ export default function (app, config) {
         errors: { request: "requested resource not found" },
         message: "invalid request",
       });
-    });
-
-    app.use(upload.array("photos", 12));
-
-    app.use(function (req, res, next) {
-      console.log(req.files);
-      next();
     });
 
     app.use(({ status, errors, message }, req, res, next) => {

@@ -53,7 +53,8 @@ class EMRController {
 
   // find all doctor's sessions
   static async getSessions(credentials, query) {
-    const params = { doctor: credentials.staff };
+    let params = { doctor: credentials.staff };
+    //params = {};
     if (query.status) params["conversation.status"] = query.status;
     try {
       const sessions = await Session.find(params)
@@ -67,6 +68,7 @@ class EMRController {
             select: "name email",
           },
         });
+      console.log();
       return successMessage(sessions, "doctor's session have been retrieved");
     } catch (err) {
       return serverError(
