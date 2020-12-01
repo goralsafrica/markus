@@ -1,7 +1,12 @@
 import { Router } from "express";
 import { VitalSignsController, EMRController } from "./controllers";
 import { MainController } from "../esession/controllers";
-import { validateEMRForm, getSessionsValidator } from "./middlewares";
+import {
+  validateEMRForm,
+  getSessionsValidator,
+  updateTransctriptionValidator,
+  checkRightsToUpdate,
+} from "./middlewares";
 import { verifyUser } from "../auth/middlewares";
 const emrRouter = Router();
 
@@ -13,9 +18,19 @@ emrRouter.post("/", verifyUser, validateEMRForm, async (req, res) => {
   res.status(status).json(result);
 });
 
-emrRouter.put("/", verifyUser, async (req, res) => {
-  await EMRController.updateTranscription(req.body.conversation);
-});
+emrRouter.put(
+  "/status",
+  verifyUser,
+  updateTransctriptionValidator,
+  checkRightsToUpdate,
+  async (req, res) => {
+    const { status, result } = await EMRController.updateTranscription(
+      req.body,
+      res.locals
+    );
+    return res.status(status).json(result);
+  }
+);
 
 emrRouter.get(
   "/session",

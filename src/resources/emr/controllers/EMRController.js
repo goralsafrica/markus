@@ -23,7 +23,7 @@ class EMRController {
         associatedEMR: emr._id,
         doctor: staffDetails.staff,
         patient: sessionDetails.patient,
-        conversations: [sessionDetails.attachment],
+        conversation: sessionDetails.attachment,
       });
       // attach session entry to emr entry
       emr.session = session._id;
@@ -35,7 +35,7 @@ class EMRController {
 
       // send response
       return successMessage(
-        { emr: emr._id, conversation: session.conversations[0]._id },
+        { emr: emr._id, conversation: session.conversation._id },
         "new EMR entry has been successfully posted"
       );
     } catch (err) {
@@ -54,10 +54,10 @@ class EMRController {
   // find all doctor's sessions
   static async getSessions(credentials, query) {
     const params = { doctor: credentials.staff };
-    if (query && query.status) params.status = query.status;
+    if (query.status) params["conversation.status"] = query.status;
     try {
       const sessions = await Session.find(params)
-        .select("associatedEMR conversations")
+        .select("associatedEMR conversation")
         .populate({
           path: "associatedEMR",
           select: "hospital",
@@ -78,11 +78,18 @@ class EMRController {
     }
   }
 
-  static async updateTranscription(conversationid) {
+  static async updateTranscription(body, { session }) {
     try {
-      // if () {
-      // }
-    } catch (err) {}
+      session.conversation.status = body.status;
+      await session.save();
+      return successMessage(session, "transcription status update success");
+    } catch (err) {
+      console.log(err);
+      return serverError(
+        { request: err.message },
+        "failed to update transcription status"
+      );
+    }
   }
 }
 

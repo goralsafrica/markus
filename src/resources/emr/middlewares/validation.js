@@ -2,7 +2,7 @@ import joi from "joi";
 import joiObjectid from "joi-objectid";
 import { formatJoiError, formatNestedError } from "../../../utilities";
 
-joi.objectID = joiObjectid(joi, "invalid patient id");
+joi.objectID = joiObjectid(joi, "invalid id");
 
 const requiresNumber = () => joi.number().required();
 
@@ -57,6 +57,28 @@ const getSessionsSchema = joi.object().keys({
 export async function getSessionsValidator(req, res, next) {
   try {
     req.query = await getSessionsSchema.validateAsync(req.query, opts);
+    return next();
+  } catch (err) {
+    const errors = formatJoiError(err);
+    return next({
+      status: 400,
+      errors,
+      message: "failed to get sessions",
+    });
+  }
+}
+
+const updateTransciptionSchema = joi.object().keys({
+  status: joi
+    .string()
+    .valid(...["uninitialized", "pending", "transcribed"])
+    .required(),
+  conversation: joi.objectID().required(),
+});
+
+export async function updateTransctriptionValidator(req, res, next) {
+  try {
+    req.body = await updateTransciptionSchema.validateAsync(req.body, opts);
     return next();
   } catch (err) {
     const errors = formatJoiError(err);

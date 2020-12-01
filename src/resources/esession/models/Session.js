@@ -59,7 +59,10 @@ const SessionSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "Patient",
     },
-    conversations: [conversationsSchema],
+    conversation: {
+      type: conversationsSchema,
+      required: true,
+    },
   },
   {
     timestamps: true,
