@@ -21,6 +21,7 @@ class EMRController {
       // create new session entry
       let session = new Session({
         associatedEMR: emr._id,
+        hospital: staffDetails.hospital,
         doctor: staffDetails.staff,
         patient: sessionDetails.patient,
         conversation: sessionDetails.attachment,
@@ -53,7 +54,7 @@ class EMRController {
 
   // find all doctor's sessions
   static async getSessions(credentials, query) {
-    let params = { doctor: credentials.staff };
+    let params = { doctor: credentials.staff, hospital: credentials.hospital };
     //params = {};
     if (query.status) params["conversation.status"] = query.status;
     try {
@@ -68,7 +69,6 @@ class EMRController {
             select: "name email",
           },
         });
-      console.log();
       return successMessage(sessions, "doctor's session have been retrieved");
     } catch (err) {
       return serverError(

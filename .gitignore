@@ -2,4 +2,4 @@ node_modules
 .env
 build
 dist
-node-push-notifications-firebase-adminsdk-sev23-f0f7c3bc3b.json
+service-account.json

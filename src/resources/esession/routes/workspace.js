@@ -8,6 +8,7 @@ import {
 import { createNewWorkspaceValidator } from "../middlewares";
 import {
   verifyUser,
+  verifyAnyToken,
   sendInviteMailValidator,
   verifyInviteToken,
   checkInvite,
@@ -21,7 +22,7 @@ const workspaceRouter = Router();
  **/
 workspaceRouter.post(
   "/",
-  verifyUser,
+  verifyAnyToken,
   createNewWorkspaceValidator,
   async (req, res) => {
     const r = await WorkspaceController.create(req);

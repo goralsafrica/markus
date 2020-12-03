@@ -14,15 +14,6 @@ app.express = express;
 const server = createServer(app);
 const io = socketIO(server, { origins: "*:*" });
 
-async function startServer(msg) {
-  console.log(msg);
-  return ws_loader(io).then(() => {
-    server.listen(config.port, "0.0.0.0", () =>
-      console.log(`server running on port ${config.port}`)
-    );
-  });
-}
-
 // Loads all configurations and routes
 loader(app, config)
   .then(startServer)
@@ -30,6 +21,15 @@ loader(app, config)
     console.error(err);
     process.exit();
   });
+
+async function startServer() {
+  console.log("resources have been loaded successfully !");
+  return ws_loader(io).then(() => {
+    server.listen(config.port, "0.0.0.0", () =>
+      console.log(`server running on port ${config.port}`)
+    );
+  });
+}
 
 export { server, io, app };
 export default app;

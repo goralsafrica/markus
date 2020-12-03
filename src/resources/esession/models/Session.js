@@ -50,6 +50,11 @@ const SessionSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "EMR",
     },
+    hospital: {
+      type: Schema.Types.ObjectId,
+      ref: "Hopsital",
+      required: true,
+    },
     doctor: {
       type: Schema.Types.ObjectId,
       ref: "Staff",
