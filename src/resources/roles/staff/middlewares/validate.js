@@ -156,6 +156,9 @@ const updateStaffSchema = Joi.object().keys({
   title: Joi.string()
     .valid(...Object.keys(titles))
     .error(joiError(["title"], "invalid title")),
+  specialization: Joi.string()
+    .valid(...Object.keys(titles))
+    .error(joiError(["title"], "invalid title")),
 });
 
 export async function updateStaffValidator(req, res, next) {

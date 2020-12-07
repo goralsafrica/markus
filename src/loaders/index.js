@@ -6,7 +6,7 @@ import loadCleanups from "./cleanup";
 export default function loader(app, config) {
   return Promise.all([
     dbLoader(app, config),
-    loadCleanups(app, config),
+    loadProviders(app, config),
     loadRoutes(app, config),
     loadCleanups(app, config),
   ]);

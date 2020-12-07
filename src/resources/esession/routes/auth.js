@@ -52,6 +52,7 @@ esessionAuthRouter.post(
     return res.status(status).json(result);
   }
 );
+
 esessionAuthRouter.post(
   "/register/verify",
   verifyTemporaryToken,

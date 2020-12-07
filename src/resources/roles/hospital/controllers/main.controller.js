@@ -36,6 +36,7 @@ class HospitalController {
         phone: user.adminPhone,
         password: user.password,
         verified: query.invite == true,
+        specialization: user.specialization,
       });
 
       //create new hospital
@@ -71,20 +72,20 @@ class HospitalController {
         createHospital.save(),
         createBranch.save(),
         newStaffWorkspace.save(),
-      ])
-        .then(() =>
-          sendMail(
-            "Account Verification",
-            "noreply@goralsafrica.com",
-            [user.adminEmail],
-            {
-              verificationCode,
-              fullName: createStaff.firstName + " " + createStaff.lastName,
-              title: createStaff.title,
-            },
-            "verify-signup.hbs"
-          )
-        )
+      ]);
+
+      // send mail
+      sendMail(
+        "Account Verification",
+        "noreply@goralsafrica.com",
+        [user.adminEmail],
+        {
+          verificationCode,
+          fullName: createStaff.firstName + " " + createStaff.lastName,
+          title: createStaff.title,
+        },
+        "verify-signup.hbs"
+      )
         .then((data) => console.log("[MESSAGE]", data))
         .catch(console.error);
 

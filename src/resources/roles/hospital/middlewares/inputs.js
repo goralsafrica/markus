@@ -8,6 +8,8 @@ import {
   joiError,
 } from "../../../../utilities";
 import titles from "../../../../seeders/titles.json";
+import specializations from "../../../../seeders/specialists.json";
+const opts = { abortEarly: false };
 
 export function registerValidator(req, res, next) {
   const errors = {};
@@ -83,15 +85,19 @@ const registerHospitalSchema = joi.object().keys({
     .valid(...Object.keys(titles))
     .error(joiError(["title"], "invalid title"))
     .trim(),
+  specialization: joi
+    .string()
+    .required()
+    .valid(...Object.keys(specializations))
+    .error(joiError(["specialization"], "invalid specialization"))
+    .trim(),
   url: joi.string().required().trim(),
   password: joi.string().required().trim(),
   address: joi.string().required().trim(),
 });
 export async function registerHospitalValidator(req, res, next) {
   try {
-    req.body = await registerHospitalSchema.validateAsync(req.body, {
-      abortEarly: false,
-    });
+    req.body = await registerHospitalSchema.validateAsync(req.body, opts);
     next();
   } catch (err) {
     const errors = formatJoiError(err);

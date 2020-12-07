@@ -32,7 +32,7 @@ export async function verifyNewHospital(req, res, next) {
     ],
   });
   if (!exists) return next();
-
+  console.log(exists);
   return next({
     status: 400,
     errors: {
