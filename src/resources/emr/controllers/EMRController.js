@@ -63,7 +63,7 @@ class EMRController {
     if (query.status) params["originalConversation.status"] = query.status;
     try {
       const sessions = await Session.find(params)
-        .select("associatedEMR originalConversation")
+        .select("associatedEMR originalConversation lastEdit")
         .populate({
           path: "associatedEMR",
           select: "hospital",
@@ -87,7 +87,8 @@ class EMRController {
 
   static async updateTranscription(body, { session }) {
     try {
-      session = await session.save();
+      session.originalConversation.status = body.status;
+      await session.save();
       return successMessage(session, "transcription status update success");
     } catch (err) {
       console.log(err);
