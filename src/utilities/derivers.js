@@ -64,3 +64,8 @@ export function randomNumber(amount = 6) {
   extra += token + "";
   return extra;
 }
+
+export function getS3ObjectRelativePath(url) {
+  const splitURL = url.split("/");
+  return splitURL.slice(-2).join("/");
+}

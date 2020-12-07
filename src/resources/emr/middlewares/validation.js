@@ -89,3 +89,22 @@ export async function updateTransctriptionValidator(req, res, next) {
     });
   }
 }
+
+const updateSessionSchema = joi.object().keys({
+  lastEdit: joi.string().trim(),
+  conversation: joi.objectID().required().trim(),
+});
+
+export async function updateSessionValidator(req, res, next) {
+  try {
+    req.body = await updateSessionSchema.validateAsync(req.body, opts);
+    return next();
+  } catch (err) {
+    const errors = formatJoiError(err);
+    return next({
+      status: 400,
+      errors,
+      message: "failed to get sessions",
+    });
+  }
+}

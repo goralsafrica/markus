@@ -16,3 +16,4 @@ export function loadAWS() {
 
 //Storage.deleteRecording()
 export default AWS;
+// export * from "./helpers/storage";

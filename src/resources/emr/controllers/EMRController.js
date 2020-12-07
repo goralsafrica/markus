@@ -6,7 +6,9 @@ import {
   badRequestError,
   successMessage,
   serverError,
+  getS3ObjectRelativePath,
 } from "../../../utilities";
+import { deleteObject } from "../../../providers/aws/helpers";
 
 class EMRController {
   // create a new EMR entry [session,patient,vitalSigns,recommendation]
@@ -24,8 +26,9 @@ class EMRController {
         hospital: staffDetails.hospital,
         doctor: staffDetails.staff,
         patient: sessionDetails.patient,
-        conversation: sessionDetails.attachment,
+        originalConversation: sessionDetails.attachment,
       });
+
       // attach session entry to emr entry
       emr.session = session._id;
 
@@ -36,10 +39,11 @@ class EMRController {
 
       // send response
       return successMessage(
-        { emr: emr._id, conversation: session.conversation._id },
+        { emr: emr._id, conversation: session.originalConversation._id },
         "new EMR entry has been successfully posted"
       );
     } catch (err) {
+      console.log(err);
       return serverError(
         {
           request: err.message,
@@ -56,10 +60,10 @@ class EMRController {
   static async getSessions(credentials, query) {
     let params = { doctor: credentials.staff, hospital: credentials.hospital };
     //params = {};
-    if (query.status) params["conversation.status"] = query.status;
+    if (query.status) params["originalConversation.status"] = query.status;
     try {
       const sessions = await Session.find(params)
-        .select("associatedEMR conversation")
+        .select("associatedEMR originalConversation")
         .populate({
           path: "associatedEMR",
           select: "hospital",
@@ -68,7 +72,8 @@ class EMRController {
             model: "Hospital",
             select: "name email",
           },
-        });
+        })
+        .populate("patient");
       return successMessage(sessions, "doctor's session have been retrieved");
     } catch (err) {
       return serverError(
@@ -82,8 +87,7 @@ class EMRController {
 
   static async updateTranscription(body, { session }) {
     try {
-      session.conversation.status = body.status;
-      await session.save();
+      session = await session.save();
       return successMessage(session, "transcription status update success");
     } catch (err) {
       console.log(err);
@@ -91,6 +95,31 @@ class EMRController {
         { request: err.message },
         "failed to update transcription status"
       );
+    }
+  }
+
+  static async updateSession(payload) {
+    try {
+      let p = (msg) => Promise.resolve("msg");
+      const session = await Session.findOne({
+        "originalConversation._id": payload.conversation,
+      });
+      if (Boolean(session.lastEdit))
+        p = deleteObject(getS3ObjectRelativePath(session.lastEdit));
+
+      session.lastEdit = payload.lastEdit;
+      p();
+
+      await session.save();
+      return successMessage(
+        session,
+        "session record has been successfully updated"
+      );
+    } catch (err) {
+      console.log(err);
+      return badRequestError({
+        request: err.message,
+      });
     }
   }
 }

@@ -22,6 +22,7 @@ import {
   verifyToken,
   randomNumber,
   extractToken,
+  getS3ObjectRelativePath,
 } from "./derivers";
 export {
   badRequestError,
@@ -31,6 +32,7 @@ export {
   notAllowedError,
   notFoundError,
   unAuthorizedRequestError,
+  getS3ObjectRelativePath,
   serverError,
   formatJoiError,
   getDays,

@@ -64,9 +64,13 @@ const SessionSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "Patient",
     },
-    conversation: {
+    originalConversation: {
       type: conversationsSchema,
       required: true,
+    },
+    lastEdit: {
+      type: String,
+      default: "",
     },
   },
   {
