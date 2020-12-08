@@ -50,6 +50,10 @@ const StaffSchema = new Schema({
     type: Boolean,
     default: false,
   },
+  deviceToken: {
+    type: String,
+    select: false,
+  },
 });
 
 StaffSchema.pre("save", function (next) {

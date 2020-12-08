@@ -1,19 +1,21 @@
-import { badRequestError, successMessage } from "../../../../utilities";
+import {
+  badRequestError,
+  serverError,
+  successMessage,
+} from "../../../../utilities";
 import Staff from "../models/Staff";
 class StaffController {
-  static async getDetails(req, res, next) {
+  static async getDetails(id) {
     try {
-      const data = await Staff.findById(req.credentials.staff)
-        .populate("branches")
-        .populate("hospital");
-      res.json({
-        data,
-        errors: null,
-        message: "staff details retrieved",
-      });
+      const data = await Staff.findById(id);
+      return successMessage(data, "staff details retrieved");
     } catch (err) {
-      console.error(err);
-      return next([500, ["server failed to respond"], "failed request"]);
+      return serverError(
+        {
+          request: err.message,
+        },
+        "failed to retrieve staff details"
+      );
     }
   }
 

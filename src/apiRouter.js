@@ -8,6 +8,7 @@ import auditTrailRouter from "./resources/auditTrail/routes";
 import esessionRouter from "./resources/esession/routes";
 import emrRouter from "./resources/emr/emrRouter";
 import workFlowRouter from "./resources/workflow/routes";
+import groupsRouter from "./resources/groups/groupsRouter";
 const apiRouter = Router();
 
 apiRouter.get("/", (req, res) => {
@@ -22,6 +23,7 @@ apiRouter.use("/pharmacy", pharmacyRouter);
 apiRouter.use("/inventory", inventoryRouter);
 apiRouter.use("/logs", auditTrailRouter);
 apiRouter.use("/esession", esessionRouter);
+apiRouter.use("/group", groupsRouter);
 apiRouter.use("/emr", emrRouter);
 apiRouter.use("workflow", workFlowRouter);
 

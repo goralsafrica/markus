@@ -3,7 +3,12 @@ import StaffController from "./controllers/main";
 import { updateStaffValidator } from "./middlewares";
 const staffRouter = Router();
 
-//staffRouter.get("/", StaffController.getDetails);
+staffRouter.get("/", async (req, res) => {
+  const { status, result } = await StaffController.getDetails(
+    req.credentials.staff
+  );
+  return res.status(status).json(result);
+});
 
 staffRouter.put("/", updateStaffValidator, async (req, res) => {
   const { status, result } = await StaffController.updateDetails(
