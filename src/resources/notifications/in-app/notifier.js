@@ -1,27 +1,12 @@
-import { io } from "../../../server";
-import TemporaryData from "../../auth/models/TemporaryData";
-import Staff from "../../roles/staff/models/Staff";
-import { emitEvent } from "./wsHandlers";
-
 /**
  * Notifier function for real time and push notifications
  */
-export default async function (staffs, payload) {
-  if (staffs.length == 0) return;
-  const onlineStaffs = await TemporaryData.find({
-    $or: staffs.map((staff) => {
-      return { staff };
-    }),
-    type: "socket_connection",
-  });
-  console.log("[Recipients]", onlineStaffs);
+export default async function (io, event, message, sockets) {
+  if (sockets.length > 0) return;
+  for (let i = 0; i < sockets.length; i++) {
+    io.to(sockets[i]).emit(event, message);
+  }
+  console.log("sent");
 
-  // SEND REAL TIME AND PUSH NOTIFICATIONS
-  await Promise.all([
-    emitEvent(
-      io,
-      onlineStaffs.map((s) => s.socketID),
-      payload
-    ),
-  ]);
+  return true;
 }

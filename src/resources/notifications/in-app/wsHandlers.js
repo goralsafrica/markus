@@ -26,6 +26,5 @@ export async function emitEvent(io, users, payload) {
   users.forEach((user) => {
     io = io.to(user);
   });
-
   return io.emit("notification", payload);
 }

@@ -57,4 +57,8 @@ groupsRouter.delete("/:groupid", async (req, res) => {
   return res.status(status).json(result);
 });
 
+// send  message to group
+
+// get group messages
+
 export default groupsRouter;

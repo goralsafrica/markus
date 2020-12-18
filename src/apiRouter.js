@@ -16,6 +16,15 @@ apiRouter.get("/", (req, res) => {
     message: "welcome to the api route",
   });
 });
+
+apiRouter.post("/fcm", (req, res) => {
+  const notifier = require("./providers/firebase/helpers/fcm");
+  notifier
+    .sendPushNotification("Our Notification", "our text nau", req.body.token)
+    .then((messageid) => {
+      res.send({ message: "notification sent", messageid });
+    });
+});
 apiRouter.use("/auth", authRouter);
 apiRouter.use("/role", rolesRouter);
 apiRouter.use("/roster", rosterRouter);

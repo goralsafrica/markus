@@ -5,9 +5,7 @@ async function deleteTemporaryData() {
 }
 
 export default async function () {
-  if (process.env.NODE_ENV == "test") {
-    await deleteTemporaryData();
-    process.on("SIGTERM", deleteTemporaryData);
-  }
+  await deleteTemporaryData();
+  process.on("SIGTERM", deleteTemporaryData);
   return;
 }
