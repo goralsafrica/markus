@@ -14,7 +14,23 @@ export default class GroupMessagesController {
     });
   }
 
-  static async getMessages() {}
+  static async getMessages(query, credentials) {
+    const { page, group } = query;
+    try {
+      const messages = await GroupMessage.find({
+        group,
+        members: {
+          $in: credentials.staff,
+        },
+      })
+        .skip(page * 15)
+        .limit(15)
+        .sort({ createdAt: "desc" });
+      console.log(messages);
+    } catch (err) {
+      console.error(err.message);
+    }
+  }
 
   static async sendMessage(message, io) {
     const {

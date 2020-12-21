@@ -5,7 +5,9 @@ import {
   createGroupValidator,
   verifyNewGroup,
   updateGroupValidator,
+  getMessagesValidator,
 } from "./middlewares";
+import GroupMessagesController from "./controllers/GroupMessagesController";
 const groupsRouter = Router();
 
 //middleware for authenticating requests
@@ -33,6 +35,14 @@ groupsRouter.get("/", async (req, res) => {
   return res.status(status).json(result);
 });
 
+// get group messages
+groupsRouter.get("/message", getMessagesValidator, async (req, res) => {
+  const { status, result } = await GroupMessagesController.getMessages(
+    req.query,
+    req.credentials
+  );
+});
+
 // get group details
 groupsRouter.get("/:groupid", async (req, res) => {
   const { status, result } = await GroupsController.findOne(req.params.groupid);
@@ -56,9 +66,5 @@ groupsRouter.delete("/:groupid", async (req, res) => {
   );
   return res.status(status).json(result);
 });
-
-// send  message to group
-
-// get group messages
 
 export default groupsRouter;

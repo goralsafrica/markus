@@ -34,3 +34,19 @@ export async function updateGroupValidator(req, res, next) {
     return next({ status: 400, errors, message: "failed to create new group" });
   }
 }
+
+export async function getMessagesValidator(req, res, next) {
+  try {
+    req.query = await joi
+      .object()
+      .keys({
+        group: joi.objectId().required(),
+        page: joi.number().min(0).default(1),
+      })
+      .validateAsync(req.query, { abortEarly: false });
+    return next();
+  } catch (err) {
+    const errors = formatJoiError(err);
+    return next({ status: 400, errors, message: "validation failed" });
+  }
+}
