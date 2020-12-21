@@ -4,7 +4,7 @@ import rolesRouter from "./resources/roles/rolesRouter";
 import rosterRouter from "./resources/roster/routes/rosterRouter";
 import pharmacyRouter from "./resources/pharmacy/pharmacyRouter";
 import inventoryRouter from "./resources/inventory/inventoryRouter";
-import auditTrailRouter from "./resources/auditTrail/routes";
+import auditTrailRouter from "./resources/auditTrail/logsRouter";
 import esessionRouter from "./resources/esession/routes";
 import emrRouter from "./resources/emr/emrRouter";
 import workFlowRouter from "./resources/workflow/routes";

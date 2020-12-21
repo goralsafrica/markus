@@ -40,4 +40,4 @@ const StaffLogSchema = new Schema(
   }
 );
 
-export default model("StaffLog", StaffLogSchema);
+export default model("Log", StaffLogSchema);
