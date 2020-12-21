@@ -5,18 +5,21 @@ export default class LogsController {
   static async logActivity(
     hospital,
     doer,
-    receiver,
     description,
+    receiver = undefined,
     reference = undefined
   ) {
     const payload = { hospital, doer, receiver, description };
+    receiver ? (payload.receiver = receiver) : "";
     reference ? (payload.reference = reference) : "";
-    return Log.create(payload);
+    return Log.create(payload).catch(console.log);
   }
 
   static async getHosptalLog(credentials, query) {
     try {
-      const logs = await Log.find({ hospital: credentials.hospital });
+      const logs = await Log.find({ hospital: credentials.hospital })
+        .populate("doer")
+        .populate("receiver");
       return successMessage(logs, "hospital audit trail retrieved");
     } catch (err) {
       return serverError(
@@ -28,7 +31,7 @@ export default class LogsController {
 
   static async getStaffLog(credentials, staffid) {
     try {
-      const logs = await Logs.find({
+      const logs = await Log.find({
         hospital: credentials.hospital,
         $or: [{ doer: staffid }, { receiver: staffid }],
       });

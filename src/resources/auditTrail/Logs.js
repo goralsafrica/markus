@@ -1,7 +1,7 @@
 import { model, Schema } from "mongoose";
 
 const ReferenceSchema = new Schema({
-  refId: {
+  details: {
     type: Schema.Types.ObjectId,
     refPath: "refModel",
   },
@@ -30,14 +30,17 @@ const StaffLogSchema = new Schema(
       type: ReferenceSchema,
       required: false,
     },
-    reference: {
-      type: ReferenceSchema,
-      required: false,
-    },
+    reference: String,
   },
   {
     timestamps: true,
   }
 );
+
+StaffLogSchema.pre("save", function (next) {
+  if (!this.reference) return next();
+  this.reference = this.reference.split("\n").join("");
+  next();
+});
 
 export default model("Log", StaffLogSchema);

@@ -1,0 +1,20 @@
+2020-12-21T16:29:42.560171746 0.050781s notice: Recursively removing directory /home/kruse/Desktop/projects/gorals/markus/rethinkdb_data/tmp
+2020-12-21T16:29:42.572744389 0.063356s notice: Initializing directory /home/kruse/Desktop/projects/gorals/markus/rethinkdb_data
+2020-12-21T16:29:42.573710437 0.064320s info: Creating a default database for your convenience. (This is because you ran 'rethinkdb' without 'create', 'serve', or '--join', and the directory '/home/kruse/Desktop/projects/gorals/markus/rethinkdb_data' did not already exist or is empty.)
+2020-12-21T16:29:42.573820671 0.064429s notice: Running rethinkdb 2.4.1~0bionic (CLANG 6.0.0 (tags/RELEASE_600/final))...
+2020-12-21T16:29:42.578674841 0.069286s notice: Running on Linux 5.4.0-58-generic x86_64
+2020-12-21T16:29:42.578753313 0.069362s notice: Loading data from directory /home/kruse/Desktop/projects/gorals/markus/rethinkdb_data
+2020-12-21T16:29:42.630471099 0.121082s info: Automatically using cache size of 740 MB
+2020-12-21T16:29:42.634362516 0.124971s notice: Listening for intracluster connections on port 29015
+2020-12-21T16:29:42.639147024 0.129756s notice: Listening for client driver connections on port 28015
+2020-12-21T16:29:42.639223523 0.129832s notice: Listening for administrative HTTP connections on port 8080
+2020-12-21T16:29:42.639232128 0.129840s notice: Listening on cluster addresses: 127.0.0.1, ::1
+2020-12-21T16:29:42.639238595 0.129847s notice: Listening on driver addresses: 127.0.0.1, ::1
+2020-12-21T16:29:42.639246592 0.129855s notice: Listening on http addresses: 127.0.0.1, ::1
+2020-12-21T16:29:42.639254490 0.129863s notice: To fully expose RethinkDB on the network, bind to all addresses by running rethinkdb with the `--bind all` command line option.
+2020-12-21T16:29:42.639264562 0.129873s notice: Server ready, "Chukwurah_Emmanuel_np5" d12d385f-549d-4285-a627-3d5d6e8cea09
+2020-12-21T16:30:06.510925936 24.001534s notice: Server got SIGINT from pid 0, uid 0; shutting down...
+2020-12-21T16:30:06.510990851 24.001599s notice: Shutting down client connections...
+2020-12-21T16:30:06.511505391 24.002114s notice: All client connections closed.
+2020-12-21T16:30:06.511509010 24.002117s notice: Shutting down storage engine... (This may take a while if you had a lot of unflushed data in the writeback cache.)
+2020-12-21T16:30:06.512780509 24.003389s notice: Storage engine shut down.

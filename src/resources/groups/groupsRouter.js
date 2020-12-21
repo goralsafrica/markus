@@ -53,7 +53,8 @@ groupsRouter.get("/:groupid", async (req, res) => {
 groupsRouter.put("/:groupid", updateGroupValidator, async (req, res) => {
   const { status, result } = await GroupsController.updateGroup(
     req.params.groupid,
-    req.body
+    req.body,
+    req.credentials
   );
   return res.status(status).json(result);
 });
@@ -62,7 +63,8 @@ groupsRouter.put("/:groupid", updateGroupValidator, async (req, res) => {
 groupsRouter.delete("/:groupid", async (req, res) => {
   const { status, result } = await GroupsController.delete(
     req.params.groupid,
-    req.credentials.hospital
+    req.credentials.hospital,
+    req.credentials
   );
   return res.status(status).json(result);
 });
